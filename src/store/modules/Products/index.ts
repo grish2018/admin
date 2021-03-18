@@ -1,19 +1,36 @@
-import { Module } from "vuex";
-import { ProductsStateTypes, RootState } from "@/store/types";
-import { actions } from "./actions";
-import { mutations } from "./mutations";
-import { state } from "./state";
+import {
+  Store as VuexStore,
+  DispatchOptions,
+  CommitOptions,
+  Module
+} from "vuex";
 
-import type { State } from './state';
+import { RootState } from "@/store/rootState";
 
-export { State };
+import { state, State } from "./state";
+import { actions, Actions } from "./actions";
+import { mutations, Mutations } from "./mutations";
 
-export const store: Module<ProductsStateTypes, RootState> = {
+export type ProductsStore<S = State> = Omit<
+  VuexStore<S>,
+  "getters" | "commit" | "dispatch"
+> & {
+  commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
+    key: K,
+    payload: P,
+    options?: CommitOptions
+  ): ReturnType<Mutations[K]>;
+} & {
+  dispatch<K extends keyof Actions>(
+    key: K,
+    payload: Parameters<Actions[K]>[1],
+    options?: DispatchOptions
+  ): ReturnType<Actions[K]>;
+};
+
+export const store: Module<State, RootState> = {
   state,
   mutations,
-  // TODO: How to configure a module without any actions?
   actions,
-  // TODO: With namespaced option turned on, having problem how to use dispatch with action types...
-  // But without it, a bigger store might have clashes in namings
-  namespaced: true
+  namespaced: false
 };

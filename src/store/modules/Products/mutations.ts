@@ -1,10 +1,13 @@
 import { MutationTree } from "vuex";
 import { MutationType } from "./MutationType";
-import { ProductsMutationsTypes, ProductsStateTypes } from "./../../types";
+import { State } from "./state";
 
-export const mutations: MutationTree<ProductsStateTypes> &
-  ProductsMutationsTypes = {
-  [MutationType.SET_PRODUCTS](state: ProductsStateTypes, products: []): void {
+export type Mutations<S = State> = {
+  [MutationType.SET_PRODUCTS](state: S, payload: []): void;
+};
+
+export const mutations: MutationTree<State> & Mutations = {
+  [MutationType.SET_PRODUCTS](state: State, products: []): void {
     state.products = products;
   }
 };

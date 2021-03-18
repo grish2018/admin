@@ -1,5 +1,7 @@
-import { ProductsStateTypes } from "./../../types";
+export type State = {
+  products: [];
+};
 
-export const state: ProductsStateTypes = {
+export const state: State = {
   products: []
 };
