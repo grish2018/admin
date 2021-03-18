@@ -1,0 +1,27 @@
+
+// fonts
+$font-family: "Montserrat", sans-serif;
+$font-size-small: 12px;
+$font-size-base: 14px;
+$font-size-medium: 16px;
+$font-size-subtitle: 18px;
+$font-size-title: 24px;
+$font-size-extra-title: 32px;
+
+
+$font-weight-black: 900;
+$font-weight-extra-bold: 800;
+$font-weight-bold: 700;
+$font-weight-semibold: 600;
+$font-weight-medium: 500;
+$font-weight-normal: 400;
+$font-weight-light: 300;
+$font-weight-extra-light: 200;
+// viewports
+$content-size: 1170px;
+$bp-tablet: 1170px;
+$bp-phone: 760;
+
+:root {
+  --font-size-navigation-link: #{$font-size-subtitle};
+}

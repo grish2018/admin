@@ -1,0 +1,10 @@
+// можно импортировать цвета без префикса, так как в этом файле работа идет только с ними
+// иначе каждый цвет пришлось бы указывать как `colors.$black`
+@use 'colors' as *;
+
+:root {
+  --color-text: #{$white};
+  --select-navigation-color: #{$blue};
+  --background-color-body: #{$grey-light-1};
+  --background-color-layout: #{$grey-light-2};
+}

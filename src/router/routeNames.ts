@@ -1,0 +1,6 @@
+export enum RouteNames {
+  MAIN_LAYOUT = "MAIN_LAYOUT",
+  MAIN_PAGE = "MAIN_PAGE",
+  PRODUCTS = "PRODUCTS",
+  PROFILE = "PROFILE"
+}

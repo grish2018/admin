@@ -1,0 +1,24 @@
+@use "variables" as *;
+
+* {
+  margin: 0 0;
+  padding: 0 0;
+  box-sizing: border-box;
+  font-family: $font-family;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+}
+
+body {
+  overflow-x: hidden;
+  background: var(--background-color-body);
+}
+
+#app {
+  position: relative;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100vw;
+}
