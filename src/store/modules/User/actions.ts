@@ -5,6 +5,7 @@ import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
 import axios from "@/plugins/axios";
+import { setStorage } from "@/utils/storage";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -26,12 +27,14 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
     const res = await axios.post("/login", data);
-    console.log(res);
+    setStorage("token", res.data.token);
+    commit(MutationType.SET_TOKEN, res.data.token);
     commit(MutationType.SET_USER, res.data);
   },
   async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
     const res = await axios.post("/signup", data);
-    console.log(res);
+    setStorage("token", res.data.token);
+    commit(MutationType.SET_TOKEN, res.data.token);
     commit(MutationType.SET_USER, res.data);
   }
 };
