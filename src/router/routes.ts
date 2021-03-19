@@ -1,4 +1,4 @@
-import { RouteNames as R } from "./routeNames";
+import { RouteNames as R } from "./RouteNames";
 
 export default [
   {
@@ -23,5 +23,15 @@ export default [
         component: () => import(/* ProductsPage */ "@/pages/Products/index.vue")
       }
     ]
+  },
+  {
+    path: "/sign-in",
+    name: R.SIGN_IN,
+    component: () => import(/* SignInPage */ "@/pages/SignIn/index.vue")
+  },
+  {
+    path: "/sign-up",
+    name: R.SIGN_UP,
+    component: () => import(/* SignUpPage */ "@/pages/SignUp/index.vue")
   }
 ];

@@ -11,7 +11,7 @@ import { state, State } from "./state";
 import { actions, Actions } from "./actions";
 import { mutations, Mutations } from "./mutations";
 
-export type ProductsStore<S = State> = Omit<
+export type UserStore<S = State> = Omit<
   VuexStore<S>,
   "getters" | "commit" | "dispatch"
 > & {

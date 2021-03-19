@@ -21,6 +21,14 @@
             Профиль
           </router-link>
         </li>
+        <li class="menu-main-layout__list-item">
+          <router-link
+            class="menu-main-layout__link"
+            :to="{ name: RouteNames.SIGN_IN }"
+          >
+            Выйти
+          </router-link>
+        </li>
       </ul>
     </nav>
   </aside>
@@ -31,7 +39,8 @@
  * Боковое меню на основном экране с ссылками
  */
 import { defineComponent } from "vue";
-import { RouteNames } from "@/router/routeNames";
+
+import { RouteNames } from "@/router/RouteNames";
 
 export default defineComponent({
   name: "MenuMainLayout",

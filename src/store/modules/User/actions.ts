@@ -1,0 +1,37 @@
+import { ActionTree, ActionContext } from "vuex";
+import { ActionType } from "./ActionType";
+import { MutationType } from "./MutationType";
+import { RootState } from "@/store/rootState";
+import { State } from "./state";
+import { Mutations } from "./mutations";
+import axios from "@/plugins/axios";
+
+type AugmentedActionContext = {
+  commit<K extends keyof Mutations>(
+    key: K,
+    payload: Parameters<Mutations[K]>[1]
+  ): ReturnType<Mutations[K]>;
+} & Omit<ActionContext<State, RootState>, "commit">;
+
+export interface Actions {
+  [ActionType.SIGN_IN](
+    context: AugmentedActionContext,
+    data: { owner: { email: string; hash: string } }
+  ): Promise<void>;
+  [ActionType.SIGN_UP](
+    context: AugmentedActionContext,
+    data: { owner: { email: string; login: string; password: string } }
+  ): Promise<void>;
+}
+export const actions: ActionTree<State, RootState> & Actions = {
+  async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
+    const res = await axios.post("/login", data);
+    console.log(res);
+    commit(MutationType.SET_USER, res.data);
+  },
+  async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
+    const res = await axios.post("/signup", data);
+    console.log(res);
+    commit(MutationType.SET_USER, res.data);
+  }
+};

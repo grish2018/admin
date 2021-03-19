@@ -2,5 +2,7 @@ export enum RouteNames {
   MAIN_LAYOUT = "MAIN_LAYOUT",
   MAIN_PAGE = "MAIN_PAGE",
   PRODUCTS = "PRODUCTS",
-  PROFILE = "PROFILE"
+  PROFILE = "PROFILE",
+  SIGN_IN = "SIGN_IN",
+  SIGN_UP = "SIGN_UP"
 }

@@ -18,7 +18,7 @@ export interface Actions {
 }
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PRODUCTS]({ commit }): Promise<void> {
-    const res = await axios.get("/products");
+    const res = await axios.get("/1/products");
     console.log(res);
     commit(MutationType.SET_PRODUCTS, res.data);
   }

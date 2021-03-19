@@ -11,7 +11,7 @@ module.exports = {
   // },
   lintOnSave: true,
   devServer: {
-    proxy: "https://global.shop/api/1/",
+    proxy: "https://global.shop/api/",
     open: true,
     watchOptions: {
       poll: true
