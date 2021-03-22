@@ -27,13 +27,14 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
     const res = await axios.post("/login", data);
-    setStorage("token", res.data.token);
+    setStorage("token", res.data.owner.token);
     commit(MutationType.SET_TOKEN, res.data.token);
     commit(MutationType.SET_USER, res.data);
   },
   async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
     const res = await axios.post("/signup", data);
-    setStorage("token", res.data.token);
+
+    setStorage("token", res.data.owner.token);
     commit(MutationType.SET_TOKEN, res.data.token);
     commit(MutationType.SET_USER, res.data);
   }

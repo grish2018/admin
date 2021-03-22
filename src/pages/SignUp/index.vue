@@ -1,38 +1,48 @@
 <template>
   <div class="sign-up">
-    <form class="sign-up__form" @submit.prevent="submit">
-      <fieldset class="sign-up__form-border">
-        <legend class="sign-up__form-title">Регистрация</legend>
-        <input
-          v-model="email"
-          type="email"
-          class="sign-up__form-input"
-          placeholder="Email"
-          autocomplete="email"
-        />
-        <input
-          v-model="login"
-          type="text"
-          class="sign-up__form-input"
-          placeholder="Login"
-          autocomplete="login"
-        />
-        <input
-          v-model="password"
-          type="password"
-          placeholder="Password"
-          class="sign-up__form-input"
-          autocomplete="current-password"
-        />
-        <button class="sign-up__form-button">Регистрация</button>
-        <router-link
-          class="sign-up__form-link"
-          :to="{ name: RouteNames.SIGN_IN }"
-        >
-          Уже есть аккаунт
-        </router-link>
-      </fieldset>
-    </form>
+    <div class="sign-up__formWrapper">
+      <form @submit.prevent="submit" class="sign-up__form">
+        <span class="sign-up__form__header"> Регистрация </span>
+        <div class="sign-up__form__input">
+          <label class="sign-up__form__input__label" :for="email">Email</label>
+          <input
+            required
+            class="sign-up__form__input__input"
+            v-model="email"
+            type="email"
+            placeholder="Email"
+            autocomplete="email"
+            id="email"
+          />
+        </div>
+        <div class="sign-up__form__input">
+          <label class="sign-up__form__input__label" :for="login">Login</label>
+          <input
+            required
+            class="sign-up__form__input__input"
+            v-model="login"
+            type="text"
+            placeholder="Login"
+            autocomplete="login"
+            id="login"
+          />
+        </div>
+        <div class="sign-up__form__input">
+          <label class="sign-up__form__input__label" :for="password"
+            >Password</label
+          >
+          <input
+            required
+            class="sign-up__form__input__input"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            id="password"
+          />
+        </div>
+        <button class="sign-up__form__submitButton">Регистрация</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -70,25 +80,86 @@ export default defineComponent({
 
 <style lang="scss">
 .sign-up {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &__form {
-    max-width: 320px;
-  }
-  &__form-border {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0 10px 10px;
+    &__header {
+      font-weight: 300;
+      font-size: 26px;
+      line-height: 31px;
+      color: #101d94;
+      margin-bottom: 20px;
+    }
+    &__input {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      &__label {
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 18px;
+        color: #101d94;
+        margin-bottom: 6px;
+      }
+      &__input {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #dedcdc;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 18px;
+        color: black;
+        border-radius: 5px;
+        transition: all 0.3s;
+        outline: none;
+        padding: 0px 15px;
+        &:invalid {
+          border: 1px solid red;
+        }
+        &::placeholder {
+          font-weight: 300;
+          font-size: 16px;
+          line-height: 18px;
+          color: #6b6b6b;
+        }
+      }
+    }
+    &__submitButton {
+      width: 180px;
+      height: 45px;
+      background: rgba(25, 165, 39, 0.8);
+      border-radius: 5px;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
   }
-  &__form-input {
-    margin-top: 10px;
+  &__formWrapper {
+    max-width: 410px;
+    height: 520px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px #ebf0ff;
+    border-radius: 24px;
   }
-  &__form-button {
-    min-width: 70px;
-    margin-top: 20px;
-    align-self: center;
-  }
-  &__form-link {
-    margin-top: 10px;
-    align-self: center;
-  }
+}
+.error {
+  border: 1px solid red;
 }
 </style>
