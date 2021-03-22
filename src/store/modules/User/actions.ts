@@ -28,14 +28,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
     const res = await axios.post("/login", data);
     setStorage("token", res.data.owner.token);
-    commit(MutationType.SET_TOKEN, res.data.token);
+    commit(MutationType.SET_TOKEN, res.data.owner.token);
     commit(MutationType.SET_USER, res.data);
   },
   async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
     const res = await axios.post("/signup", data);
+    console.log(res);
 
     setStorage("token", res.data.owner.token);
-    commit(MutationType.SET_TOKEN, res.data.token);
+    setStorage("storeId", res.data.owner.storeId);
+    commit(MutationType.SET_TOKEN, res.data.owner.token);
+    commit(MutationType.SET_STOREID, res.data.owner.storeId);
     commit(MutationType.SET_USER, res.data);
   }
 };
