@@ -94,6 +94,7 @@ export default defineComponent({
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-bottom: 40px;
     &__header {
       font-weight: 300;
       font-size: 26px;
@@ -148,7 +149,6 @@ export default defineComponent({
   }
   &__form-wrapper {
     max-width: 410px;
-    height: 520px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -157,8 +157,8 @@ export default defineComponent({
     box-shadow: 0px 0px 10px #ebf0ff;
     border-radius: 24px;
   }
-}
-.error {
-  border: 1px solid red;
+  &__form-link {
+    text-decoration: none;
+  }
 }
 </style>
