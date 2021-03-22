@@ -1,14 +1,13 @@
 <template>
   <div class="sign-up">
-    <div class="sign-up__formWrapper">
-      <form @submit.prevent="submit" class="sign-up__form">
+    <div class="sign-up__form-wrapper">
+      <form class="sign-up__form" @submit.prevent="submit">
         <span class="sign-up__form__header"> Регистрация </span>
         <div class="sign-up__form__input">
-          <label class="sign-up__form__input__label" :for="email">Email</label>
           <input
+            v-model="email"
             required
             class="sign-up__form__input__input"
-            v-model="email"
             type="email"
             placeholder="Email"
             autocomplete="email"
@@ -16,11 +15,10 @@
           />
         </div>
         <div class="sign-up__form__input">
-          <label class="sign-up__form__input__label" :for="login">Login</label>
           <input
+            v-model="login"
             required
             class="sign-up__form__input__input"
-            v-model="login"
             type="text"
             placeholder="Login"
             autocomplete="login"
@@ -28,10 +26,8 @@
           />
         </div>
         <div class="sign-up__form__input">
-          <label class="sign-up__form__input__label" :for="password"
-            >Password</label
-          >
           <input
+            v-model="password"
             required
             class="sign-up__form__input__input"
             type="password"
@@ -40,7 +36,7 @@
             id="password"
           />
         </div>
-        <button class="sign-up__form__submitButton">Регистрация</button>
+        <button class="sign-up__form__submit-button">Регистрация</button>
       </form>
     </div>
   </div>
@@ -94,19 +90,13 @@ export default defineComponent({
       font-size: 26px;
       line-height: 31px;
       color: #101d94;
-      margin-bottom: 20px;
+      margin-bottom: 85px;
     }
     &__input {
       display: flex;
       flex-direction: column;
       margin-bottom: 30px;
-      &__label {
-        font-weight: 300;
-        font-size: 16px;
-        line-height: 18px;
-        color: #101d94;
-        margin-bottom: 6px;
-      }
+
       &__input {
         width: 100%;
         height: 40px;
@@ -130,8 +120,8 @@ export default defineComponent({
         }
       }
     }
-    &__submitButton {
-      width: 180px;
+    &__submit-button {
+      width: 100%;
       height: 45px;
       background: rgba(25, 165, 39, 0.8);
       border-radius: 5px;
@@ -147,7 +137,7 @@ export default defineComponent({
       margin-top: 10px;
     }
   }
-  &__formWrapper {
+  &__form-wrapper {
     max-width: 410px;
     height: 520px;
     width: 100%;
