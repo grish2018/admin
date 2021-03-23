@@ -1,3 +1,4 @@
+import { store } from "@/store/index";
 import { ActionTree, ActionContext } from "vuex";
 import { ActionType } from "./ActionType";
 import { MutationType } from "./MutationType";
@@ -21,14 +22,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PRODUCTS]({ commit }): Promise<void> {
     const token = getStorage("token");
     const storeId = getStorage("storeId");
-    console.log(token, storeId);
 
     const res = await axios.get(`/${storeId}/products`, {
       headers: {
         Authorization: `${token}`
       }
     });
-    console.log(res);
     commit(MutationType.SET_PRODUCTS, res.data);
   }
 };

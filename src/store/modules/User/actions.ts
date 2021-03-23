@@ -5,7 +5,7 @@ import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
 import axios from "@/plugins/axios";
-import { setStorage } from "@/utils/storage";
+import { setStorage, removeStorage } from "@/utils/storage";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -23,6 +23,7 @@ export interface Actions {
     context: AugmentedActionContext,
     data: { owner: { email: string; login: string; password: string } }
   ): Promise<void>;
+  [ActionType.SIGN_OUT](context: AugmentedActionContext): void;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
@@ -39,5 +40,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_TOKEN, res.data.owner.token);
     commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
     commit(MutationType.SET_USER, res.data);
+  },
+  [ActionType.SIGN_OUT]({ commit }): void {
+    removeStorage("token");
+    removeStorage("storeId");
+    commit(MutationType.REMOVE_USER, {});
+    commit(MutationType.SET_STOREID, "");
+    commit(MutationType.REMOVE_TOKEN, null);
   }
 };
