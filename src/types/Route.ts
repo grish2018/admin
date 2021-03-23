@@ -1,11 +1,21 @@
-type Meta = {
-  guard?: string;
-};
+import { ComponentPublicInstance } from "@vue/runtime-core";
+import {
+  NavigationGuardNext,
+  RouteLocationNormalized,
+  RouteLocationRaw
+} from "vue-router";
 
-export interface Route {
-  path: string;
-  name: string;
-  redirect: Record<string, any>;
-  children?: Record<string, any>[];
-  meta: Meta;
+type NavigationGuardNextCallback = (vm: ComponentPublicInstance) => any;
+type NavigationGuardReturn =
+  | void
+  | Error
+  | RouteLocationRaw
+  | boolean
+  | NavigationGuardNextCallback;
+export interface NavigationGuard {
+  (
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ): NavigationGuardReturn | Promise<NavigationGuardReturn>;
 }
