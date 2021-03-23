@@ -38,30 +38,39 @@
         </div>
         <button class="sign-up__form__submit-button">Регистрация</button>
       </form>
+      <router-link
+        class="sign-up__form-link"
+        :to="{ name: RouteNames.SIGN_IN }"
+      >
+        Уже есть аккаунт
+      </router-link>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "SignUp",
   setup() {
+    const router = useRouter();
     const email = ref("");
     const login = ref("");
     const password = ref("");
     const store = useStore();
-    const submit = () => {
-      store.dispatch(ActionType.SIGN_UP, {
+    const submit = async () => {
+      await store.dispatch(ActionType.SIGN_UP, {
         owner: {
           email: email.value,
           login: login.value,
           password: password.value
         }
       });
+      router.push({ path: "/" });
     };
     return {
       login,
