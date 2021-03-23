@@ -2,34 +2,34 @@
   <div class="sign-up">
     <div class="sign-up__form-wrapper">
       <form class="sign-up__form" @submit.prevent="submit">
-        <span class="sign-up__form__header"> Регистрация </span>
-        <div class="sign-up__form__input">
+        <span class="sign-up__form-header"> Регистрация </span>
+        <div class="sign-up__input-wrapper">
           <input
             v-model="email"
             required
-            class="sign-up__form__input__input"
+            class="sign-up__form-input"
             type="email"
             placeholder="Email"
             autocomplete="email"
             id="email"
           />
         </div>
-        <div class="sign-up__form__input">
+        <div class="sign-up__input-wrapper">
           <input
             v-model="login"
             required
-            class="sign-up__form__input__input"
+            class="sign-up__form-input"
             type="text"
             placeholder="Login"
             autocomplete="login"
             id="login"
           />
         </div>
-        <div class="sign-up__form__input">
+        <div class="sign-up__input-wrapper">
           <input
             v-model="password"
             required
-            class="sign-up__form__input__input"
+            class="sign-up__form-input"
             type="password"
             placeholder="Password"
             autocomplete="current-password"
@@ -94,39 +94,35 @@ export default defineComponent({
     width: 100%;
     display: flex;
     flex-direction: column;
-    &__header {
+    margin-bottom: 40px;
+    &-header {
       font-weight: 300;
       font-size: 26px;
       line-height: 31px;
       color: #101d94;
       margin-bottom: 85px;
     }
-    &__input {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 30px;
 
-      &__input {
-        width: 100%;
-        height: 40px;
-        border: 1px solid #dedcdc;
+    &-input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #dedcdc;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 18px;
+      color: black;
+      border-radius: 5px;
+      transition: all 0.3s;
+      outline: none;
+      padding: 0px 15px;
+      &:invalid {
+        border: 1px solid red;
+      }
+      &::placeholder {
         font-weight: 300;
         font-size: 16px;
         line-height: 18px;
-        color: black;
-        border-radius: 5px;
-        transition: all 0.3s;
-        outline: none;
-        padding: 0px 15px;
-        &:invalid {
-          border: 1px solid red;
-        }
-        &::placeholder {
-          font-weight: 300;
-          font-size: 16px;
-          line-height: 18px;
-          color: #6b6b6b;
-        }
+        color: #6b6b6b;
       }
     }
     &__submit-button {
@@ -148,7 +144,6 @@ export default defineComponent({
   }
   &__form-wrapper {
     max-width: 410px;
-    height: 520px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -157,8 +152,13 @@ export default defineComponent({
     box-shadow: 0px 0px 10px #ebf0ff;
     border-radius: 24px;
   }
-}
-.error {
-  border: 1px solid red;
+  &__input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
+  &__form-link {
+    text-decoration: none;
+  }
 }
 </style>

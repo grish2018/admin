@@ -33,7 +33,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
     const res = await axios.post("/signup", data);
-
     setStorage("token", res.data.owner.token);
     setStorage("storeId", String(res.data.owner.storeId));
     commit(MutationType.SET_TOKEN, res.data.owner.token);
