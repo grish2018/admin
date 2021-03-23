@@ -70,7 +70,7 @@ export default defineComponent({
           password: password.value
         }
       });
-      router.push({ path: "/" });
+      router.push({ name: RouteNames.MAIN_PAGE });
     };
     return {
       login,
