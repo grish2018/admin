@@ -1,15 +1,16 @@
 import { RouteNames as R } from "./RouteNames";
-import { NavigationGuard } from "@/types/Route";
-import { RouteRecordNormalized } from "vue-router";
+import { Route, RouteLocationNormalizedWithMeta } from "@/types/Route";
+import { NavigationGuardNext } from "vue-router";
 
 const isAuthenticated = () => localStorage.getItem("token");
-const isPrivateRoute = (route: RouteRecordNormalized) =>
-  route.meta.guard === "private";
-const isGuestRoute = (route: RouteRecordNormalized) =>
-  route.meta.guard === "guest";
+const isPrivateRoute = (route: Route) => route.meta.guard === "private";
+const isGuestRoute = (route: Route) => route.meta.guard === "guest";
 
-let guard: NavigationGuard;
-export default guard = (to, _from, next) => {
+export default (
+  to: RouteLocationNormalizedWithMeta,
+  _from: RouteLocationNormalizedWithMeta,
+  next: NavigationGuardNext
+) => {
   if (to.matched.some(isPrivateRoute) && !isAuthenticated())
     return next({ name: R.SIGN_UP });
   if (to.matched.some(isGuestRoute) && isAuthenticated())

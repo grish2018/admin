@@ -1,21 +1,14 @@
-import { ComponentPublicInstance } from "@vue/runtime-core";
-import {
-  NavigationGuardNext,
-  RouteLocationNormalized,
-  RouteLocationRaw
-} from "vue-router";
+import { RouteLocationNormalized, RouteRecordNormalized } from "vue-router";
 
-type NavigationGuardNextCallback = (vm: ComponentPublicInstance) => any;
-type NavigationGuardReturn =
-  | void
-  | Error
-  | RouteLocationRaw
-  | boolean
-  | NavigationGuardNextCallback;
-export interface NavigationGuard {
-  (
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): NavigationGuardReturn | Promise<NavigationGuardReturn>;
+type Meta = {
+  guard?: string;
+};
+
+export interface Route extends RouteRecordNormalized {
+  meta: Meta;
+}
+
+export interface RouteLocationNormalizedWithMeta
+  extends RouteLocationNormalized {
+  meta: Meta;
 }
