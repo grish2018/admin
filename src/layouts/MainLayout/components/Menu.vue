@@ -46,7 +46,7 @@ export default defineComponent({
     const store = useStore();
     const logOut = () => {
       store.dispatch(ActionType.SIGN_OUT);
-      router.push({ name: RouteNames.SIGN_UP });
+      router.push({ name: RouteNames.SIGN_IN });
     };
     return { RouteNames, logOut };
   }

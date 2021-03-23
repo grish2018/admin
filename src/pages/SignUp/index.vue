@@ -16,13 +16,13 @@
         </div>
         <div class="sign-up__input-wrapper">
           <input
-            v-model="login"
+            v-model="nickname"
             required
             class="sign-up__form-input"
             type="text"
-            placeholder="Login"
-            autocomplete="login"
-            id="login"
+            placeholder="Nickname"
+            autocomplete="nickname"
+            id="nickname"
           />
         </div>
         <div class="sign-up__input-wrapper">
@@ -59,21 +59,21 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const email = ref("");
-    const login = ref("");
+    const nickname = ref("");
     const password = ref("");
     const store = useStore();
     const submit = async () => {
       await store.dispatch(ActionType.SIGN_UP, {
         owner: {
           email: email.value,
-          login: login.value,
+          nickname: nickname.value,
           password: password.value
         }
       });
       router.push({ name: RouteNames.MAIN_PAGE });
     };
     return {
-      login,
+      nickname,
       password,
       email,
       submit,

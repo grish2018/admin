@@ -1,11 +1,13 @@
 export type State = {
   user: {};
   token: string | null;
-  storeId: string;
+  storeId: string | null;
+  profile: {} | null;
 };
 
 export const state: State = {
   user: {},
   token: null,
-  storeId: ""
+  storeId: null,
+  profile: null
 };

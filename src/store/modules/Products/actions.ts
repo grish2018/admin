@@ -4,7 +4,7 @@ import { MutationType } from "./MutationType";
 import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
-import { getStorage } from "@/utils/storage";
+import { store } from "@/store/index";
 import axios from "@/plugins/axios";
 
 type AugmentedActionContext = {
@@ -19,9 +19,8 @@ export interface Actions {
 }
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PRODUCTS]({ commit }): Promise<void> {
-    const token = getStorage("token");
-    const storeId = getStorage("storeId");
-
+    const token = store.state.user.token;
+    const storeId = store.state.user.storeId;
     const res = await axios.get(`/${storeId}/products`, {
       headers: {
         Authorization: `${token}`
