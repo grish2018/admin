@@ -25,11 +25,13 @@ export interface Actions {
   ): Promise<void>;
   [ActionType.SIGN_OUT](context: AugmentedActionContext): void;
 }
+
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
     const res = await axios.post("/login", data);
     setStorage("token", res.data.owner.token);
     setStorage("storeId", String(res.data.owner.storeId));
+    commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
     commit(MutationType.SET_TOKEN, res.data.owner.token);
     commit(MutationType.SET_USER, res.data);
   },
@@ -44,8 +46,8 @@ export const actions: ActionTree<State, RootState> & Actions = {
   [ActionType.SIGN_OUT]({ commit }): void {
     removeStorage("token");
     removeStorage("storeId");
-    commit(MutationType.REMOVE_USER, {});
+    commit(MutationType.SET_USER, {});
     commit(MutationType.SET_STOREID, "");
-    commit(MutationType.REMOVE_TOKEN, null);
+    commit(MutationType.SET_TOKEN, null);
   }
 };

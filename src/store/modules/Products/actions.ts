@@ -1,4 +1,3 @@
-import { store } from "@/store/index";
 import { ActionTree, ActionContext } from "vuex";
 import { ActionType } from "./ActionType";
 import { MutationType } from "./MutationType";
