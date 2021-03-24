@@ -7,13 +7,13 @@ export default [
     component: () => import(/* MainLayout */ "@/layouts/MainLayout/index.vue"),
     redirect: { name: "Main" },
     meta: {
-      guard: "private"
+      guard: "private",
     },
     children: [
       {
         path: "/",
         name: R.MAIN_PAGE,
-        component: () => import(/* MainPage */ "@/pages/Main/index.vue")
+        component: () => import(/* MainPage */ "@/pages/Main/index.vue"),
         // meta: {
         //   guard: 'private',
         // },
@@ -21,7 +21,7 @@ export default [
       {
         path: "/profile",
         name: R.PROFILE,
-        component: () => import(/* ProfilePage */ "@/pages/Profile/index.vue")
+        component: () => import(/* ProfilePage */ "@/pages/Profile/index.vue"),
         // meta: {
         //   guard: 'private',
         // },
@@ -29,27 +29,27 @@ export default [
       {
         path: "/products",
         name: R.PRODUCTS,
-        component: () => import(/* ProductsPage */ "@/pages/Products/index.vue")
+        component: () => import(/* ProductsPage */ "@/pages/Products/index.vue"),
         // meta: {
         //   guard: 'private',
         // },
-      }
-    ]
+      },
+    ],
   },
   {
     path: "/sign-in",
     name: R.SIGN_IN,
     component: () => import(/* SignInPage */ "@/pages/SignIn/index.vue"),
     meta: {
-      guard: "guest"
-    }
+      guard: "guest",
+    },
   },
   {
     path: "/sign-up",
     name: R.SIGN_UP,
     component: () => import(/* SignUpPage */ "@/pages/SignUp/index.vue"),
     meta: {
-      guard: "guest"
-    }
-  }
+      guard: "guest",
+    },
+  },
 ];

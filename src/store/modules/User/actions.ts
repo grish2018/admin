@@ -56,9 +56,9 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const token = state.token;
     const res = await axios.get(`/${storeId}/profile`, {
       headers: {
-        Authorization: `${token}`
-      }
+        Authorization: `${token}`,
+      },
     });
     commit(MutationType.SET_PROFILE, res.data);
-  }
+  },
 };

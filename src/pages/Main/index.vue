@@ -1,12 +1,14 @@
 <template>
-  <div class="main-page">mainpage</div>
+  <div class="main-page">
+    mainpage
+  </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "MainPage"
+  name: "MainPage",
 });
 </script>
 

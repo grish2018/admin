@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div />
 </template>
 
 <script lang="ts">
@@ -14,6 +14,6 @@ export default defineComponent({
       store.dispatch(ActionType.GET_PRODUCTS);
     });
     return { store };
-  }
+  },
 });
 </script>

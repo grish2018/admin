@@ -32,5 +32,5 @@ export const store: Module<State, RootState> = {
   state,
   mutations,
   actions,
-  namespaced: false
+  namespaced: false,
 };

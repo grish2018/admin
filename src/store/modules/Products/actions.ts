@@ -22,9 +22,9 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const storeId = rootState.user.storeId;
     const res = await axios.get(`/${storeId}/products`, {
       headers: {
-        Authorization: `${token}`
-      }
+        Authorization: `${token}`,
+      },
     });
     commit(MutationType.SET_PRODUCTS, res.data);
-  }
+  },
 };

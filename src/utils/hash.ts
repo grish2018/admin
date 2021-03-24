@@ -41,9 +41,9 @@ export default (password: string): string => {
   const passwordArray = enc.encode(password);
 
   // формируем scrypt hash
-  const N = 2048,
-    r = 8,
-    p = 1;
+  const N = 2048;
+  const r = 8;
+  const p = 1;
   const dkLen = 32;
 
   // генерим случайную соль каждый раз
@@ -51,12 +51,12 @@ export default (password: string): string => {
   window.crypto.getRandomValues(saltBuffer);
 
   const saltHex: string = Array.prototype.map
-    .call(saltBuffer, x => ("00" + x.toString(16)).slice(-2))
+    .call(saltBuffer, x => (`00${x.toString(16)}`).slice(-2))
     .join("");
 
   const hashHex = Array.prototype.map
     .call(syncScrypt(passwordArray, saltBuffer, N, r, p, dkLen), x =>
-      ("00" + x.toString(16)).slice(-2)
+      (`00${x.toString(16)}`).slice(-2)
     )
     .join("");
 
@@ -66,7 +66,8 @@ export default (password: string): string => {
   let params: number | string = (log2(N) << 16) | (r << 8) | p;
   params = params.toString(16);
   const hash =
-    "$s0$" + params + "$" + hexToBase64(saltHex) + "$" + hexToBase64(hashHex);
-  console.log("password hash: " + hash);
+    `$s0$${params}$${hexToBase64(saltHex)}$${hexToBase64(hashHex)}`;
+  // eslint-disable-next-line no-console
+  console.log(`password hash: ${hash}`);
   return hash;
 };

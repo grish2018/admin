@@ -1,47 +1,49 @@
 <template>
   <div class="sign-up">
     <div class="sign-up__form-wrapper">
-      <form class="sign-up__form" @submit.prevent="submit">
-        <span class="sign-up__form-header"> Регистрация </span>
+      <form
+        class="sign-up__form"
+        @submit.prevent="submit">
+        <span class="sign-up__form-header">
+          Регистрация
+        </span>
         <div class="sign-up__input-wrapper">
           <input
+            id="email"
             v-model="email"
             required
             class="sign-up__form-input"
             type="email"
             placeholder="Email"
-            autocomplete="email"
-            id="email"
-          />
+            autocomplete="email">
         </div>
         <div class="sign-up__input-wrapper">
           <input
+            id="nickname"
             v-model="nickname"
             required
             class="sign-up__form-input"
             type="text"
             placeholder="Nickname"
-            autocomplete="nickname"
-            id="nickname"
-          />
+            autocomplete="nickname">
         </div>
         <div class="sign-up__input-wrapper">
           <input
+            id="password"
             v-model="password"
             required
             class="sign-up__form-input"
             type="password"
             placeholder="Password"
-            autocomplete="current-password"
-            id="password"
-          />
+            autocomplete="current-password">
         </div>
-        <button class="sign-up__form__submit-button">Регистрация</button>
+        <button class="sign-up__form__submit-button">
+          Регистрация
+        </button>
       </form>
       <router-link
         class="sign-up__form-link"
-        :to="{ name: RouteNames.SIGN_IN }"
-      >
+        :to="{ name: RouteNames.SIGN_IN }">
         Уже есть аккаунт
       </router-link>
     </div>
@@ -67,8 +69,8 @@ export default defineComponent({
         owner: {
           email: email.value,
           nickname: nickname.value,
-          password: password.value
-        }
+          password: password.value,
+        },
       });
       router.push({ name: RouteNames.MAIN_PAGE });
     };
@@ -77,9 +79,9 @@ export default defineComponent({
       password,
       email,
       submit,
-      RouteNames
+      RouteNames,
     };
-  }
+  },
 });
 </script>
 

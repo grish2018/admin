@@ -9,8 +9,8 @@ export type Store = ProductsStore<Pick<RootState, "products">> &
 export const store = createStore({
   modules: {
     products,
-    user
-  }
+    user,
+  },
 });
 
 export function useStore(): Store {
