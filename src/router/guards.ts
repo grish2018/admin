@@ -1,8 +1,17 @@
 import { RouteNames as R } from "./RouteNames";
 import { Route, RouteLocationNormalizedWithMeta } from "@/types/Route";
 import { NavigationGuardNext } from "vue-router";
+import { store } from "@/store/index";
 
-const isAuthenticated = () => localStorage.getItem("token");
+const isAuthenticated = () => {
+  const token = store.state.user.token;
+  const storeId = store.state.user.storeId;
+  if (token && storeId) {
+    return true;
+  } else {
+    return false;
+  }
+};
 const isPrivateRoute = (route: Route) => route.meta.guard === "private";
 const isGuestRoute = (route: Route) => route.meta.guard === "guest";
 

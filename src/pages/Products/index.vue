@@ -12,7 +12,6 @@ export default defineComponent({
     const store = useStore();
     onBeforeMount(() => {
       store.dispatch(ActionType.GET_PRODUCTS);
-      console.log(store);
     });
     return { store };
   }
