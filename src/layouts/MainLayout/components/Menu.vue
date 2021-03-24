@@ -5,21 +5,47 @@
     </header>
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
-        <li class="menu-main-layout__list-item">
+        <li
+          v-for="link in menuLinksProducts"
+          :key="link.name"
+          class="menu-main-layout__list-item">
           <router-link
             class="menu-main-layout__link"
-            active-class="menu-main-layout__link--active"
-            :to="{ name: RouteNames.PRODUCTS }">
-            Товары
+            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute) || link.routeName === currentRoute}"
+            :to="{ name: link.routeName }">
+            {{ link.name }}
           </router-link>
+          <ul class="menu-sub">
+            <li v-for="subLink in link.children" :key="subLink.routeName">
+              <router-link
+                class="menu-main-layout__link menu-sub-layout__link"
+                active-class="menu-main-layout__link--active"
+                :to="{ name: subLink.routeName }">
+                {{ subLink.name }}
+              </router-link>
+            </li>
+          </ul>
         </li>
-        <li class="menu-main-layout__list-item">
+        <li
+          v-for="link in menuLinksSales"
+          :key="link.name"
+          class="menu-main-layout__list-item">
           <router-link
             class="menu-main-layout__link"
-            active-class="menu-main-layout__link--active"
-            :to="{ name: RouteNames.PROFILE }">
-            Профиль
+            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute) || link.routeName === currentRoute}"
+            :to="{ name: link.routeName }">
+            {{ link.name }}
           </router-link>
+          <ul class="menu-sub">
+            <li v-for="subLink in link.children" :key="subLink.routeName">
+              <router-link
+                class="menu-main-layout__link menu-sub-layout__link"
+                active-class="menu-main-layout__link--active"
+                :to="{ name: subLink.routeName }">
+                {{ subLink.name }}
+              </router-link>
+            </li>
+          </ul>
         </li>
         <li class="menu-main-layout__list-item">
           <button
@@ -37,14 +63,49 @@
 /**
  * Боковое меню на основном экране с ссылками
  */
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { RouteNames } from "@/router/RouteNames";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
+const menuLinksProducts = [
+  {
+    routeName: RouteNames.PRODUCTS,
+    name: "Каталог",
+    children: [
+      {
+        routeName: RouteNames.PRODUCTS,
+        name: "Товары",
+      },
+      {
+        routeName: RouteNames.CATEGORIES,
+        name: "Категории",
+      },
+    ],
+  },
+];
+
+const menuLinksSales = [
+  {
+    routeName: RouteNames.ORDERS,
+    name: "Продажи",
+    children: [
+      {
+        routeName: RouteNames.ORDERS,
+        name: "Заказы",
+      },
+      {
+        routeName: RouteNames.BUYERS,
+        name: "Покупатели",
+      },
+    ],
+  },
+];
+
 export default defineComponent({
   name: "MenuMainLayout",
+
   setup() {
     const router = useRouter();
     const store = useStore();
@@ -52,7 +113,11 @@ export default defineComponent({
       store.dispatch(ActionType.SIGN_OUT);
       router.push({ name: RouteNames.SIGN_IN });
     };
-    return { RouteNames, logOut };
+    const route = useRoute();
+    const currentRoute = computed(() => {
+      return route.name;
+    });
+    return { RouteNames, logOut, menuLinksProducts, menuLinksSales, currentRoute };
   },
 });
 </script>
@@ -68,6 +133,12 @@ export default defineComponent({
   }
   &__list {
     list-style-type: none;
+    &-item {
+      position: relative;
+      &:hover .menu-sub {
+        display: block;
+      }
+    }
   }
   &__link {
     display: block;
@@ -82,9 +153,29 @@ export default defineComponent({
     transition: 0.3s;
     &--active {
       background: var(--select-navigation-color);
+
     }
     &:hover {
       background: var(--select-navigation-color);
+    }
+  }
+  .menu-sub {
+    display: none;
+    list-style: none;
+    position: absolute;
+    width: 150px;
+    top: 0;
+    right: -150px;
+    background-color: #94C4E8;
+  }
+  .menu-main-layout__link--active + .menu-sub {
+    display: block;
+    position: relative;
+    width: 100%;
+    top: 0;
+    right: 0;
+    .menu-sub-layout__link {
+      padding: 10px 30px 10px 40px;
     }
   }
 }

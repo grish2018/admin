@@ -34,6 +34,30 @@ export default [
         //   guard: 'private',
         // },
       },
+      {
+        path: "/categories",
+        name: R.CATEGORIES,
+        component: () => import(/* ProductsPage */ "@/pages/Categories/index.vue"),
+        // meta: {
+        //   guard: 'private',
+        // },
+      },
+      {
+        path: "/orders",
+        name: R.ORDERS,
+        component: () => import(/* ProductsPage */ "@/pages/Orders/index.vue"),
+        // meta: {
+        //   guard: 'private',
+        // },
+      },
+      {
+        path: "/buyers",
+        name: R.BUYERS,
+        component: () => import(/* ProductsPage */ "@/pages/Buyers/index.vue"),
+        // meta: {
+        //   guard: 'private',
+        // },
+      },
     ],
   },
   {
