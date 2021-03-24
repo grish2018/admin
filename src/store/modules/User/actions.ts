@@ -44,7 +44,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_TOKEN, res.data.owner.token);
     commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
     commit(MutationType.SET_USER, res.data);
-    console.log(store.state.user.token, store.state.user.storeId);
   },
   [ActionType.SIGN_OUT]({ commit }): void {
     removeStorage("token");
