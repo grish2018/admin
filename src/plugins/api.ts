@@ -1,4 +1,4 @@
-import axios from "./axios";
+import axios from "./axios/axios";
 import { URLS } from "./urls";
 
 export const getProducts = (): Promise<void> => {

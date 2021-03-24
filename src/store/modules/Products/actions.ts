@@ -4,7 +4,7 @@ import { MutationType } from "./MutationType";
 import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
-import axios from "@/plugins/axios";
+import axios from "@/plugins/axios/axios";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -18,12 +18,9 @@ export interface Actions {
 }
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PRODUCTS]({ commit, rootState }): Promise<void> {
-    const token = rootState.user.token;
     const storeId = rootState.user.storeId;
     const res = await axios.get(`/${storeId}/products`, {
-      headers: {
-        Authorization: `${token}`,
-      },
+      authorization: true,
     });
     commit(MutationType.SET_PRODUCTS, res.data);
   },
