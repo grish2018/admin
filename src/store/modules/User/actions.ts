@@ -5,7 +5,6 @@ import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
 import axios from "@/plugins/axios";
-import { store } from "@/store/index";
 import { setStorage, removeStorage } from "@/utils/storage";
 
 type AugmentedActionContext = {
@@ -52,9 +51,9 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_STOREID, "");
     commit(MutationType.SET_TOKEN, null);
   },
-  async [ActionType.GET_PROFILE]({ commit }): Promise<void> {
-    const storeId = store.state.user.storeId;
-    const token = store.state.user.token;
+  async [ActionType.GET_PROFILE]({ commit, state }): Promise<void> {
+    const storeId = state.storeId;
+    const token = state.token;
     const res = await axios.get(`/${storeId}/profile`, {
       headers: {
         Authorization: `${token}`
