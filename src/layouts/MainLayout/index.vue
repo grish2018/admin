@@ -1,8 +1,8 @@
 <template>
   <div class="main-layout">
-    <menu-layout></menu-layout>
+    <menu-layout />
     <div>
-      <header-layout></header-layout>
+      <header-layout />
       <router-view />
     </div>
   </div>
@@ -17,8 +17,8 @@ export default defineComponent({
   name: "MainLayout",
   components: {
     MenuLayout,
-    HeaderLayout
-  }
+    HeaderLayout,
+  },
 });
 </script>
 

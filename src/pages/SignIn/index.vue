@@ -1,36 +1,39 @@
 <template>
   <div class="sign-in">
     <div class="sign-in__form-wrapper">
-      <form class="sign-in__form" @submit.prevent="submit">
-        <span class="sign-in__form-header"> Вход </span>
+      <form
+        class="sign-in__form"
+        @submit.prevent="submit">
+        <span class="sign-in__form-header">
+          Вход
+        </span>
         <div class="sign-in__input-wrapper">
           <input
+            id="email"
             v-model="email"
             required
             class="sign-in__form-input"
             type="email"
             placeholder="Email"
-            autocomplete="email"
-            id="email"
-          />
+            autocomplete="email">
         </div>
         <div class="sign-in__input-wrapper">
           <input
+            id="password"
             v-model="password"
             required
             class="sign-in__form-input"
             type="password"
             placeholder="Password"
-            autocomplete="current-password"
-            id="password"
-          />
+            autocomplete="current-password">
         </div>
-        <button class="sign-in__form__submit-button">Войти</button>
+        <button class="sign-in__form__submit-button">
+          Войти
+        </button>
       </form>
       <router-link
         class="sign-in__form-link"
-        :to="{ name: RouteNames.SIGN_UP }"
-      >
+        :to="{ name: RouteNames.SIGN_UP }">
         Зарегестрироваться
       </router-link>
     </div>
@@ -55,8 +58,8 @@ export default defineComponent({
       await store.dispatch(ActionType.SIGN_IN, {
         owner: {
           email: email.value,
-          hash: hash(password.value)
-        }
+          hash: hash(password.value),
+        },
       });
       router.push({ name: RouteNames.MAIN_PAGE });
     };
@@ -64,9 +67,9 @@ export default defineComponent({
       email,
       password,
       submit,
-      RouteNames
+      RouteNames,
     };
-  }
+  },
 });
 </script>
 

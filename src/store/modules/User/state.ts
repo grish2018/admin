@@ -16,5 +16,5 @@ export const state: State = {
   user: {},
   token: getToken(),
   storeId: getStoreId(),
-  profile: null
+  profile: null,
 };

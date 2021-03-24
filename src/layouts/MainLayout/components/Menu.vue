@@ -1,14 +1,15 @@
 <template>
   <aside class="menu-main-layout">
-    <header class="menu-main-layout__header">Управление магазином</header>
+    <header class="menu-main-layout__header">
+      Управление магазином
+    </header>
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
         <li class="menu-main-layout__list-item">
           <router-link
             class="menu-main-layout__link"
             active-class="menu-main-layout__link--active"
-            :to="{ name: RouteNames.PRODUCTS }"
-          >
+            :to="{ name: RouteNames.PRODUCTS }">
             Товары
           </router-link>
         </li>
@@ -16,13 +17,16 @@
           <router-link
             class="menu-main-layout__link"
             active-class="menu-main-layout__link--active"
-            :to="{ name: RouteNames.PROFILE }"
-          >
+            :to="{ name: RouteNames.PROFILE }">
             Профиль
           </router-link>
         </li>
         <li class="menu-main-layout__list-item">
-          <button class="menu-main-layout__link" @click="logOut">Выйти</button>
+          <button
+            class="menu-main-layout__link"
+            @click="logOut">
+            Выйти
+          </button>
         </li>
       </ul>
     </nav>
@@ -49,7 +53,7 @@ export default defineComponent({
       router.push({ name: RouteNames.SIGN_IN });
     };
     return { RouteNames, logOut };
-  }
+  },
 });
 </script>
 

@@ -21,5 +21,5 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationType.SET_PROFILE](state, payload) {
     state.user = payload;
-  }
+  },
 };
