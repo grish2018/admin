@@ -40,6 +40,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useStore } from "@/store";
+import { useRouter } from "vue-router";
 import hash from "@/utils/hash";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
@@ -49,13 +50,15 @@ export default defineComponent({
     const email = ref("");
     const password = ref("");
     const store = useStore();
-    const submit = () => {
-      store.dispatch(ActionType.SIGN_IN, {
+    const router = useRouter();
+    const submit = async () => {
+      await store.dispatch(ActionType.SIGN_IN, {
         owner: {
           email: email.value,
           hash: hash(password.value)
         }
       });
+      router.push({ name: RouteNames.MAIN_PAGE });
     };
     return {
       email,

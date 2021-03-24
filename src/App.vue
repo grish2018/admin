@@ -6,6 +6,7 @@
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "App",
+
   mounted() {
     document.addEventListener("resize", this.resize);
     this.resize();

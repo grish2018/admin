@@ -17,9 +17,14 @@ export interface Actions {
   [ActionType.GET_PRODUCTS](context: AugmentedActionContext): Promise<void>;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionType.GET_PRODUCTS]({ commit }): Promise<void> {
-    const res = await axios.get("/1/products");
-    console.log(res);
+  async [ActionType.GET_PRODUCTS]({ commit, rootState }): Promise<void> {
+    const token = rootState.user.token;
+    const storeId = rootState.user.storeId;
+    const res = await axios.get(`/${storeId}/products`, {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
     commit(MutationType.SET_PRODUCTS, res.data);
   }
 };

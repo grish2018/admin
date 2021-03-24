@@ -22,12 +22,7 @@
           </router-link>
         </li>
         <li class="menu-main-layout__list-item">
-          <router-link
-            class="menu-main-layout__link"
-            :to="{ name: RouteNames.SIGN_IN }"
-          >
-            Выйти
-          </router-link>
+          <button class="menu-main-layout__link" @click="logOut">Выйти</button>
         </li>
       </ul>
     </nav>
@@ -39,13 +34,21 @@
  * Боковое меню на основном экране с ссылками
  */
 import { defineComponent } from "vue";
-
 import { RouteNames } from "@/router/RouteNames";
+import { useRouter } from "vue-router";
+import { useStore } from "@/store";
+import { ActionType } from "@/store/modules/User/ActionType";
 
 export default defineComponent({
   name: "MenuMainLayout",
   setup() {
-    return { RouteNames };
+    const router = useRouter();
+    const store = useStore();
+    const logOut = () => {
+      store.dispatch(ActionType.SIGN_OUT);
+      router.push({ name: RouteNames.SIGN_IN });
+    };
+    return { RouteNames, logOut };
   }
 });
 </script>
@@ -64,6 +67,7 @@ export default defineComponent({
   }
   &__link {
     display: block;
+    text-align: left;
     width: 100%;
     padding: 10px 30px;
     color: var(--color-text);
