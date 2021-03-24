@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import { store } from "./store";
 import "@/assets/scss/index.scss";
-import { initInterceptors } from "@/plugins/axios/axios";
+import { initInterceptors } from "@/plugins/Axios/axios";
 
 initInterceptors({ store, router });
 createApp(App)

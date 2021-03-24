@@ -18,7 +18,7 @@ export const initInterceptors = ({ store, router }: { store: Store; router: Rout
       config.headers.authorization = token;
     }
     return config;
-  });
+  }, (error) => Promise.reject(error));
   client.interceptors.response.use(
     res => res,
     err => {
