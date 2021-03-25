@@ -109,6 +109,7 @@ export default defineComponent({
     position: relative;
     &:hover .menu-main-layout__sub-list {
       --sub-list-display: block;
+      z-index: 1;
     }
   }
   &__sub-link {
@@ -122,6 +123,9 @@ export default defineComponent({
     font-size: var(--font-size-navigation-link);
     background: transparent;
     transition: 0.3s;
+    &:hover {
+      background: var(--select-navigation-color);
+    }
   }
   &__link {
     &--active {
@@ -136,9 +140,6 @@ export default defineComponent({
       .menu-sub-layout__link {
         padding: 10px 30px 10px 40px;
       }
-    }
-    &:hover {
-      background: var(--select-navigation-color);
     }
   }
   &__sub-list {

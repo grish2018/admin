@@ -6,8 +6,10 @@
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
 import { defineComponent, onBeforeMount } from "vue";
+
 export default defineComponent({
   name: "ProductsPage",
+
   setup() {
     const store = useStore();
     onBeforeMount(() => {
