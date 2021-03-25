@@ -31,9 +31,9 @@ export default defineComponent({
   margin: 0 auto;
   height: 100%;
   background: var(--background-color-layout);
-}
-.main-layout__body{
+  &__body {
     display: flex;
     height: 100%;
+  }
 }
 </style>

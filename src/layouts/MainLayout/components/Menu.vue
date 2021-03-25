@@ -10,7 +10,7 @@
           :key="link.name"
           class="menu-main-layout__list-item">
           <router-link
-            class="menu-main-layout__link"
+            class="menu-main-layout__sub-link"
             :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
             :to="{ name: link.routeName }">
             {{ link.name }}
@@ -18,7 +18,7 @@
           <ul class="menu-main-layout__sub-list">
             <li v-for="subLink in link.children" :key="subLink.routeName">
               <router-link
-                class="menu-main-layout__link menu-sub-layout__link"
+                class="menu-main-layout__sub-link menu-sub-layout__link"
                 active-class="menu-main-layout__link--active"
                 :to="{ name: subLink.routeName }">
                 {{ subLink.name }}
@@ -31,7 +31,7 @@
           :key="link.name"
           class="menu-main-layout__list-item">
           <router-link
-            class="menu-main-layout__link"
+            class="menu-main-layout__sub-link"
             :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
             :to="{ name: link.routeName }">
             {{ link.name }}
@@ -39,7 +39,7 @@
           <ul class="menu-main-layout__sub-list">
             <li v-for="subLink in link.children" :key="subLink.routeName">
               <router-link
-                class="menu-main-layout__link menu-sub-layout__link"
+                class="menu-main-layout__sub-link menu-sub-layout__link"
                 active-class="menu-main-layout__link--active"
                 :to="{ name: subLink.routeName }">
                 {{ subLink.name }}
@@ -49,7 +49,7 @@
         </li>
         <li class="menu-main-layout__list-item">
           <button
-            class="menu-main-layout__link"
+            class="menu-main-layout__sub-link"
             @click="logOut">
             Выйти
           </button>
@@ -70,38 +70,8 @@ import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
 const menuLinks = {
-  menuLinksProducts: [
-    {
-      routeName: RouteNames.PRODUCTS,
-      name: "Каталог",
-      children: [
-        {
-          routeName: RouteNames.PRODUCTS,
-          name: "Товары",
-        },
-        {
-          routeName: RouteNames.CATEGORIES,
-          name: "Категории",
-        },
-      ],
-    },
-  ],
-  menuLinksSales: [
-    {
-      routeName: RouteNames.ORDERS,
-      name: "Продажи",
-      children: [
-        {
-          routeName: RouteNames.ORDERS,
-          name: "Заказы",
-        },
-        {
-          routeName: RouteNames.BUYERS,
-          name: "Покупатели",
-        },
-      ],
-    },
-  ],
+  menuLinksProducts: [{ routeName: RouteNames.PRODUCTS, name: "Каталог", children: [{ routeName: RouteNames.PRODUCTS, name: "Товары" }, { routeName: RouteNames.CATEGORIES, name: "Категории" }] }],
+  menuLinksSales: [{ routeName: RouteNames.ORDERS, name: "Продажи", children: [{ routeName: RouteNames.ORDERS, name: "Заказы" }, { routeName: RouteNames.BUYERS, name: "Покупатели" }] }],
 };
 
 export default defineComponent({
@@ -138,10 +108,10 @@ export default defineComponent({
   &__list-item {
     position: relative;
     &:hover .menu-main-layout__sub-list {
-      display: block;
+      --sub-list-display: block;
     }
   }
-  &__link {
+  &__sub-link {
     display: block;
     text-align: left;
     width: 100%;
@@ -152,12 +122,14 @@ export default defineComponent({
     font-size: var(--font-size-navigation-link);
     background: transparent;
     transition: 0.3s;
+  }
+  &__link {
     &--active {
       background: var(--select-navigation-color);
     }
-    &--active + .menu-main-layout__sub-list {
-      display: block;
-      position: relative;
+    &--active + .menu-main-layout__sub-list{
+      --sub-list-display: block;
+      --sub-list-position: relative;
       width: 100%;
       top: 0;
       right: 0;
@@ -169,10 +141,12 @@ export default defineComponent({
       background: var(--select-navigation-color);
     }
   }
-  &__sub-list{
-    display: none;
+  &__sub-list {
+    --sub-list-display: none;
+    --sub-list-position: absolute;
+    display: var(--sub-list-display);
+    position: var(--sub-list-position);
     list-style: none;
-    position: absolute;
     width: 150px;
     top: 0;
     right: -150px;
