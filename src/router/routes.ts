@@ -37,7 +37,7 @@ export default [
       {
         path: "/categories",
         name: R.CATEGORIES,
-        component: () => import(/* ProductsPage */ "@/pages/Categories/index.vue"),
+        component: () => import(/* CategoriesPage */ "@/pages/Categories/index.vue"),
         // meta: {
         //   guard: 'private',
         // },
@@ -45,7 +45,7 @@ export default [
       {
         path: "/orders",
         name: R.ORDERS,
-        component: () => import(/* ProductsPage */ "@/pages/Orders/index.vue"),
+        component: () => import(/* OrdersPage */ "@/pages/Orders/index.vue"),
         // meta: {
         //   guard: 'private',
         // },
@@ -53,7 +53,7 @@ export default [
       {
         path: "/buyers",
         name: R.BUYERS,
-        component: () => import(/* ProductsPage */ "@/pages/Buyers/index.vue"),
+        component: () => import(/* BuyersPage */ "@/pages/Buyers/index.vue"),
         // meta: {
         //   guard: 'private',
         // },

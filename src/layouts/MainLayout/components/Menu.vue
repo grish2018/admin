@@ -6,16 +6,16 @@
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
         <li
-          v-for="link in menuLinksProducts"
+          v-for="link in menuLinks.menuLinksProducts"
           :key="link.name"
           class="menu-main-layout__list-item">
           <router-link
             class="menu-main-layout__link"
-            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute) || link.routeName === currentRoute}"
+            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
             :to="{ name: link.routeName }">
             {{ link.name }}
           </router-link>
-          <ul class="menu-sub">
+          <ul class="menu-main-layout__sub-list">
             <li v-for="subLink in link.children" :key="subLink.routeName">
               <router-link
                 class="menu-main-layout__link menu-sub-layout__link"
@@ -27,16 +27,16 @@
           </ul>
         </li>
         <li
-          v-for="link in menuLinksSales"
+          v-for="link in menuLinks.menuLinksSales"
           :key="link.name"
           class="menu-main-layout__list-item">
           <router-link
             class="menu-main-layout__link"
-            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute) || link.routeName === currentRoute}"
+            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
             :to="{ name: link.routeName }">
             {{ link.name }}
           </router-link>
-          <ul class="menu-sub">
+          <ul class="menu-main-layout__sub-list">
             <li v-for="subLink in link.children" :key="subLink.routeName">
               <router-link
                 class="menu-main-layout__link menu-sub-layout__link"
@@ -69,39 +69,40 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
-const menuLinksProducts = [
-  {
-    routeName: RouteNames.PRODUCTS,
-    name: "Каталог",
-    children: [
-      {
-        routeName: RouteNames.PRODUCTS,
-        name: "Товары",
-      },
-      {
-        routeName: RouteNames.CATEGORIES,
-        name: "Категории",
-      },
-    ],
-  },
-];
-
-const menuLinksSales = [
-  {
-    routeName: RouteNames.ORDERS,
-    name: "Продажи",
-    children: [
-      {
-        routeName: RouteNames.ORDERS,
-        name: "Заказы",
-      },
-      {
-        routeName: RouteNames.BUYERS,
-        name: "Покупатели",
-      },
-    ],
-  },
-];
+const menuLinks = {
+  menuLinksProducts: [
+    {
+      routeName: RouteNames.PRODUCTS,
+      name: "Каталог",
+      children: [
+        {
+          routeName: RouteNames.PRODUCTS,
+          name: "Товары",
+        },
+        {
+          routeName: RouteNames.CATEGORIES,
+          name: "Категории",
+        },
+      ],
+    },
+  ],
+  menuLinksSales: [
+    {
+      routeName: RouteNames.ORDERS,
+      name: "Продажи",
+      children: [
+        {
+          routeName: RouteNames.ORDERS,
+          name: "Заказы",
+        },
+        {
+          routeName: RouteNames.BUYERS,
+          name: "Покупатели",
+        },
+      ],
+    },
+  ],
+};
 
 export default defineComponent({
   name: "MenuMainLayout",
@@ -117,7 +118,7 @@ export default defineComponent({
     const currentRoute = computed(() => {
       return route.name;
     });
-    return { RouteNames, logOut, menuLinksProducts, menuLinksSales, currentRoute };
+    return { RouteNames, logOut, menuLinks, currentRoute };
   },
 });
 </script>
@@ -133,11 +134,11 @@ export default defineComponent({
   }
   &__list {
     list-style-type: none;
-    &-item {
-      position: relative;
-      &:hover .menu-sub {
-        display: block;
-      }
+  }
+  &__list-item {
+    position: relative;
+    &:hover .menu-main-layout__sub-list {
+      display: block;
     }
   }
   &__link {
@@ -153,13 +154,22 @@ export default defineComponent({
     transition: 0.3s;
     &--active {
       background: var(--select-navigation-color);
-
+    }
+    &--active + .menu-main-layout__sub-list {
+      display: block;
+      position: relative;
+      width: 100%;
+      top: 0;
+      right: 0;
+      .menu-sub-layout__link {
+        padding: 10px 30px 10px 40px;
+      }
     }
     &:hover {
       background: var(--select-navigation-color);
     }
   }
-  .menu-sub {
+  &__sub-list{
     display: none;
     list-style: none;
     position: absolute;
@@ -167,16 +177,6 @@ export default defineComponent({
     top: 0;
     right: -150px;
     background-color: #94C4E8;
-  }
-  .menu-main-layout__link--active + .menu-sub {
-    display: block;
-    position: relative;
-    width: 100%;
-    top: 0;
-    right: 0;
-    .menu-sub-layout__link {
-      padding: 10px 30px 10px 40px;
-    }
   }
 }
 </style>

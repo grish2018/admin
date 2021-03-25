@@ -1,7 +1,7 @@
 <template>
   <div class="main-layout">
     <header-layout></header-layout>
-    <div class="main-layout-body">
+    <div class="main-layout__body">
       <menu-layout></menu-layout>
       <router-view />
     </div>
@@ -32,7 +32,7 @@ export default defineComponent({
   height: 100%;
   background: var(--background-color-layout);
 }
-.main-layout-body{
+.main-layout__body{
     display: flex;
     height: 100%;
 }
