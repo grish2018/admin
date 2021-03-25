@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import ProductCard from "@/layouts/components/ProductCard.vue";
+import ProductCard from "@/components/ProductCard.vue";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
