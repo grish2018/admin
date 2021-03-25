@@ -6,7 +6,7 @@
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
         <li
-          v-for="link in menuLinks.menuLinksProducts"
+          v-for="link in menuLinks"
           :key="link.name"
           class="menu-main-layout__list-item">
           <router-link
@@ -18,28 +18,7 @@
           <ul class="menu-main-layout__sub-list">
             <li v-for="subLink in link.children" :key="subLink.routeName">
               <router-link
-                class="menu-main-layout__sub-link menu-sub-layout__link"
-                active-class="menu-main-layout__link--active"
-                :to="{ name: subLink.routeName }">
-                {{ subLink.name }}
-              </router-link>
-            </li>
-          </ul>
-        </li>
-        <li
-          v-for="link in menuLinks.menuLinksSales"
-          :key="link.name"
-          class="menu-main-layout__list-item">
-          <router-link
-            class="menu-main-layout__sub-link"
-            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
-            :to="{ name: link.routeName }">
-            {{ link.name }}
-          </router-link>
-          <ul class="menu-main-layout__sub-list">
-            <li v-for="subLink in link.children" :key="subLink.routeName">
-              <router-link
-                class="menu-main-layout__sub-link menu-sub-layout__link"
+                class="menu-main-layout__sub-link"
                 active-class="menu-main-layout__link--active"
                 :to="{ name: subLink.routeName }">
                 {{ subLink.name }}
@@ -69,10 +48,24 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
-const menuLinks = {
-  menuLinksProducts: [{ routeName: RouteNames.PRODUCTS, name: "Каталог", children: [{ routeName: RouteNames.PRODUCTS, name: "Товары" }, { routeName: RouteNames.CATEGORIES, name: "Категории" }] }],
-  menuLinksSales: [{ routeName: RouteNames.ORDERS, name: "Продажи", children: [{ routeName: RouteNames.ORDERS, name: "Заказы" }, { routeName: RouteNames.BUYERS, name: "Покупатели" }] }],
-};
+const menuLinks = [
+  {
+    routeName: RouteNames.PRODUCTS,
+    name: "Каталог",
+    children: [
+      { routeName: RouteNames.PRODUCTS, name: "Товары" },
+      { routeName: RouteNames.CATEGORIES, name: "Категории" },
+    ],
+  },
+  {
+    routeName: RouteNames.ORDERS,
+    name: "Продажи",
+    children: [
+      { routeName: RouteNames.ORDERS, name: "Заказы" },
+      { routeName: RouteNames.BUYERS, name: "Покупатели" },
+    ],
+  },
+];
 
 export default defineComponent({
   name: "MenuMainLayout",
@@ -95,6 +88,8 @@ export default defineComponent({
 
 <style lang="scss">
 .menu-main-layout {
+  --sub-list-display: none;
+  --sub-list-position: absolute;
   background: #1f2328;
   width: 270px;
   height: 100%;
@@ -122,6 +117,9 @@ export default defineComponent({
     font-size: var(--font-size-navigation-link);
     background: transparent;
     transition: 0.3s;
+    &:hover {
+      background: var(--select-navigation-color);
+    }
   }
   &__link {
     &--active {
@@ -133,17 +131,12 @@ export default defineComponent({
       width: 100%;
       top: 0;
       right: 0;
-      .menu-sub-layout__link {
+      .menu-main-layout__sub-link {
         padding: 10px 30px 10px 40px;
       }
     }
-    &:hover {
-      background: var(--select-navigation-color);
-    }
   }
   &__sub-list {
-    --sub-list-display: none;
-    --sub-list-position: absolute;
     display: var(--sub-list-display);
     position: var(--sub-list-position);
     list-style: none;
