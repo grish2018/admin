@@ -1,3 +1,4 @@
+import { Product } from "@/types/Product";
 import { ActionTree, ActionContext } from "vuex";
 import { ActionType } from "./ActionType";
 import { MutationType } from "./MutationType";
@@ -15,6 +16,10 @@ type AugmentedActionContext = {
 
 export interface Actions {
   [ActionType.GET_PRODUCTS](context: AugmentedActionContext): Promise<void>;
+  [ActionType.CREATE_PRODUCT](
+    context: AugmentedActionContext,
+    data: Product
+  ): void;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PRODUCTS]({ commit, rootState }): Promise<void> {
@@ -23,5 +28,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
       authorization: true,
     });
     commit(MutationType.SET_PRODUCTS, res.data);
+  },
+  [ActionType.CREATE_PRODUCT]({ commit }, data): void {
+    // eslint-disable-next-line
+    console.log(data);
+    commit(MutationType.ADD_PRODUCT, data);
   },
 };

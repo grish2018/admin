@@ -12,7 +12,8 @@
         </label>
       </div>
       <button
-        class="products__create-button">
+        class="products__create-button"
+        @click="craeteProduct">
         Create product
       </button>
     </div>
@@ -35,6 +36,7 @@
 import ProductCard from "@/components/ProductCard.vue";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
+import { useRouter } from "vue-router";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Product } from "@/types/Product";
 import { RouteNames } from "@/router/RouteNames";
@@ -44,6 +46,7 @@ export default defineComponent({
   setup() {
     const checkedProducts: { value: { id: number }[] } = ref([]);
     const store = useStore();
+    const router = useRouter();
     const products = computed(() => store.state.products.products);
     const allSelected = computed(
       () => products.value.length === checkedProducts.value.length
@@ -54,6 +57,14 @@ export default defineComponent({
       } else {
         checkedProducts.value = [];
       }
+    };
+    const craeteProduct = () => {
+      const newProduct = {
+        id: products.value[products.value.length - 1].id + 1,
+        title: "",
+      };
+      store.dispatch(ActionType.CREATE_PRODUCT, newProduct);
+      router.push({ name: RouteNames.PRODUCT, params: { id: newProduct.id } });
     };
     const itemChecked = (id: number) => {
       return checkedProducts.value.some((el) => el.id === id);
@@ -82,6 +93,7 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
+      craeteProduct,
     };
   },
 });
@@ -104,7 +116,7 @@ export default defineComponent({
       margin-right: 10px;
     }
   }
-  &__link {
+  &__create-button {
     height: 30px;
     width: 120px;
     display: flex;
