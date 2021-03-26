@@ -1,7 +1,7 @@
 <template>
   <div class="products">
     <div class="products__header">
-      <div class="products__checkboxr">
+      <div class="products__checkbox">
         <input
           id="selectAll"
           :checked="allSelected"
