@@ -1,15 +1,23 @@
 <template>
   <div class="products">
-    <div class="products__checkbox-wrapper">
-      <input
-        id="selectAll"
-        :checked="allSelected"
-        type="checkbox"
-        @change="selectAll($event)">
-      <label for="selectAll">
-        Select all products
-      </label>
+    <div class="product__header">
+      <div class="products____header--checkbox-wrapper">
+        <input
+          id="selectAll"
+          :checked="allSelected"
+          type="checkbox"
+          @change="selectAll($event)">
+        <label for="selectAll">
+          Select all products
+        </label>
+      </div>
+      <router-link
+        class="product__header--link"
+        :to="{ name: RouteNames.SIGN_IN }">
+        Create product
+      </router-link>
     </div>
+
     <ul class="products__list">
       <li
         v-for="item in products"
@@ -30,6 +38,7 @@ import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Product } from "@/types/Product";
+import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "ProductsPage",
   components: { ProductCard },
@@ -73,6 +82,7 @@ export default defineComponent({
       addItem,
       itemChecked,
       allSelected,
+      RouteNames,
     };
   },
 });
@@ -81,14 +91,32 @@ export default defineComponent({
 <style lang="scss" scoped>
 .products {
   width: 100%;
-  &__checkbox-wrapper {
-    padding: 10px 10px;
+  &__header {
     display: flex;
+    padding: 10px;
+    justify-content: space-between;
     align-items: center;
-    & input {
-      margin-right: 10px;
+    &--checkbox-wrapper {
+      padding: 10px 10px;
+      display: flex;
+      align-items: center;
+      & input {
+        margin-right: 10px;
+      }
+    }
+    &--link {
+      height: 30px;
+      width: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      text-decoration: none;
+      background: var(--select-navigation-color);
+      color: white;
     }
   }
+
   &__list {
     list-style-type: none;
   }

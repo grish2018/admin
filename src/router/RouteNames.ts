@@ -9,4 +9,5 @@ export enum RouteNames {
   ORDERS = "ORDERS",
   BUYERS = "BUYERS",
   PRODUCT = "PRODUCT",
+  CREATE_PRODUCT = "CREATE_PRODUCT"
 }
