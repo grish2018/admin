@@ -76,4 +76,13 @@ export default [
       guard: "guest",
     },
   },
+  {
+    path: "/product/:id",
+    name: R.PRODUCT,
+    component: () => import(/* ProductPage */ "@/pages/Product/index.vue"),
+    meta: {
+      guard: "private",
+    },
+  },
+
 ];

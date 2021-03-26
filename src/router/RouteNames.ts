@@ -7,5 +7,6 @@ export enum RouteNames {
   SIGN_UP = "SIGN_UP",
   CATEGORIES = "CATEGORIES",
   ORDERS = "ORDERS",
-  BUYERS = "BUYERS"
+  BUYERS = "BUYERS",
+  PRODUCT = "PRODUCT",
 }
