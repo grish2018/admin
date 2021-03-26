@@ -1,7 +1,7 @@
 <template>
   <div class="products">
     <div class="products__header">
-      <div class="products__header--wrapper">
+      <div class="products__checkboxr">
         <input
           id="selectAll"
           :checked="allSelected"
@@ -11,14 +11,10 @@
           Select all products
         </label>
       </div>
-      <router-link
-        class="products__header--link"
-        :to="{
-          name: RouteNames.PRODUCT,
-          params: { id: dynamicId },
-        }">
+      <button
+        class="products__create-button">
         Create product
-      </router-link>
+      </button>
     </div>
 
     <ul class="products__list">
@@ -49,9 +45,6 @@ export default defineComponent({
     const checkedProducts: { value: { id: number }[] } = ref([]);
     const store = useStore();
     const products = computed(() => store.state.products.products);
-    const dynamicId = computed(
-      () => products.value[products.value.length - 1]?.id + 1
-    );
     const allSelected = computed(
       () => products.value.length === checkedProducts.value.length
     );
@@ -89,7 +82,6 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
-      dynamicId,
     };
   },
 });
@@ -103,25 +95,25 @@ export default defineComponent({
     padding: 10px;
     justify-content: space-between;
     align-items: center;
-    &--wrapper {
-      padding: 10px 10px;
-      display: flex;
-      align-items: center;
-      & input {
-        margin-right: 10px;
-      }
+  }
+  &__checkbox {
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    & input {
+      margin-right: 10px;
     }
-    &--link {
-      height: 30px;
-      width: 120px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 5px;
-      text-decoration: none;
-      background: var(--select-navigation-color);
-      color: white;
-    }
+  }
+  &__link {
+    height: 30px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-decoration: none;
+    background: var(--select-navigation-color);
+    color: white;
   }
   &__list {
     list-style-type: none;
