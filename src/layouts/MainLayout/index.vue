@@ -1,8 +1,8 @@
 <template>
   <div class="main-layout">
-    <header-layout></header-layout>
-    <div class="main-layout__body">
-      <menu-layout></menu-layout>
+    <header-layout />
+    <div class="main-layout__container">
+      <menu-layout />
       <router-view />
     </div>
   </div>
@@ -31,9 +31,10 @@ export default defineComponent({
   margin: 0 auto;
   height: 100%;
   background: var(--background-color-layout);
-  &__body {
-    display: flex;
+  &__container {
+    width: 100%;
     height: 100%;
+    display: flex;
   }
 }
 </style>
