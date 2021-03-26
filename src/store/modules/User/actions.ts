@@ -29,20 +29,30 @@ export interface Actions {
 
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
-    const res = await axios.post("/login", data);
-    setStorage("token", res.data.owner.token);
-    setStorage("storeId", String(res.data.owner.storeId));
-    commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
-    commit(MutationType.SET_TOKEN, res.data.owner.token);
-    commit(MutationType.SET_USER, res.data);
+    try {
+      const res = await axios.post("/login", data);
+      setStorage("token", res.data.owner.token);
+      setStorage("storeId", String(res.data.owner.storeId));
+      commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
+      commit(MutationType.SET_TOKEN, res.data.owner.token);
+      commit(MutationType.SET_USER, res.data);
+    } catch (err) {
+      const errorMessage = err.response.data ? err.response.data : "Network Error";
+      commit(MutationType.SET_ERROR_MESSAGE, { message: errorMessage, place: "SIGN_IN" });
+    }
   },
   async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
-    const res = await axios.post("/signup", data);
-    setStorage("token", res.data.owner.token);
-    setStorage("storeId", String(res.data.owner.storeId));
-    commit(MutationType.SET_TOKEN, res.data.owner.token);
-    commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
-    commit(MutationType.SET_USER, res.data);
+    try {
+      const res = await axios.post("/signup", data);
+      setStorage("token", res.data.owner.token);
+      setStorage("storeId", String(res.data.owner.storeId));
+      commit(MutationType.SET_TOKEN, res.data.owner.token);
+      commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
+      commit(MutationType.SET_USER, res.data);
+    } catch (err) {
+      const errorMessage = err.response.data ? err.response.data : "Network Error";
+      commit(MutationType.SET_ERROR_MESSAGE, { message: errorMessage, place: "SIGN_UP" });
+    }
   },
   [ActionType.SIGN_OUT]({ commit }): void {
     removeStorage("token");

@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@/types/ErrorMessage";
 import { MutationTree } from "vuex";
 import { MutationType } from "./MutationType";
 import { State } from "./state";
@@ -7,6 +8,7 @@ export type Mutations<S = State> = {
   [MutationType.SET_TOKEN](state: State, token: string | null): void;
   [MutationType.SET_STOREID](state: State, id: string | null): void;
   [MutationType.SET_PROFILE](state: State, payload: {}): void;
+  [MutationType.SET_ERROR_MESSAGE](state: State, payload: ErrorMessage): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -21,5 +23,8 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationType.SET_PROFILE](state, payload) {
     state.user = payload;
+  },
+  [MutationType.SET_ERROR_MESSAGE](state, payload) {
+    state.error = payload;
   },
 };

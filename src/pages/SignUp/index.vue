@@ -7,6 +7,7 @@
         <span class="sign-up__form-header">
           Регистрация
         </span>
+        <error-alert :error="error" />
         <div class="sign-up__input-wrapper">
           <input
             id="email"
@@ -51,19 +52,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import ErrorAlert from "@/components/ErrorAlert.vue";
+import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "SignUp",
+  components: { ErrorAlert },
   setup() {
     const router = useRouter();
     const email = ref("");
     const nickname = ref("");
     const password = ref("");
     const store = useStore();
+    const error = computed(() => store.state.user.error);
     const submit = async () => {
       await store.dispatch(ActionType.SIGN_UP, {
         owner: {
@@ -80,6 +84,7 @@ export default defineComponent({
       email,
       submit,
       RouteNames,
+      error,
     };
   },
 });

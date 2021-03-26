@@ -7,6 +7,7 @@
         <span class="sign-in__form-header">
           Вход
         </span>
+        <error-alert :error="error" />
         <div class="sign-in__input-wrapper">
           <input
             id="email"
@@ -41,7 +42,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import ErrorAlert from "@/components/ErrorAlert.vue";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "@/store";
 import { useRouter } from "vue-router";
 import hash from "@/utils/hash";
@@ -49,11 +51,13 @@ import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "SignIn",
+  components: { ErrorAlert },
   setup() {
     const email = ref("");
     const password = ref("");
     const store = useStore();
     const router = useRouter();
+    const error = computed(() => store.state.user.error);
     const submit = async () => {
       await store.dispatch(ActionType.SIGN_IN, {
         owner: {
@@ -68,6 +72,7 @@ export default defineComponent({
       password,
       submit,
       RouteNames,
+      error,
     };
   },
 });
