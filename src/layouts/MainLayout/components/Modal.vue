@@ -1,29 +1,34 @@
 <template>
   <div class="modal">
-    <header class="modal-header">
+    <header class="modal__header">
       <slot name="title">
         <p>
           Title
         </p>
       </slot>
-      <img
-        class="modal__icon-close"
-        src="@/assets/img/cancel.svg"
-        alt="close">
+      <button class="close">
+        <img
+          src="@/assets/img/cancel.svg"
+          alt="close">
+      </button>
     </header>
-    <main class="modal-content">
-      <slot name="content">
+    <main class="modal__content">
+      <slot>
         <p>
           Content
         </p>
       </slot>
     </main>
-    <footer class="modal-footer">
+    <footer class="modal__footer">
       <slot name="footer">
-        <button class="modal-footer__button">
+        <button
+          class="modal__button cancel"
+          @click.prevent="cancelModal">
           Отменить
         </button>
-        <button class="modal-footer__button">
+        <button
+          class="modal__button confirm"
+          @click="confirmModal">
           Вставить
         </button>
       </slot>
@@ -32,20 +37,31 @@
 </template>
 
 <script lang="ts">
-/**
- * Шапка на основном экране
- */
-import { defineComponent } from "vue";
+
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "ModalPage",
+  setup(props, { emit }) {
+    const cancel = ref(true);
+    const confirm = ref(true);
+
+    function cancelModal() {
+      emit("cancel", cancel);
+    }
+    function confirmModal() {
+      emit("cancel", confirm);
+    }
+
+    return { cancelModal, confirmModal };
+  },
 
 });
 </script>
 
 <style lang="scss">
   .modal {
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -55,20 +71,21 @@ export default defineComponent({
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    -webkit-box-shadow: 0 0 8px 6px rgba(34, 60, 80, 0.2);
-    -moz-box-shadow: 0 0 8px 6px rgba(34, 60, 80, 0.2);
     box-shadow: 0 0 8px 6px rgba(34, 60, 80, 0.2);
-    &-header {
+    &__header {
       padding: 10px 10px 0 20px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      .close {
+        display: flex;
+      }
     }
-    &-content {
-      padding: 40px 20px 40px 20px;
+    &__content {
+      padding: 40px 20px;
     }
-    &-footer {
-      &__button {
+    &__footer {
+      .modal__button {
         width: 50%;
         padding: 13px;
         &:hover {
