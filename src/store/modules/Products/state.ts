@@ -1,5 +1,7 @@
+import { Product } from "@/types/Product";
+
 export type State = {
-  products: [];
+  products: Product[];
 };
 
 export const state: State = {

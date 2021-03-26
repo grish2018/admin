@@ -1,19 +1,22 @@
 <template>
   <div class="products">
-    <div class="product__header">
-      <div class="products____header--checkbox-wrapper">
+    <div class="products__header">
+      <div class="products__header--wrapper">
         <input
           id="selectAll"
           :checked="allSelected"
           type="checkbox"
-          @change="selectAll($event)">
+          @change="selectAll">
         <label for="selectAll">
           Select all products
         </label>
       </div>
       <router-link
-        class="product__header--link"
-        :to="{ name: RouteNames.SIGN_IN }">
+        class="products__header--link"
+        :to="{
+          name: RouteNames.PRODUCT,
+          params: { id: dynamicId },
+        }">
         Create product
       </router-link>
     </div>
@@ -46,6 +49,9 @@ export default defineComponent({
     const checkedProducts: { value: { id: number }[] } = ref([]);
     const store = useStore();
     const products = computed(() => store.state.products.products);
+    const dynamicId = computed(
+      () => products.value[products.value.length - 1]?.id + 1
+    );
     const allSelected = computed(
       () => products.value.length === checkedProducts.value.length
     );
@@ -71,8 +77,8 @@ export default defineComponent({
         );
       }
     };
-    onBeforeMount(async () => {
-      await store.dispatch(ActionType.GET_PRODUCTS);
+    onBeforeMount(() => {
+      store.dispatch(ActionType.GET_PRODUCTS);
     });
     return {
       store,
@@ -83,6 +89,7 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
+      dynamicId,
     };
   },
 });
@@ -96,7 +103,7 @@ export default defineComponent({
     padding: 10px;
     justify-content: space-between;
     align-items: center;
-    &--checkbox-wrapper {
+    &--wrapper {
       padding: 10px 10px;
       display: flex;
       align-items: center;
@@ -116,7 +123,6 @@ export default defineComponent({
       color: white;
     }
   }
-
   &__list {
     list-style-type: none;
   }
