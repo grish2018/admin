@@ -1,6 +1,8 @@
 <template>
   <transition name="fade">
-    <div v-show="props.error.message && showError" class="errorAlert">
+    <div
+      v-show="props.error.message && showError"
+      class="errorAlert">
       <span>{{ props.error.message }}</span>
     </div>
   </transition>

@@ -17,11 +17,11 @@ const isGuestRoute = (route: Route) => route.meta.guard === "guest";
 
 export default (
   to: RouteLocationNormalizedWithMeta,
-  _from: RouteLocationNormalizedWithMeta,
+  from: RouteLocationNormalizedWithMeta,
   next: NavigationGuardNext
 ) => {
   if (to.matched.some(isPrivateRoute) && !isAuthenticated()) {
-    return next({ name: R.SIGN_UP });
+    if (from.name === R.SIGN_IN) { return next(false); } else { return next({ name: R.SIGN_UP }); }
   }
   if (to.matched.some(isGuestRoute) && isAuthenticated()) {
     return next({ name: R.MAIN_PAGE });
