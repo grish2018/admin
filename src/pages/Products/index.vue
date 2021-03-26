@@ -80,6 +80,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .products {
+  width: 100%;
   &__checkbox-wrapper {
     padding: 10px 10px;
     display: flex;

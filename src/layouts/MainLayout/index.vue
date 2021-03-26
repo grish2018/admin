@@ -33,6 +33,8 @@ export default defineComponent({
   background: var(--background-color-layout);
   &__container {
     width: 100%;
+    height: 100%;
+    display: flex;
   }
 }
 </style>
