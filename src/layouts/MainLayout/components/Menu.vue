@@ -8,15 +8,17 @@
         <li
           v-for="link in menuLinks"
           :key="link.name"
-          class="menu-main-layout__list-item">
+          class="menu-main-layout__list-item"
+          :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}">
           <router-link
             class="menu-main-layout__sub-link"
-            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
             :to="{ name: link.routeName }">
             {{ link.name }}
           </router-link>
           <ul class="menu-main-layout__sub-list">
-            <li v-for="subLink in link.children" :key="subLink.routeName">
+            <li
+              v-for="subLink in link.children"
+              :key="subLink.routeName">
               <router-link
                 class="menu-main-layout__sub-link"
                 active-class="menu-main-layout__link--active"
@@ -124,15 +126,15 @@ export default defineComponent({
   &__link {
     &--active {
       background: var(--select-navigation-color);
-    }
-    &--active + .menu-main-layout__sub-list{
-      --sub-list-display: block;
-      --sub-list-position: relative;
-      width: 100%;
-      top: 0;
-      right: 0;
-      .menu-main-layout__sub-link {
-        padding: 10px 30px 10px 40px;
+      .menu-main-layout__sub-list {
+        --sub-list-display: block;
+        --sub-list-position: relative;
+        width: 100%;
+        top: 0;
+        right: 0;
+        .menu-main-layout__sub-link {
+          padding: 10px 30px 10px 40px;
+        }
       }
     }
   }
