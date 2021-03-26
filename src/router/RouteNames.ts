@@ -4,5 +4,8 @@ export enum RouteNames {
   PRODUCTS = "PRODUCTS",
   PROFILE = "PROFILE",
   SIGN_IN = "SIGN_IN",
-  SIGN_UP = "SIGN_UP"
+  SIGN_UP = "SIGN_UP",
+  CATEGORIES = "CATEGORIES",
+  ORDERS = "ORDERS",
+  BUYERS = "BUYERS"
 }

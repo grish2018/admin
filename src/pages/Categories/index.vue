@@ -1,10 +1,10 @@
 <template>
-  <div>Профиль</div>
+  <div>Категории</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "ProfilePage",
+  name: "CategoriesPage",
 });
 </script>

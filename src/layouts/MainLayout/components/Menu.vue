@@ -5,25 +5,32 @@
     </header>
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
-        <li class="menu-main-layout__list-item">
+        <li
+          v-for="link in menuLinks"
+          :key="link.name"
+          class="menu-main-layout__list-item"
+          :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}">
           <router-link
-            class="menu-main-layout__link"
-            active-class="menu-main-layout__link--active"
-            :to="{ name: RouteNames.PRODUCTS }">
-            Товары
+            class="menu-main-layout__sub-link"
+            :to="{ name: link.routeName }">
+            {{ link.name }}
           </router-link>
-        </li>
-        <li class="menu-main-layout__list-item">
-          <router-link
-            class="menu-main-layout__link"
-            active-class="menu-main-layout__link--active"
-            :to="{ name: RouteNames.PROFILE }">
-            Профиль
-          </router-link>
+          <ul class="menu-main-layout__sub-list">
+            <li
+              v-for="subLink in link.children"
+              :key="subLink.routeName">
+              <router-link
+                class="menu-main-layout__sub-link"
+                active-class="menu-main-layout__link--active"
+                :to="{ name: subLink.routeName }">
+                {{ subLink.name }}
+              </router-link>
+            </li>
+          </ul>
         </li>
         <li class="menu-main-layout__list-item">
           <button
-            class="menu-main-layout__link"
+            class="menu-main-layout__sub-link"
             @click="logOut">
             Выйти
           </button>
@@ -37,14 +44,34 @@
 /**
  * Боковое меню на основном экране с ссылками
  */
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { RouteNames } from "@/router/RouteNames";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
+const menuLinks = [
+  {
+    routeName: RouteNames.PRODUCTS,
+    name: "Каталог",
+    children: [
+      { routeName: RouteNames.PRODUCTS, name: "Товары" },
+      { routeName: RouteNames.CATEGORIES, name: "Категории" },
+    ],
+  },
+  {
+    routeName: RouteNames.ORDERS,
+    name: "Продажи",
+    children: [
+      { routeName: RouteNames.ORDERS, name: "Заказы" },
+      { routeName: RouteNames.BUYERS, name: "Покупатели" },
+    ],
+  },
+];
+
 export default defineComponent({
   name: "MenuMainLayout",
+
   setup() {
     const router = useRouter();
     const store = useStore();
@@ -52,13 +79,19 @@ export default defineComponent({
       store.dispatch(ActionType.SIGN_OUT);
       router.push({ name: RouteNames.SIGN_IN });
     };
-    return { RouteNames, logOut };
+    const route = useRoute();
+    const currentRoute = computed(() => {
+      return route.name;
+    });
+    return { RouteNames, logOut, menuLinks, currentRoute };
   },
 });
 </script>
 
 <style lang="scss">
 .menu-main-layout {
+  --sub-list-display: none;
+  --sub-list-position: absolute;
   background: #1f2328;
   width: 270px;
   height: 100%;
@@ -69,7 +102,13 @@ export default defineComponent({
   &__list {
     list-style-type: none;
   }
-  &__link {
+  &__list-item {
+    position: relative;
+    &:hover .menu-main-layout__sub-list {
+      --sub-list-display: block;
+    }
+  }
+  &__sub-link {
     display: block;
     text-align: left;
     width: 100%;
@@ -80,12 +119,33 @@ export default defineComponent({
     font-size: var(--font-size-navigation-link);
     background: transparent;
     transition: 0.3s;
-    &--active {
-      background: var(--select-navigation-color);
-    }
     &:hover {
       background: var(--select-navigation-color);
     }
+  }
+  &__link {
+    &--active {
+      background: var(--select-navigation-color);
+      .menu-main-layout__sub-list {
+        --sub-list-display: block;
+        --sub-list-position: relative;
+        width: 100%;
+        top: 0;
+        right: 0;
+        .menu-main-layout__sub-link {
+          padding: 10px 30px 10px 40px;
+        }
+      }
+    }
+  }
+  &__sub-list {
+    display: var(--sub-list-display);
+    position: var(--sub-list-position);
+    list-style: none;
+    width: 150px;
+    top: 0;
+    right: -150px;
+    background-color: #94C4E8;
   }
 }
 </style>
