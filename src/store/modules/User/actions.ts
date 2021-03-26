@@ -39,6 +39,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     } catch (err) {
       const errorMessage = err.response.data ? err.response.data : "Network Error";
       commit(MutationType.SET_ERROR_MESSAGE, { message: errorMessage, place: "SIGN_IN" });
+      throw err;
     }
   },
   async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
@@ -52,6 +53,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     } catch (err) {
       const errorMessage = err.response.data ? err.response.data : "Network Error";
       commit(MutationType.SET_ERROR_MESSAGE, { message: errorMessage, place: "SIGN_UP" });
+      throw err;
     }
   },
   [ActionType.SIGN_OUT]({ commit }): void {

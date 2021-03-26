@@ -69,14 +69,18 @@ export default defineComponent({
     const store = useStore();
     const error = computed(() => store.state.user.error);
     const submit = async () => {
-      await store.dispatch(ActionType.SIGN_UP, {
-        owner: {
-          email: email.value,
-          nickname: nickname.value,
-          password: password.value,
-        },
-      });
-      router.push({ name: RouteNames.MAIN_PAGE });
+      try {
+        await store.dispatch(ActionType.SIGN_UP, {
+          owner: {
+            email: email.value,
+            nickname: nickname.value,
+            password: password.value,
+          },
+        });
+        router.push({ name: RouteNames.MAIN_PAGE });
+      } catch (err) {
+        return false;
+      }
     };
     return {
       nickname,
