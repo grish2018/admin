@@ -23,7 +23,7 @@
       <slot name="footer">
         <button
           class="modal__button cancel"
-          @click.prevent="cancelModal">
+          @click="cancelModal">
           Отменить
         </button>
         <button

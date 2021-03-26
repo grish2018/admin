@@ -1,17 +1,12 @@
 <template>
-  <!--  <router-view />-->
-  <modal-page />
+  <router-view />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ModalPage from "@/layouts/MainLayout/components/Modal.vue";
 
 export default defineComponent({
   name: "App",
-  components: {
-    ModalPage,
-  },
   mounted() {
     document.addEventListener("resize", this.resize);
     this.resize();
