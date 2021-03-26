@@ -43,7 +43,7 @@ export default defineComponent({
     },
     checked: {
       type: Boolean,
-      default: () => false,
+      default: false,
     },
   },
   setup() {
