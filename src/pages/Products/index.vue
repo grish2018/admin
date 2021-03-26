@@ -3,9 +3,8 @@
     <div class="products__checkbox-wrapper">
       <input
         id="selectAll"
-        v-model="checkAll"
         type="checkbox"
-        @change="selectAll">
+        @change="selectAll($event)">
       <label for="selectAll">
         Select all products
       </label>
@@ -15,32 +14,32 @@
         v-for="item in products"
         :key="item.id"
         class="products__list-item">
-        <div class="products__list-item__content-wrapper">
+        <div class="products__list-item--content-wrapper">
           <input
-            v-model="checkedProducts"
             :value="item"
+            :checked="itemChecked(item.id)"
             type="checkbox"
-            :checked="checkAll"
-            class="products__list-item__content-wrapper__input">
+            class="products__list-item--content-wrapper-input"
+            @change="addItem($event, item)">
           <img
             v-if="item.img"
             src=""
             alt="">
           <div
             v-else
-            class="products__list-item__content-wrapper__image">
+            class="products__list-item--content-wrapper-image">
             {{ item.title[0] }}
           </div>
-          <div class="products__list-item__content-wrapper__description">
+          <div class="products__list-item--content-wrapper-description">
             <span><b>Name:</b> {{ item.title }}</span>
             <span><b>Price:</b> {{ item.price }}</span>
           </div>
         </div>
-        <button
-          class="products__list-item__button"
-          @click="toProduct(item.id)">
+        <router-link
+          class="products__list-item--link"
+          :to="{ name: RouteNames.PRODUCT, params: { id: item.id } }">
           View product
-        </button>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -49,30 +48,51 @@
 <script lang="ts">
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
-import { defineComponent, onBeforeMount, ref } from "vue";
-import { useRouter } from "vue-router";
+import { computed, defineComponent, onBeforeMount, ref } from "vue";
+import { RouteNames } from "@/router/RouteNames";
+import { Product } from "@/types/Product";
 export default defineComponent({
   name: "ProductsPage",
   setup() {
-    const checkedProducts = ref([]);
+    const checkedProducts: { value: { id: number }[] } = ref([]);
     const store = useStore();
-    const router = useRouter();
     const checkAll = ref(false);
-    const products = store.state.products.products;
-    const selectAll = () => {
-      if (checkAll.value) {
-        checkedProducts.value = [...products];
+    const products = computed(() => store.state.products.products);
+    const selectAll = ({ target }: { target: HTMLInputElement }) => {
+      if (target.checked) {
+        checkedProducts.value = [...products.value];
       } else {
         checkedProducts.value = [];
       }
     };
-    const toProduct = (id: string) => {
-      router.push({ path: `/product/${id}` });
+    const itemChecked = (id: number) => {
+      return checkedProducts.value.some((el) => el.id === id);
+    };
+    const addItem = (
+      { target }: { target: HTMLInputElement },
+      product: Product
+    ) => {
+      if (target.checked) {
+        checkedProducts.value.push(product);
+      } else {
+        checkedProducts.value = checkedProducts.value.filter(
+          (item) => item.id !== product.id
+        );
+      }
     };
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PRODUCTS);
     });
-    return { store, products, checkedProducts, selectAll, checkAll, toProduct };
+    return {
+      store,
+      products,
+      checkedProducts,
+      selectAll,
+      checkAll,
+      RouteNames,
+      addItem,
+      itemChecked,
+    };
   },
 });
 </script>
@@ -97,13 +117,13 @@ export default defineComponent({
       align-items: center;
       padding: 0px 10px;
       justify-content: space-between;
-      &__content-wrapper {
+      &--content-wrapper {
         display: flex;
         align-items: center;
-        &__input {
+        &-input {
           margin-right: 10px;
         }
-        &__image {
+        &-image {
           width: 40px;
           height: 40px;
           background: var(--select-navigation-color);
@@ -114,15 +134,19 @@ export default defineComponent({
           margin-right: 20px;
           color: white;
         }
-        &__description {
+        &-description {
           display: flex;
           flex-direction: column;
         }
       }
-      &__button {
+      &--link {
         height: 30px;
-        width: 100px;
+        width: 110px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border-radius: 5px;
+        text-decoration: none;
         background: rgba(25, 165, 39, 0.8);
         color: white;
       }
