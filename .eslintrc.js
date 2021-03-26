@@ -23,7 +23,6 @@ module.exports = {
       "error",
       "always",
     ],
-
     "prefer-template": 2,
     "no-useless-concat": 2,
     "no-unused-vars": 2,

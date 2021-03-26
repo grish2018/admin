@@ -106,6 +106,7 @@ export default defineComponent({
     position: relative;
     &:hover .menu-main-layout__sub-list {
       --sub-list-display: block;
+      z-index: 1;
     }
   }
   &__sub-link {
