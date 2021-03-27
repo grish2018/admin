@@ -1,5 +1,3 @@
-import { ErrorMessage } from "@/types/ErrorMessage";
-
 function getToken(): string | null {
   return window.localStorage.getItem("token");
 }
@@ -12,8 +10,6 @@ export type State = {
   token: string | null;
   storeId: string | null;
   profile: {} | null;
-  error: ErrorMessage;
-
 };
 
 export const state: State = {
@@ -21,5 +17,4 @@ export const state: State = {
   token: getToken(),
   storeId: getStoreId(),
   profile: null,
-  error: {},
 };

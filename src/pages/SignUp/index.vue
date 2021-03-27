@@ -7,7 +7,7 @@
         <span class="sign-up__form-header">
           Регистрация
         </span>
-        <error-alert :error="error" />
+        <error-alert :error-message="errorMessage" />
         <div class="sign-up__input-wrapper">
           <input
             id="email"
@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import ErrorAlert from "@/components/ErrorAlert.vue";
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
@@ -66,8 +66,8 @@ export default defineComponent({
     const email = ref("");
     const nickname = ref("");
     const password = ref("");
+    const errorMessage = ref("");
     const store = useStore();
-    const error = computed(() => store.state.user.error);
     const submit = async () => {
       try {
         await store.dispatch(ActionType.SIGN_UP, {
@@ -79,6 +79,9 @@ export default defineComponent({
         });
         router.push({ name: RouteNames.MAIN_PAGE });
       } catch (err) {
+        errorMessage.value = err.response.data
+          ? err.response.data
+          : "Network Error";
         return false;
       }
     };
@@ -88,7 +91,7 @@ export default defineComponent({
       email,
       submit,
       RouteNames,
-      error,
+      errorMessage,
     };
   },
 });
@@ -111,7 +114,7 @@ export default defineComponent({
       font-size: 26px;
       line-height: 31px;
       color: #101d94;
-      margin-bottom: 85px;
+      margin-bottom: 35px;
     }
 
     &-input {

@@ -7,7 +7,7 @@
         <span class="sign-in__form-header">
           Вход
         </span>
-        <error-alert :error="error" />
+        <error-alert :error-message="errorMessage" />
         <div class="sign-in__input-wrapper">
           <input
             id="email"
@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import ErrorAlert from "@/components/ErrorAlert.vue";
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { useStore } from "@/store";
 import { useRouter } from "vue-router";
 import hash from "@/utils/hash";
@@ -57,7 +57,7 @@ export default defineComponent({
     const password = ref("");
     const store = useStore();
     const router = useRouter();
-    const error = computed(() => store.state.user.error);
+    const errorMessage = ref("");
     const submit = async () => {
       try {
         await store.dispatch(ActionType.SIGN_IN, {
@@ -68,15 +68,19 @@ export default defineComponent({
         });
         router.push({ name: RouteNames.MAIN_PAGE });
       } catch (err) {
+        errorMessage.value = err.response.data
+          ? err.response.data
+          : "Network Error";
         return false;
       }
     };
+
     return {
       email,
       password,
       submit,
       RouteNames,
-      error,
+      errorMessage,
     };
   },
 });
@@ -99,7 +103,7 @@ export default defineComponent({
       font-size: 26px;
       line-height: 31px;
       color: #101d94;
-      margin-bottom: 85px;
+      margin-bottom: 35px;
     }
 
     &-input {
