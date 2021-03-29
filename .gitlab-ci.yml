@@ -52,7 +52,7 @@ Deploy to Staging:
 
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - rsync -hrvz --delete --exclude=_ -e "ssh -i ${HOME}/.ssh/id_rsa -p 3344" /builds/global.shop/admin/dist/ dev@dev.global.shop:/usr/local/www/admin
+    - rsync -hrvz --delete --exclude=_ -e "ssh -p 3344" /builds/global.shop/admin/dist/ dev@dev.global.shop:/usr/local/www/dev/admin
   when: manual
 
 
