@@ -11,8 +11,7 @@
           Select all products
         </label>
       </div>
-      <button
-        class="products__create-button">
+      <button class="products__create-button">
         Create product
       </button>
     </div>
