@@ -6,7 +6,7 @@
           Title
         </p>
       </slot>
-      <button class="close">
+      <button class="modal__close">
         <img
           src="@/assets/img/cancel.svg"
           alt="close">
@@ -38,19 +38,16 @@
 
 <script lang="ts">
 
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ModalPage",
-  setup(props, { emit }) {
-    const cancel = ref(true);
-    const confirm = ref(true);
-
+  setup(_props, { emit }) {
     function cancelModal() {
-      emit("cancel", cancel);
+      emit("cancel");
     }
     function confirmModal() {
-      emit("cancel", confirm);
+      emit("cancel");
     }
 
     return { cancelModal, confirmModal };
@@ -77,21 +74,19 @@ export default defineComponent({
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      .close {
-        display: flex;
-      }
+    }
+    &__close {
+      display: flex;
     }
     &__content {
       padding: 40px 20px;
     }
-    &__footer {
-      .modal__button {
-        width: 50%;
-        padding: 13px;
-        &:hover {
-          color: white;
-          background-color: #068EEF;
-        }
+    &__button {
+      width: 50%;
+      padding: 13px 13px;
+      &:hover {
+        color: white;
+        background-color: #068EEF;
       }
     }
     &__icon-close {
