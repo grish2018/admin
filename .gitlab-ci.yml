@@ -25,16 +25,34 @@ Build:
 Deploy to Staging:
   stage: staging
   tags:
-    - node
+    - gitlab-org-docker
   before_script:
-    # Generates to connect to the AWS unit the SSH key.
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'command -v rsync >/dev/null || ( apt-get install rsync -y )'
+
+    ##
+    ## Run ssh-agent (inside the build environment)
+    ##
+    - eval $(ssh-agent -s)
+
+    ##
+    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    ## We're using tr to fix line endings which makes ed25519 keys work
+    ## without extra base64 encoding.
+    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+    ##
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+
+    ##
+    ## Create the SSH directory and give it the right permissions
+    ##
     - mkdir -p ~/.ssh
-    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    # Sets the permission to 600 to prevent a problem with AWS
-    # that it's too unprotected.
-    - chmod 600  ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - echo "Deploy to production server"
+    - rsync -hrvz --delete --exclude=_ -e "ssh -i ${HOME}/.ssh/id_rsa -p 3344" /builds/global.shop/admin/dist/ dev@dev.global.shop:/usr/local/www/admin
   when: manual
 
 
