@@ -32,6 +32,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
   [ActionType.CREATE_PRODUCT]({ commit }, data): void {
     // eslint-disable-next-line
     console.log(data);
+    // const storeId = rootState.user.storeId;
+    // await axios.post(`/${storeId}/products`, data, { authorization: true });
+    // const res = await axios.get(`/${storeId}/products`, {
+    //   authorization: true,
+    // });
+    // eslint-disable-next-line
+    // console.log(res);
     commit(MutationType.ADD_PRODUCT, data);
   },
 };

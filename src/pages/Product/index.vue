@@ -44,6 +44,12 @@
         <label for="delivery">
           Товар требует доставки или самовывоза
         </label>
+        <div class="product__more-info">
+          <span>?</span>
+          <div class="product__more-info--content">
+            <span>Some info</span>
+          </div>
+        </div>
       </div>
       <div class="product__form--textarea">
         <label for="description">
@@ -165,6 +171,7 @@ export default defineComponent({
         color: #3f4d5a;
         font-size: 15px;
         font-weight: bolder;
+        margin-right: 6px;
       }
     }
     &--textarea {
@@ -201,6 +208,38 @@ export default defineComponent({
       text-decoration: none;
       background: var(--select-navigation-color);
       color: white;
+    }
+  }
+  &__more-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid var(--select-navigation-color);
+    &:hover {
+      .product__more-info--content {
+        display: flex;
+      }
+    }
+    & span {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--select-navigation-color);
+    }
+    &--content {
+      position: absolute;
+      width: max-content;
+      padding: 4px 6px;
+      left: 13px;
+      bottom: 4px;
+      background: var(--select-navigation-color);
+      display: none;
+      & span {
+        color: white;
+      }
     }
   }
 }

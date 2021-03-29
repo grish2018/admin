@@ -17,7 +17,6 @@
         Create product
       </button>
     </div>
-
     <ul class="products__list">
       <li
         v-for="item in products"
