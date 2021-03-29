@@ -16,9 +16,15 @@ type AugmentedActionContext = {
 
 export interface Actions {
   [ActionType.GET_PRODUCTS](context: AugmentedActionContext): Promise<void>;
+  [ActionType.GET_PRODUCT_BY_ID](context: AugmentedActionContext, id: number): Promise<void>;
   [ActionType.CREATE_PRODUCT](
     context: AugmentedActionContext,
     data: { product: NewProduct }
+  ): Promise<void>;
+  [ActionType.EDIT_PRODUCT](
+    context: AugmentedActionContext,
+    data: { product: NewProduct },
+    id: number
   ): Promise<void>;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -29,8 +35,20 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationType.SET_PRODUCTS, res.data);
   },
+  async [ActionType.GET_PRODUCT_BY_ID]({ commit, rootState }, id): Promise<void> {
+    const storeId = rootState.user.storeId;
+    const res = await axios.get(`/${storeId}/products/${id}`, {
+      authorization: true,
+    });
+    commit(MutationType.SET_CURRENT_PRODUCT, res.data.product);
+  },
   async [ActionType.CREATE_PRODUCT]({ rootState }, data): Promise<void> {
     const storeId = rootState.user.storeId;
     await axios.post(`/${storeId}/products`, data, { authorization: true });
+  },
+  async [ActionType.EDIT_PRODUCT]({ rootState }, data): Promise<void> {
+    const storeId = rootState.user.storeId;
+    const id = rootState.products.currentProduct?.id;
+    await axios.put(`/${storeId}/products/${id}`, data, { authorization: true });
   },
 };

@@ -22,8 +22,12 @@
     </div>
     <router-link
       class="product-card__link"
-      :to="{ name: RouteNames.PRODUCT, params: { id: product.id } }">
-      Посмотреть продукт
+      :to="{
+        name: RouteNames.CREATE_PRODUCTS,
+        params: { mode: 'edit' },
+        query: { id: product.id },
+      }">
+      Редактировать продукт
     </router-link>
   </div>
 </template>
@@ -32,6 +36,7 @@
 import { defineComponent } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { Product } from "@/types/Product";
+import { useRouter } from "vue-router";
 export default defineComponent({
   name: "ProductCard",
   props: {
@@ -46,9 +51,18 @@ export default defineComponent({
       default: false,
     },
   },
-  setup() {
+  setup(props) {
+    const router = useRouter();
+    const editProduct = async () => {
+      router.push({
+        name: RouteNames.CREATE_PRODUCTS,
+        params: { mode: "edit" },
+        query: { id: props.product.id },
+      });
+    };
     return {
       RouteNames,
+      editProduct,
     };
   },
 });

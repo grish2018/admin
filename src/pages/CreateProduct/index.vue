@@ -1,10 +1,10 @@
 <template>
   <div class="create-product-form">
-    <button
-      class="create-product-form__close-button"
-      @click="$emit('hideCreateProductForm', false)">
+    <router-link
+      :to="{ name: RouteNames.PRODUCTS }"
+      class="create-product-form__close-link">
       Список продуктов
-    </button>
+    </router-link>
     <form
       class="create-product-form__form"
       @submit.prevent="submit">
@@ -55,28 +55,36 @@
           v-model="desc" />
       </div>
       <button class="create-product-form__form--button">
-        Cоздать
+        {{ route.params.mode === "new" ? "Cоздать" : "Сохранить" }}
       </button>
     </form>
   </div>
 </template>
 
 <script lang="ts">
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Products/ActionType";
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
+import { computed, defineComponent, onMounted, ref } from "vue";
+import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "CreateProductForm",
   setup() {
-    const title = ref("");
-    const sku = ref("");
-    const price = ref();
-    const weigth = ref();
-    const desc = ref("");
-    const route = useRouter();
     const store = useStore();
-    const submit = () => {
+    const route = useRoute();
+    const router = useRouter();
+    onMounted(() => {
+      if (route.query.id) {
+        store.dispatch(ActionType.GET_PRODUCT_BY_ID, Number(route.query.id));
+      }
+    });
+    const currentProduct = computed(() => store.state.products.currentProduct);
+    const title = ref(currentProduct.value?.title);
+    const sku = ref(currentProduct.value?.sku);
+    const price = ref(currentProduct.value?.price);
+    const weigth = ref(currentProduct.value?.weight);
+    const desc = ref(currentProduct.value?.desc);
+    const submit = async () => {
       const newProduct = {
         product: {
           title: title.value,
@@ -86,9 +94,14 @@ export default defineComponent({
           weight: weigth.value,
         },
       };
-      store.dispatch(ActionType.CREATE_PRODUCT, newProduct);
+      if (route.params.mode === "new") {
+        await store.dispatch(ActionType.CREATE_PRODUCT, newProduct);
+      } else {
+        await store.dispatch(ActionType.EDIT_PRODUCT, newProduct);
+      }
+      router.push({ name: RouteNames.PRODUCTS });
     };
-    return { route, title, sku, price, weigth, desc, submit };
+    return { title, sku, price, weigth, desc, submit, route, RouteNames };
   },
 });
 </script>
@@ -100,7 +113,7 @@ export default defineComponent({
   display: flex;
   padding: 20px 20px;
   flex-direction: column;
-  &__close-button {
+  &__close-link {
     height: 30px;
     width: fit-content;
     padding: 0px 8px;
