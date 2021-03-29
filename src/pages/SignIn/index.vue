@@ -35,7 +35,7 @@
       <router-link
         class="sign-in__form-link"
         :to="{ name: RouteNames.SIGN_UP }">
-        Зарегестрироваться
+        Зарегистрироваться
       </router-link>
     </div>
   </div>

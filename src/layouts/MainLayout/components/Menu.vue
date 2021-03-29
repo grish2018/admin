@@ -1,8 +1,5 @@
 <template>
   <aside class="menu-main-layout">
-    <header class="menu-main-layout__header">
-      Управление магазином
-    </header>
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
         <li
@@ -54,24 +51,10 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
-const menuLinks = [
-  {
-    routeName: RouteNames.PRODUCTS,
-    name: "Каталог",
-    children: [
-      { routeName: RouteNames.PRODUCTS, name: "Товары" },
-      { routeName: RouteNames.CATEGORIES, name: "Категории" },
-    ],
-  },
-  {
-    routeName: RouteNames.ORDERS,
-    name: "Продажи",
-    children: [
-      { routeName: RouteNames.ORDERS, name: "Заказы" },
-      { routeName: RouteNames.BUYERS, name: "Покупатели" },
-    ],
-  },
-];
+const menuLinks = {
+  menuLinksProducts: [{ routeName: RouteNames.PRODUCTS, name: "Каталог", children: [{ routeName: RouteNames.PRODUCTS, name: "Товары" }, { routeName: RouteNames.CATEGORIES, name: "Категории" }] }],
+  menuLinksSales: [{ routeName: RouteNames.ORDERS, name: "Продажи", children: [{ routeName: RouteNames.ORDERS, name: "Заказы" }, { routeName: RouteNames.CUSTOMERS, name: "Покупатели" }] }],
+};
 
 export default defineComponent({
   name: "MenuMainLayout",
@@ -99,10 +82,6 @@ export default defineComponent({
   background: #1f2328;
   width: 270px;
   height: 100%;
-  &__header {
-    text-align: center;
-    color: var(--color-text);
-  }
   &__list {
     list-style-type: none;
   }
@@ -125,7 +104,7 @@ export default defineComponent({
     background: transparent;
     transition: 0.3s;
     &:hover {
-      background: var(--select-navigation-color);
+      background: rgba(18,88,140);
     }
   }
   &__link {
