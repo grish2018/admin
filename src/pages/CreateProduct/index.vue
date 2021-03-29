@@ -1,60 +1,61 @@
 <template>
-  <div class="create-product-form">
+  <div class="create-product">
     <router-link
       :to="{ name: RouteNames.PRODUCTS }"
-      class="create-product-form__close-link">
+      class="create-product__link">
       Список продуктов
     </router-link>
     <form
-      class="create-product-form__form"
+      v-if="currentProduct"
+      class="create-product__form"
       @submit.prevent="submit">
-      <div class="create-product-form__form--inputs">
-        <div class="create-product-form__form--input">
-          <label for="title">
+      <div class="create-product__fields">
+        <div class="create-product__field">
+          <label class="create-product__label">
             Название
+            <input
+              v-model="currentProduct.title"
+              class="create-product__input"
+              type="text">
           </label>
-          <input
-            id="title"
-            v-model="title"
-            type="text">
         </div>
-        <div class="create-product-form__form--input">
-          <label for="weigth">
+        <div class="create-product__field">
+          <label class="create-product__label">
             Цена
+            <input
+              v-model="currentProduct.price"
+              class="create-product__input"
+              type="number">
           </label>
-          <input
-            id="weigth"
-            v-model="price"
-            type="number">
         </div>
-        <div class="create-product-form__form--input">
-          <label for="article">
+        <div class="create-product__field">
+          <label class="create-product__label">
             Артикул
+            <input
+              v-model="currentProduct.sku"
+              class="create-product__input"
+              type="text">
           </label>
-          <input
-            id="article"
-            v-model="sku"
-            type="text">
         </div>
-        <div class="create-product-form__form--input">
-          <label for="weigth">
+        <div class="create-product__field">
+          <label class="create-product__label">
             Вес, кг
+            <input
+              v-model="currentProduct.weigth"
+              class="create-product__input"
+              type="number">
           </label>
-          <input
-            id="weigth"
-            v-model="weigth"
-            type="number">
+        </div>
+        <div class="create-product__field">
+          <label class="create-product__label">
+            Oписание
+            <textarea
+              v-model="currentProduct.desc"
+              class="create-product__textarea" />
+          </label>
         </div>
       </div>
-      <div class="create-product-form__form--textarea">
-        <label for="description">
-          Oписание
-        </label>
-        <textarea
-          id="description"
-          v-model="desc" />
-      </div>
-      <button class="create-product-form__form--button">
+      <button class="create-product__button">
         {{ route.params.mode === "new" ? "Cоздать" : "Сохранить" }}
       </button>
     </form>
@@ -62,58 +63,47 @@
 </template>
 
 <script lang="ts">
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useStore } from "@/store";
+import { NewProduct, Product } from "@/types/Product";
 import { ActionType } from "@/store/modules/Products/ActionType";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "CreateProductForm",
   setup() {
     const store = useStore();
     const route = useRoute();
-    const router = useRouter();
-    onMounted(() => {
-      if (route.query.id) {
-        store.dispatch(ActionType.GET_PRODUCT_BY_ID, Number(route.query.id));
+    const currentProduct: {value: NewProduct | Product} = ref({});
+    const id = route.query.id ? +route.query.id : undefined;
+    onMounted(async () => {
+      if (id !== undefined) {
+        await store.dispatch(ActionType.GET_PRODUCT_BY_ID, id);
+        if (store.state.products.currentProduct) {
+          currentProduct.value = { ...store.state.products.currentProduct };
+        }
       }
     });
-    const currentProduct = computed(() => store.state.products.currentProduct);
-    const title = ref(currentProduct.value?.title);
-    const sku = ref(currentProduct.value?.sku);
-    const price = ref(currentProduct.value?.price);
-    const weigth = ref(currentProduct.value?.weight);
-    const desc = ref(currentProduct.value?.desc);
     const submit = async () => {
-      const newProduct = {
-        product: {
-          title: title.value,
-          sku: sku.value,
-          price: price.value,
-          desc: desc.value,
-          weight: weigth.value,
-        },
-      };
       if (route.params.mode === "new") {
-        await store.dispatch(ActionType.CREATE_PRODUCT, newProduct);
-      } else {
-        await store.dispatch(ActionType.EDIT_PRODUCT, newProduct);
+        await store.dispatch(ActionType.CREATE_PRODUCT, currentProduct.value);
+      } else if (id !== undefined) {
+        await store.dispatch(ActionType.EDIT_PRODUCT, { ...currentProduct.value, id });
       }
-      router.push({ name: RouteNames.PRODUCTS });
     };
-    return { title, sku, price, weigth, desc, submit, route, RouteNames };
+    return { submit, route, RouteNames, currentProduct };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.create-product-form {
+.create-product {
   width: 100%;
   height: 100%;
   display: flex;
   padding: 20px 20px;
   flex-direction: column;
-  &__close-link {
+  &__link {
     height: 30px;
     width: fit-content;
     padding: 0px 8px;
@@ -135,81 +125,63 @@ export default defineComponent({
     background: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
       rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    &--inputs {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+  }
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 -10px;
+  }
+  &__field {
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 20px);
+    margin: 0 10px 10px;
+    flex-grow: 1;
+  }
+  &__label {
+    display: flex;
+    flex-direction: column;
+    color: #3f4d5a;
+    font-size: 19px;
+    font-weight: bolder;
+    margin-bottom: 8px;
+  }
+  &__input, &__textarea {
+    width: 100%;
+    padding: 0px 10px;
+    border: 2px solid #dfe3e7;
+    border-radius: 7px;
+    height: 40px;
+    outline: none;
+    transition: all 0.3s;
+    &[type="number"]::-webkit-outer-spin-button,
+    &[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
-    &--input {
-      width: 30%;
-      display: flex;
-      flex-direction: column;
-      width: 49%;
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 10px;
-      & input[type="number"] {
-        -moz-appearance: textfield;
-      }
-      & input[type="number"]::-webkit-outer-spin-button,
-      & input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-      & input {
-        width: 100%;
-        padding: 0px 10px;
-        border: 2px solid #dfe3e7;
-        border-radius: 7px;
-        height: 40px;
-        outline: none;
-        transition: all 0.3s;
-        &:focus {
-          border: 2px solid var(--select-navigation-color);
-        }
-      }
-      & label {
-        color: #3f4d5a;
-        font-size: 19px;
-        font-weight: bolder;
-        margin-bottom: 8px;
-      }
+    &[type="number"] {
+      -moz-appearance: textfield;
     }
-    &--textarea {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      & textarea {
-        height: 100%;
-        padding: 10px 10px;
-        border: 2px solid #dfe3e7;
-        border-radius: 7px;
-        outline: none;
-        resize: none;
-        transition: all 0.3s;
-        margin-bottom: 15px;
-        &:focus {
-          border: 2px solid var(--select-navigation-color);
-        }
-      }
-      & label {
-        color: #3f4d5a;
-        font-size: 19px;
-        font-weight: bolder;
-        margin-bottom: 8px;
-      }
+    &:focus {
+      border: 2px solid var(--select-navigation-color);
     }
-    &--button {
-      height: 30px;
-      width: 120px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 5px;
-      text-decoration: none;
-      background: var(--select-navigation-color);
-      color: white;
-    }
+  }
+  &__textarea {
+    min-height: 200px;
+    padding: 10px 10px;
+    resize: none;
+  }
+  &__button {
+    height: 30px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-decoration: none;
+    background: var(--select-navigation-color);
+    color: white;
   }
 }
 </style>

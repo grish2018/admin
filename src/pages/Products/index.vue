@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import ProductCard from "@/components/ProductCard.vue";
+import ProductCard from "./Components/ProductCard.vue";
 import { useRouter } from "vue-router";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";

@@ -20,7 +20,7 @@ export default (
   _from: RouteLocationNormalizedWithMeta,
   next: NavigationGuardNext
 ) => {
-  if (to.matched.some(isPrivateRoute) && !isAuthenticated()) { return next({ name: R.SIGN_UP }); }
-  if (to.matched.some(isGuestRoute) && isAuthenticated()) { return next({ name: R.MAIN_PAGE }); }
+  if (to.matched.some(isPrivateRoute) && !isAuthenticated()) return next({ name: R.SIGN_UP });
+  if (to.matched.some(isGuestRoute) && isAuthenticated()) return next({ name: R.MAIN_PAGE });
   next();
 };
