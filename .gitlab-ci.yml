@@ -15,7 +15,7 @@ before_script:
 Build:
   stage: build
   tags:
-    - node
+    - gitlab-org-docker
   before_script:
     - yarn config set cache-folder .yarn
     - yarn install
