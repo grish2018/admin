@@ -5,6 +5,7 @@ stages:
   - staging
 
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
     - .yarn
@@ -14,6 +15,9 @@ before_script:
 
 Build:
   stage: build
+  artifacts:
+    paths:
+      - dist/
   tags:
     - gitlab-org-docker
   before_script:
@@ -53,6 +57,5 @@ Deploy to Staging:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - rsync -hrvz --delete --exclude=_ -e "ssh -p 3344" /builds/global.shop/admin/dist/ dev@dev.global.shop:/usr/local/www/dev/admin
-  when: manual
 
 
