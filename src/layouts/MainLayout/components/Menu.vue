@@ -1,15 +1,16 @@
 <template>
   <aside class="menu-main-layout">
-    <header class="menu-main-layout__header">
-      Управление магазином
-    </header>
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
         <li
           v-for="link in menuLinks"
           :key="link.name"
           class="menu-main-layout__list-item"
-          :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}">
+          :class="{
+            'menu-main-layout__link--active': link.children.some(
+              (link) => link.routeName === currentRoute
+            ),
+          }">
           <router-link
             class="menu-main-layout__sub-link"
             :to="{ name: link.routeName }">
@@ -50,24 +51,10 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
-const menuLinks = [
-  {
-    routeName: RouteNames.PRODUCTS,
-    name: "Каталог",
-    children: [
-      { routeName: RouteNames.PRODUCTS, name: "Товары" },
-      { routeName: RouteNames.CATEGORIES, name: "Категории" },
-    ],
-  },
-  {
-    routeName: RouteNames.ORDERS,
-    name: "Продажи",
-    children: [
-      { routeName: RouteNames.ORDERS, name: "Заказы" },
-      { routeName: RouteNames.BUYERS, name: "Покупатели" },
-    ],
-  },
-];
+const menuLinks = {
+  menuLinksProducts: [{ routeName: RouteNames.PRODUCTS, name: "Каталог", children: [{ routeName: RouteNames.PRODUCTS, name: "Товары" }, { routeName: RouteNames.CATEGORIES, name: "Категории" }] }],
+  menuLinksSales: [{ routeName: RouteNames.ORDERS, name: "Продажи", children: [{ routeName: RouteNames.ORDERS, name: "Заказы" }, { routeName: RouteNames.CUSTOMERS, name: "Покупатели" }] }],
+};
 
 export default defineComponent({
   name: "MenuMainLayout",
@@ -95,10 +82,6 @@ export default defineComponent({
   background: #1f2328;
   width: 270px;
   height: 100%;
-  &__header {
-    text-align: center;
-    color: var(--color-text);
-  }
   &__list {
     list-style-type: none;
   }
@@ -121,7 +104,7 @@ export default defineComponent({
     background: transparent;
     transition: 0.3s;
     &:hover {
-      background: var(--select-navigation-color);
+      background: rgba(18,88,140);
     }
   }
   &__link {
@@ -146,7 +129,7 @@ export default defineComponent({
     width: 150px;
     top: 0;
     right: -150px;
-    background-color: #94C4E8;
+    background-color: #94c4e8;
   }
 }
 </style>

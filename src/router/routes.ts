@@ -51,9 +51,9 @@ export default [
         // },
       },
       {
-        path: "/buyers",
-        name: R.BUYERS,
-        component: () => import(/* BuyersPage */ "@/pages/Buyers/index.vue"),
+        path: "/customers",
+        name: R.CUSTOMERS,
+        component: () => import(/* CustomersPage */ "@/pages/Customers/index.vue"),
         // meta: {
         //   guard: 'private',
         // },
@@ -76,4 +76,10 @@ export default [
       guard: "guest",
     },
   },
+  {
+    path: "/product/:id",
+    name: R.PRODUCTS,
+    component: () => import(/* ProductPage */ "@/pages/Product/index.vue"),
+  },
+
 ];
