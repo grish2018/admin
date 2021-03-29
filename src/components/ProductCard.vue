@@ -16,14 +16,14 @@
         {{ product.title[0] }}
       </div>
       <div class="product-card__description">
-        <span><b>Name:</b> {{ product.title }}</span>
-        <span><b>Price:</b> {{ product.price }}</span>
+        <span><b>Название:</b> {{ product.title }}</span>
+        <span><b>Цена:</b> {{ product.price }}</span>
       </div>
     </div>
     <router-link
       class="product-card__link"
       :to="{ name: RouteNames.PRODUCT, params: { id: product.id } }">
-      View product
+      Посмотреть продукт
     </router-link>
   </div>
 </template>
@@ -87,7 +87,8 @@ export default defineComponent({
   }
   &__link {
     height: 30px;
-    width: 110px;
+    width: fit-content;
+    padding: 0px 8px;
     display: flex;
     justify-content: center;
     align-items: center;

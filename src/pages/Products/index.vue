@@ -1,5 +1,10 @@
 <template>
-  <div class="products">
+  <create-product-form
+    v-if="showCreateProductForm"
+    @hideCreateProductForm="toggleShowCreateProductForm" />
+  <div
+    v-else
+    class="products">
     <div class="products__header">
       <div class="products__checkbox">
         <input
@@ -8,13 +13,13 @@
           type="checkbox"
           @change="selectAll">
         <label for="selectAll">
-          Select all products
+          Выбрать все продукты
         </label>
       </div>
       <button
         class="products__create-button"
-        @click="craeteProduct">
-        Create product
+        @click="toggleShowCreateProductForm(true)">
+        Создать продукт
       </button>
     </div>
     <ul class="products__list">
@@ -32,21 +37,21 @@
 </template>
 
 <script lang="ts">
+import CreateProductForm from "@/components/CreateProductForm.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
-import { useRouter } from "vue-router";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Product } from "@/types/Product";
 import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "ProductsPage",
-  components: { ProductCard },
+  components: { ProductCard, CreateProductForm },
   setup() {
     const checkedProducts: { value: { id: number }[] } = ref([]);
     const store = useStore();
-    const router = useRouter();
     const products = computed(() => store.state.products.products);
+    const showCreateProductForm = ref(false);
     const allSelected = computed(
       () => products.value.length === checkedProducts.value.length
     );
@@ -57,13 +62,8 @@ export default defineComponent({
         checkedProducts.value = [];
       }
     };
-    const craeteProduct = () => {
-      const newProduct = {
-        id: products.value[products.value.length - 1].id + 1,
-        title: "",
-      };
-      store.dispatch(ActionType.CREATE_PRODUCT, newProduct);
-      router.push({ name: RouteNames.PRODUCT, params: { id: newProduct.id } });
+    const toggleShowCreateProductForm = (value: boolean) => {
+      showCreateProductForm.value = value;
     };
     const itemChecked = (id: number) => {
       return checkedProducts.value.some((el) => el.id === id);
@@ -92,7 +92,8 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
-      craeteProduct,
+      toggleShowCreateProductForm,
+      showCreateProductForm,
     };
   },
 });
@@ -117,7 +118,7 @@ export default defineComponent({
   }
   &__create-button {
     height: 30px;
-    width: 120px;
+    padding: 0px 8px;
     display: flex;
     justify-content: center;
     align-items: center;

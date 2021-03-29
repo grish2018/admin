@@ -1,4 +1,4 @@
-import { Product } from "@/types/Product";
+import { NewProduct } from "@/types/Product";
 import { ActionTree, ActionContext } from "vuex";
 import { ActionType } from "./ActionType";
 import { MutationType } from "./MutationType";
@@ -18,8 +18,8 @@ export interface Actions {
   [ActionType.GET_PRODUCTS](context: AugmentedActionContext): Promise<void>;
   [ActionType.CREATE_PRODUCT](
     context: AugmentedActionContext,
-    data: Product
-  ): void;
+    data: { product: NewProduct }
+  ): Promise<void>;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PRODUCTS]({ commit, rootState }): Promise<void> {
@@ -29,16 +29,8 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationType.SET_PRODUCTS, res.data);
   },
-  [ActionType.CREATE_PRODUCT]({ commit }, data): void {
-    // eslint-disable-next-line
-    console.log(data);
-    // const storeId = rootState.user.storeId;
-    // await axios.post(`/${storeId}/products`, data, { authorization: true });
-    // const res = await axios.get(`/${storeId}/products`, {
-    //   authorization: true,
-    // });
-    // eslint-disable-next-line
-    // console.log(res);
-    commit(MutationType.ADD_PRODUCT, data);
+  async [ActionType.CREATE_PRODUCT]({ rootState }, data): Promise<void> {
+    const storeId = rootState.user.storeId;
+    await axios.post(`/${storeId}/products`, data, { authorization: true });
   },
 };
