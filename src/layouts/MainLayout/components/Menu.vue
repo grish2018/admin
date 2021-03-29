@@ -3,12 +3,16 @@
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
         <li
-          v-for="link in menuLinks.menuLinksProducts"
+          v-for="link in menuLinks"
           :key="link.name"
-          class="menu-main-layout__list-item">
+          class="menu-main-layout__list-item"
+          :class="{
+            'menu-main-layout__link--active': link.children.some(
+              (link) => link.routeName === currentRoute
+            ),
+          }">
           <router-link
             class="menu-main-layout__sub-link"
-            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
             :to="{ name: link.routeName }">
             {{ link.name }}
           </router-link>
@@ -17,30 +21,7 @@
               v-for="subLink in link.children"
               :key="subLink.routeName">
               <router-link
-                class="menu-main-layout__sub-link menu-sub-layout__link"
-                active-class="menu-main-layout__link--active"
-                :to="{ name: subLink.routeName }">
-                {{ subLink.name }}
-              </router-link>
-            </li>
-          </ul>
-        </li>
-        <li
-          v-for="link in menuLinks.menuLinksSales"
-          :key="link.name"
-          class="menu-main-layout__list-item">
-          <router-link
-            class="menu-main-layout__sub-link"
-            :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}"
-            :to="{ name: link.routeName }">
-            {{ link.name }}
-          </router-link>
-          <ul class="menu-main-layout__sub-list">
-            <li
-              v-for="subLink in link.children"
-              :key="subLink.routeName">
-              <router-link
-                class="menu-main-layout__sub-link menu-sub-layout__link"
+                class="menu-main-layout__sub-link"
                 active-class="menu-main-layout__link--active"
                 :to="{ name: subLink.routeName }">
                 {{ subLink.name }}
@@ -96,6 +77,8 @@ export default defineComponent({
 
 <style lang="scss">
 .menu-main-layout {
+  --sub-list-display: none;
+  --sub-list-position: absolute;
   background: #1f2328;
   width: 270px;
   height: 100%;
@@ -127,28 +110,26 @@ export default defineComponent({
   &__link {
     &--active {
       background: var(--select-navigation-color);
-    }
-    &--active + .menu-main-layout__sub-list{
-      --sub-list-display: block;
-      --sub-list-position: relative;
-      width: 100%;
-      top: 0;
-      right: 0;
-      .menu-sub-layout__link {
-        padding: 10px 30px 10px 40px;
+      .menu-main-layout__sub-list {
+        --sub-list-display: block;
+        --sub-list-position: relative;
+        width: 100%;
+        top: 0;
+        right: 0;
+        .menu-main-layout__sub-link {
+          padding: 10px 30px 10px 40px;
+        }
       }
     }
   }
   &__sub-list {
-    --sub-list-display: none;
-    --sub-list-position: absolute;
     display: var(--sub-list-display);
     position: var(--sub-list-position);
     list-style: none;
     width: 150px;
     top: 0;
     right: -150px;
-    background-color: #94C4E8;
+    background-color: #94c4e8;
   }
 }
 </style>
