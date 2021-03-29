@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { NewProduct, Product } from "@/types/Product";
 import { ActionType } from "@/store/modules/Products/ActionType";
@@ -73,8 +73,9 @@ export default defineComponent({
   name: "CreateProductForm",
   setup() {
     const store = useStore();
+    const router = useRouter();
     const route = useRoute();
-    const currentProduct: {value: NewProduct | Product} = ref({});
+    const currentProduct: { value: NewProduct | Product } = ref({});
     const id = route.query.id ? +route.query.id : undefined;
     onMounted(async () => {
       if (id !== undefined) {
@@ -88,8 +89,12 @@ export default defineComponent({
       if (route.params.mode === "new") {
         await store.dispatch(ActionType.CREATE_PRODUCT, currentProduct.value);
       } else if (id !== undefined) {
-        await store.dispatch(ActionType.EDIT_PRODUCT, { ...currentProduct.value, id });
+        await store.dispatch(ActionType.EDIT_PRODUCT, {
+          ...currentProduct.value,
+          id,
+        });
       }
+      router.push({ name: RouteNames.PRODUCTS });
     };
     return { submit, route, RouteNames, currentProduct };
   },
@@ -147,7 +152,8 @@ export default defineComponent({
     font-weight: bolder;
     margin-bottom: 8px;
   }
-  &__input, &__textarea {
+  &__input,
+  &__textarea {
     width: 100%;
     padding: 0px 10px;
     border: 2px solid #dfe3e7;

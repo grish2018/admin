@@ -9,7 +9,11 @@
           v-for="link in menuLinks"
           :key="link.name"
           class="menu-main-layout__list-item"
-          :class="{'menu-main-layout__link--active' : link.children.some((link) => link.routeName === currentRoute)}">
+          :class="{
+            'menu-main-layout__link--active': link.children.some(
+              (link) => link.routeName === currentRoute
+            ),
+          }">
           <router-link
             class="menu-main-layout__sub-link"
             :to="{ name: link.routeName }">
@@ -94,7 +98,6 @@ export default defineComponent({
   --sub-list-position: absolute;
   background: #1f2328;
   width: 270px;
-  height: 100%;
   &__header {
     text-align: center;
     color: var(--color-text);
@@ -146,7 +149,7 @@ export default defineComponent({
     width: 150px;
     top: 0;
     right: -150px;
-    background-color: #94C4E8;
+    background-color: #94c4e8;
   }
 }
 </style>

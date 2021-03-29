@@ -33,7 +33,6 @@
 
 <script lang="ts">
 import ProductCard from "./Components/ProductCard.vue";
-import { useRouter } from "vue-router";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
@@ -47,7 +46,6 @@ export default defineComponent({
     const store = useStore();
     const products = computed(() => store.state.products.products);
     const showCreateProductForm = ref(false);
-    const router = useRouter();
     const allSelected = computed(
       () => products.value.length === checkedProducts.value.length
     );
@@ -57,12 +55,6 @@ export default defineComponent({
       } else {
         checkedProducts.value = [];
       }
-    };
-    const toggleShowCreateProductForm = () => {
-      router.push({
-        name: RouteNames.CREATE_PRODUCTS,
-        params: { mode: "new" },
-      });
     };
     const itemChecked = (id: number) => {
       return checkedProducts.value.some((el) => el.id === id);
@@ -91,7 +83,6 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
-      toggleShowCreateProductForm,
       showCreateProductForm,
     };
   },

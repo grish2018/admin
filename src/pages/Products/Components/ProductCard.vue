@@ -36,7 +36,6 @@
 import { defineComponent } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { Product } from "@/types/Product";
-import { useRouter } from "vue-router";
 export default defineComponent({
   name: "ProductCard",
   props: {
@@ -51,18 +50,9 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
-    const router = useRouter();
-    const editProduct = async () => {
-      router.push({
-        name: RouteNames.CREATE_PRODUCTS,
-        params: { mode: "edit" },
-        query: { id: props.product.id },
-      });
-    };
+  setup() {
     return {
       RouteNames,
-      editProduct,
     };
   },
 });
