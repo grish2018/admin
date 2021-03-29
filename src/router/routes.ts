@@ -78,7 +78,7 @@ export default [
   },
   {
     path: "/product/:id",
-    name: R.PRODUCT,
+    name: R.PRODUCTS,
     component: () => import(/* ProductPage */ "@/pages/Product/index.vue"),
   },
 
