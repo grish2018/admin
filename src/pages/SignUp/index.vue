@@ -7,7 +7,7 @@
         <span class="sign-up__form-header">
           Регистрация
         </span>
-        <error-alert :error-message="errorMessage" />
+        <error-plate :error-message="errorMessage" />
         <div class="sign-up__input-wrapper">
           <input
             id="email"
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import ErrorAlert from "@/components/ErrorAlert.vue";
+import ErrorPlate from "@/components/ErrorPlate.vue";
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store";
@@ -60,7 +60,7 @@ import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "SignUp",
-  components: { ErrorAlert },
+  components: { ErrorPlate },
   setup() {
     const router = useRouter();
     const email = ref("");
@@ -109,12 +109,13 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     margin-bottom: 40px;
+    position: relative;
     &-header {
       font-weight: 300;
       font-size: 26px;
       line-height: 31px;
       color: #101d94;
-      margin-bottom: 35px;
+      margin-bottom: 85px;
     }
 
     &-input {
