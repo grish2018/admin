@@ -81,10 +81,14 @@ export default defineComponent({
         });
         router.push({ name: RouteNames.MAIN_PAGE });
       } catch (err) {
-        errorMessage.value = err.response.data
-          ? err.response.data
-          : "Network Error";
-        return false;
+        if (!err.response) {
+          errorMessage.value = "Error: Network Error";
+        } else {
+          errorMessage.value = err.response.data
+            ? err.response.data
+            : "Network Error";
+          return false;
+        }
       }
     };
     return {
