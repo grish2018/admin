@@ -33,7 +33,7 @@
           <button
             class="menu-main-layout__sub-link"
             @click="logOut">
-            {{ $t("LogOff") }}
+            {{ $t("LogOut") }}
           </button>
         </li>
       </ul>
@@ -149,7 +149,7 @@ export default defineComponent({
     width: 150px;
     top: 0;
     right: -150px;
-    background-color: #1F2328;
+    background-color: #1f2328;
   }
 }
 </style>

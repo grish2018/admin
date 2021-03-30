@@ -11,9 +11,6 @@
           {{ $t("SelectAllProducts") }}
         </label>
       </div>
-      <button class="products__create-button">
-        {{ $t("CreateProduct") }}
-      </button>
       <router-link
         :to="{ name: RouteNames.CREATE_PRODUCTS }"
         class="products__create-link">
@@ -50,7 +47,7 @@ export default defineComponent({
     const products = computed(() => store.state.products.products);
     const showCreateProductForm = ref(false);
     const allSelected = computed(() => {
-      if (products.value.length !== 0) {
+      if (products.value.length === 0) {
         return false;
       } else {
         return products.value.length === checkedProducts.value.length;

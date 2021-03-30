@@ -7,9 +7,9 @@
         </p>
       </slot>
       <button class="modal__close">
-        <img
-          src="@/assets/img/cancel.svg"
-          alt="close">
+        <svg-icon
+          class="modal__close-icon"
+          name="cancel" />
       </button>
     </header>
     <main class="modal__content">
@@ -89,8 +89,9 @@ export default defineComponent({
         background-color: #068EEF;
       }
     }
-    &__icon-close {
-      cursor: pointer;
+    &__close-icon {
+      width: 15px;
+      height: 15px;
     }
   }
 </style>

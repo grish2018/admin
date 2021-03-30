@@ -3,7 +3,7 @@
     <router-link
       :to="{ name: RouteNames.PRODUCTS }"
       class="create-product__link">
-      Список продуктов
+      {{ $t("ProductsList") }}
     </router-link>
     <form
       class="create-product__form"
@@ -11,25 +11,28 @@
       <div class="create-product__fields">
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("ProductName") }}
+            {{ $t("Title") }}
             <input
               v-model="currentProduct.title"
+              required
               class="create-product__input"
               type="text">
           </label>
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("ProductPrice") }}
+            {{ $t("Price") }}
             <input
               v-model="currentProduct.price"
+              required
+              step="0.01"
               class="create-product__input"
               type="number">
           </label>
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("ArticleNumber") }}
+            {{ $t("SKU") }}
             <input
               v-model="currentProduct.sku"
               class="create-product__input"
@@ -38,10 +41,11 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("Weight") }}
+            {{ $t("Weight") }}, {{ $t("Kilo") }}
             <input
               v-model="currentProduct.weight"
               class="create-product__input"
+              step="0.01"
               type="number">
           </label>
         </div>
@@ -56,7 +60,9 @@
       </div>
       <button class="create-product__button">
         {{
-          route.name === RouteNames.CREATE_PRODUCTS ? "Cоздать" : "Сохранить"
+          route.name === RouteNames.CREATE_PRODUCTS
+            ? $t("Create")
+            : $t("Save")
         }}
       </button>
     </form>

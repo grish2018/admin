@@ -5,7 +5,7 @@
         class="sign-in__form"
         @submit.prevent="submit">
         <span class="sign-in__form-header">
-          Вход
+          {{ $t("SignIn") }}
         </span>
         <error-plate :error-message="errorMessage" />
         <div class="sign-in__input-wrapper">
@@ -15,7 +15,7 @@
             required
             class="sign-in__form-input"
             type="email"
-            placeholder="Email"
+            :placeholder="$t('Email')"
             autocomplete="email">
         </div>
         <div class="sign-in__input-wrapper">
@@ -25,17 +25,17 @@
             required
             class="sign-in__form-input"
             type="password"
-            placeholder="Password"
+            :placeholder="$t('Password')"
             autocomplete="current-password">
         </div>
         <button class="sign-in__form__submit-button">
-          Войти
+          {{ $t("LogIn") }}
         </button>
       </form>
       <router-link
         class="sign-in__form-link"
         :to="{ name: RouteNames.SIGN_UP }">
-        Зарегистрироваться
+        {{ $t("Registration") }}
       </router-link>
     </div>
   </div>
@@ -68,10 +68,14 @@ export default defineComponent({
         });
         router.push({ name: RouteNames.MAIN_PAGE });
       } catch (err) {
-        errorMessage.value = err.response.data
-          ? err.response.data
-          : "Network Error";
-        return false;
+        if (!err.response) {
+          errorMessage.value = "Error: Network Error";
+        } else {
+          errorMessage.value = err.response.data
+            ? err.response.data
+            : "Network Error";
+          return false;
+        }
       }
     };
 
