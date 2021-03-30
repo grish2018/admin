@@ -13,6 +13,7 @@ import { defineComponent } from "vue";
 
 import MenuLayout from "./components/Menu.vue";
 import HeaderLayout from "./components/Header.vue";
+
 export default defineComponent({
   name: "MainLayout",
   components: {

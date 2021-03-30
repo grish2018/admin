@@ -11,7 +11,7 @@
       <div class="create-product__fields">
         <div class="create-product__field">
           <label class="create-product__label">
-            Название
+            {{ $t("message.ProductName") }}
             <input
               v-model="currentProduct.title"
               class="create-product__input"
@@ -20,7 +20,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Цена
+            {{ $t("message.ProductPrice") }}
             <input
               v-model="currentProduct.price"
               class="create-product__input"
@@ -29,7 +29,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Артикул
+            {{ $t("message.ArticleNumber") }}
             <input
               v-model="currentProduct.sku"
               class="create-product__input"
@@ -38,7 +38,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Вес, кг
+            {{ $t("message.Weight") }}
             <input
               v-model="currentProduct.weight"
               class="create-product__input"
@@ -47,7 +47,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Oписание
+            {{ $t("message.Description") }}
             <textarea
               v-model="currentProduct.desc"
               class="create-product__textarea" />

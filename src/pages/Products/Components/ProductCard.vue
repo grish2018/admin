@@ -21,8 +21,8 @@
         {{ product.title[0] }}
       </div>
       <div class="product-card__description">
-        <span><b>Название:</b> {{ product.title }}</span>
-        <span><b>Цена:</b> {{ product.price }}</span>
+        <span><b>{{ $t("message.ProductName") }}:</b> {{ product.title }}</span>
+        <span><b>{{ $t("message.ProductPrice") }}:</b> {{ product.price }}</span>
       </div>
     </router-link>
   </div>

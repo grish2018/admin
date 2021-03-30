@@ -3,7 +3,7 @@
     <header class="modal__header">
       <slot name="title">
         <p>
-          Title
+          {{ $t("message.Title") }}
         </p>
       </slot>
       <button class="modal__close">
@@ -15,7 +15,7 @@
     <main class="modal__content">
       <slot>
         <p>
-          Content
+          {{ $t("message.Content") }}
         </p>
       </slot>
     </main>
