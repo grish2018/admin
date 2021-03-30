@@ -1,11 +1,16 @@
 <template>
   <div class="product-card">
-    <div class="product-card__content">
-      <input
-        :checked="checked"
-        type="checkbox"
-        class="product-card__input"
-        @change="$emit('selectItem', $event, product)">
+    <input
+      :checked="checked"
+      type="checkbox"
+      class="product-card__input"
+      @change="$emit('selectItem', $event, product)">
+    <router-link
+      :to="{
+        name: RouteNames.EDIT_PRODUCTS,
+        params: { mode: 'edit', id: product.id },
+      }"
+      class="product-card__content">
       <img
         v-if="product.img"
         src=""
@@ -19,14 +24,6 @@
         <span><b>Название:</b> {{ product.title }}</span>
         <span><b>Цена:</b> {{ product.price }}</span>
       </div>
-    </div>
-    <router-link
-      class="product-card__link"
-      :to="{
-        name: RouteNames.EDIT_PRODUCTS,
-        params: { mode: 'edit', id: product.id },
-      }">
-      Редактировать продукт
     </router-link>
   </div>
 </template>
@@ -65,10 +62,11 @@ export default defineComponent({
   margin-bottom: 10px;
   align-items: center;
   padding: 0px 10px;
-  justify-content: space-between;
   &__content {
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: black;
   }
   &__input {
     margin-right: 10px;
@@ -87,18 +85,6 @@ export default defineComponent({
   &__description {
     display: flex;
     flex-direction: column;
-  }
-  &__link {
-    height: 30px;
-    width: fit-content;
-    padding: 0px 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    text-decoration: none;
-    background: rgba(25, 165, 39, 0.8);
-    color: white;
   }
 }
 </style>
