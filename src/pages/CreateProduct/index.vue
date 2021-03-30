@@ -40,7 +40,7 @@
           <label class="create-product__label">
             Вес, кг
             <input
-              v-model="currentProduct.weigth"
+              v-model="currentProduct.weight"
               class="create-product__input"
               type="number">
           </label>
@@ -75,7 +75,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const currentProduct: { value: NewProduct | Product } = ref({});
-    const id = route.query.id ? +route.query.id : undefined;
+    const id = route.params.id ? +route.params.id : undefined;
     onMounted(async () => {
       if (id !== undefined) {
         await store.dispatch(ActionType.GET_PRODUCT_BY_ID, id);
