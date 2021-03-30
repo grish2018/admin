@@ -6,7 +6,8 @@ function getStoreId(): string | null {
 }
 
 export type State = {
-  user: {};
+  user: object;
+  general: object;
   token: string | null;
   storeId: string | null;
   profile: {} | null;
@@ -14,6 +15,7 @@ export type State = {
 
 export const state: State = {
   user: {},
+  general: {},
   token: getToken(),
   storeId: getStoreId(),
   profile: null,

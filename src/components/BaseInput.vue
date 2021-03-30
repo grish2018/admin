@@ -9,16 +9,17 @@
     <input
       :value="modelValue"
       :required="required"
+      :disabled="di"
       class="base-input__input"
       :type="type"
       :placeholder="placeholder"
       @input="$emit('update:modelValue', $event.target.value)">
+
     <div class="base-input__footer">
       <slot name="footer" />
     </div>
   </div>
 </template>
-
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -39,9 +40,17 @@ export default defineComponent({
       default: false,
       required: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    error: {
+      type: String,
+      default: "",
+    },
     modelValue: {
       type: String,
-      default: "text",
+      default: "",
       required: false,
     },
   },
