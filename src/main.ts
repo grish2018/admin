@@ -5,10 +5,13 @@ import { store } from "./store";
 import "@/assets/scss/index.scss";
 import { i18n } from "@/plugins/i18n";
 import { initInterceptors } from "@/plugins/Axios";
+import UI from "@/components/UI";
 
 initInterceptors({ store, router });
+
 createApp(App)
   .use(store)
   .use(router)
   .use(i18n)
+  .use(UI)
   .mount("#app");
