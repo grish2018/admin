@@ -97,4 +97,6 @@ export default [
     name: R.PRODUCT,
     component: () => import(/* ProductPage */ "@/pages/Product/index.vue"),
   },
+  { path: "/:pathMatch(.*)*", name: "not-found", redirect: { name: R.MAIN_PAGE } },
+  { path: "/:pathMatch(.*)", name: "bad-not-found", redirect: { name: R.MAIN_PAGE } },
 ];
