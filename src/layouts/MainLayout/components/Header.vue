@@ -34,7 +34,7 @@
           <button
             class="header-main-layout__button"
             @click="logOut">
-            {{ $t("message.logOff") }}
+            {{ $t("message.LogOff") }}
           </button>
         </div>
       </div>

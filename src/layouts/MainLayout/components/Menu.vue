@@ -10,7 +10,7 @@
             'menu-main-layout__link--active': link.children.some((link) => link.routeName === currentRoute),
           }">
           <router-link
-            class="menu-main-layout__sub-link"
+            class="menu-main-layout__sub-link menu-main-layout__sub-link--active"
             :to="{ name: link.routeName }">
             {{ $t(link.name) }}
           </router-link>
@@ -31,7 +31,7 @@
           <button
             class="menu-main-layout__sub-link"
             @click="logOut">
-            {{ $t("message.logOff") }}
+            {{ $t("message.LogOff") }}
           </button>
         </li>
       </ul>
@@ -121,7 +121,7 @@ export default defineComponent({
   }
   &__link {
     &--active {
-      background: var(--select-navigation-color);
+      color: var(--select-navigation-color);
       .menu-main-layout__sub-list {
         --sub-list-display: block;
         --sub-list-position: relative;
@@ -132,6 +132,9 @@ export default defineComponent({
           padding: 10px 30px 10px 40px;
         }
       }
+      .menu-main-layout__sub-link--active {
+        background: var(--select-navigation-color);
+      }
     }
   }
   &__sub-list {
@@ -141,7 +144,7 @@ export default defineComponent({
     width: 150px;
     top: 0;
     right: -150px;
-    background-color: #94c4e8;
+    background-color: #1F2328;
   }
 }
 </style>
