@@ -47,7 +47,7 @@ export default defineComponent({
     const products = computed(() => store.state.products.products);
     const showCreateProductForm = ref(false);
     const allSelected = computed(() => {
-      if (!products.value.length) {
+      if (products.value.length !== 0) {
         return false;
       } else {
         return products.value.length === checkedProducts.value.length;
