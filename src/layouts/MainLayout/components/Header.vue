@@ -1,28 +1,26 @@
 <template>
   <header class="header-main-layout">
-    <div class="header-main-layout__left">
-      <img
-        src="@/assets/img/logo.svg"
-        alt="logo">
+    <div class="header-main-layout__logo">
+      <svg-icon
+        class="header-main-layout__logo-icon"
+        name="logo" />
     </div>
-    <div class="header-main-layout__right">
+    <div class="header-main-layout__content">
       <p class="header-main-layout__showcase">
         {{ $t("message.Showcase") }}
       </p>
-      <img
-        class="header-main-layout__notification"
-        src="@/assets/img/bell.svg"
-        alt="bell">
+      <svg-icon
+        class="header-main-layout__bell-icon"
+        name="bell" />
       <div
         class="header-main-layout__user"
         @click="showHeadPanel">
-        <img
-          src="@/assets/img/user.svg"
-          alt="user">
-        <img
-          class="header__icon-arrow"
-          src="@/assets/img/down-arrow.svg"
-          alt="arrow-down">
+        <svg-icon
+          class="header-main-layout__user-icon"
+          name="user" />
+        <svg-icon
+          class="header-main-layout__arrow"
+          name="down-arrow" />
         <div
           v-if="showModal"
           class="header-main-layout__sub-list">
@@ -87,11 +85,15 @@ export default defineComponent({
   background-color: blueviolet;
   padding: 10px 15px;
   height: 50px;
-  &__left {
+  &__logo {
     display: flex;
     align-items: center;
   }
-  &__right {
+  &__logo-icon {
+    width: 183px;
+    height: 25px;
+  }
+  &__content {
     display: flex;
     align-items: center;
   }
@@ -103,6 +105,10 @@ export default defineComponent({
     margin-right: 10px;
     cursor: pointer;
   }
+  &__bell-icon {
+    height: 30px;
+    width: 30px;
+  }
   &__user {
     display: flex;
     align-items: center;
@@ -113,6 +119,10 @@ export default defineComponent({
     .header__icon-arrow {
       margin-left: 5px;
     }
+  }
+  &__user-icon {
+    height: 30px;
+    width: 30px;
   }
   &__sub-list {
     position: absolute;
@@ -140,6 +150,10 @@ export default defineComponent({
     margin-left: 10px;
     width: 50px;
     outline: none;
+  }
+  &__arrow {
+    height: 15px;
+    width: 15px;
   }
 }
 </style>
