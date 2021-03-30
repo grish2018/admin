@@ -97,5 +97,4 @@ export default [
     name: R.PRODUCT,
     component: () => import(/* ProductPage */ "@/pages/Product/index.vue"),
   },
-
 ];
