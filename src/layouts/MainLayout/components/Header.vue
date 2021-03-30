@@ -7,7 +7,7 @@
     </div>
     <div class="header-main-layout__content">
       <p class="header-main-layout__showcase">
-        {{ $t("message.Storefront") }}
+        {{ $t("Storefront") }}
       </p>
       <svg-icon
         class="header-main-layout__bell-icon"
@@ -27,12 +27,12 @@
           <router-link
             class="menu-main-layout__sub-link"
             :to="{ name: RouteNames.PROFILE }">
-            {{ $t("message.Profile") }}
+            {{ $t("Profile") }}
           </router-link>
           <button
             class="header-main-layout__button"
             @click="logOut">
-            {{ $t("message.LogOff") }}
+            {{ $t("LogOff") }}
           </button>
         </div>
       </div>

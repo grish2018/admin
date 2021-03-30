@@ -3,7 +3,7 @@
     <router-link
       :to="{ name: RouteNames.PRODUCTS }"
       class="create-product__link">
-      {{ $t("message.ProductsList") }}
+      {{ $t("ProductsList") }}
     </router-link>
     <form
       class="create-product__form"
@@ -11,7 +11,7 @@
       <div class="create-product__fields">
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.Title") }}
+            {{ $t("Title") }}
             <input
               v-model="currentProduct.title"
               required
@@ -21,7 +21,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.Price") }}
+            {{ $t("Price") }}
             <input
               v-model="currentProduct.price"
               required
@@ -32,7 +32,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.SKU") }}
+            {{ $t("SKU") }}
             <input
               v-model="currentProduct.sku"
               class="create-product__input"
@@ -41,7 +41,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.Weight") }}, {{ $t("message.Kilo") }}
+            {{ $t("Weight") }}, {{ $t("Kilo") }}
             <input
               v-model="currentProduct.weight"
               class="create-product__input"
@@ -51,7 +51,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.Description") }}
+            {{ $t("Description") }}
             <textarea
               v-model="currentProduct.desc"
               class="create-product__textarea" />
@@ -61,8 +61,8 @@
       <button class="create-product__button">
         {{
           route.name === RouteNames.CREATE_PRODUCTS
-            ? $t("message.Create")
-            : $t("message.Save")
+            ? $t("Create")
+            : $t("Save")
         }}
       </button>
     </form>

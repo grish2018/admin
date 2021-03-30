@@ -1,5 +1,5 @@
 <template>
-  <div>Заказы</div>
+  <div>{{ $t("Orders") }}</div>
 </template>
 
 <script lang="ts">

@@ -3,7 +3,7 @@
     <header class="modal__header">
       <slot name="title">
         <p>
-          Title
+          {{ $t("Title") }}
         </p>
       </slot>
       <button class="modal__close">
@@ -15,7 +15,7 @@
     <main class="modal__content">
       <slot>
         <p>
-          Content
+          {{ $t("Content") }}
         </p>
       </slot>
     </main>
@@ -24,12 +24,12 @@
         <button
           class="modal__button cancel"
           @click="cancelModal">
-          {{ $t("message.Cancel") }}
+          {{ $t("Cancel") }}
         </button>
         <button
           class="modal__button confirm"
           @click="confirmModal">
-          {{ $t("message.Confirm") }}
+          {{ $t("Confirm") }}
         </button>
       </slot>
     </footer>

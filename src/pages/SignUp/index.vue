@@ -5,7 +5,7 @@
         class="sign-up__form"
         @submit.prevent="submit">
         <span class="sign-up__form-header">
-          {{ $t("message.Registration") }}
+          {{ $t("Registration") }}
         </span>
         <error-plate :error-message="errorMessage" />
         <div class="sign-up__input-wrapper">
@@ -15,7 +15,7 @@
             required
             class="sign-up__form-input"
             type="email"
-            :placeholder="$t('message.Email')"
+            :placeholder="$t('Email')"
             autocomplete="email">
         </div>
         <div class="sign-up__input-wrapper">
@@ -26,7 +26,7 @@
             minlength="3"
             class="sign-up__form-input"
             type="text"
-            :placeholder="$t('message.Nickname')"
+            :placeholder="$t('Nickname')"
             autocomplete="nickname">
         </div>
         <div class="sign-up__input-wrapper">
@@ -37,17 +37,17 @@
             required
             class="sign-up__form-input"
             type="password"
-            :placeholder="$t('message.Password')"
+            :placeholder="$t('Password')"
             autocomplete="current-password">
         </div>
         <button class="sign-up__form__submit-button">
-          {{ $t("message.SignUp") }}
+          {{ $t("SignUp") }}
         </button>
       </form>
       <router-link
         class="sign-up__form-link"
         :to="{ name: RouteNames.SIGN_IN }">
-        {{ $t("message.AlreadyRegisteredUser") }}
+        {{ $t("AlreadyRegisteredUser") }}
       </router-link>
     </div>
   </div>

@@ -8,13 +8,13 @@
           type="checkbox"
           @change="selectAll">
         <label for="selectAll">
-          {{ $t("message.SelectAllProducts") }}
+          {{ $t("SelectAllProducts") }}
         </label>
       </div>
       <router-link
         :to="{ name: RouteNames.CREATE_PRODUCTS }"
         class="products__create-link">
-        {{ $t("message.CreateProduct") }}
+        {{ $t("CreateProduct") }}
       </router-link>
     </div>
     <ul class="products__list">
