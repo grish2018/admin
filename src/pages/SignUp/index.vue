@@ -23,6 +23,7 @@
             id="nickname"
             v-model="nickname"
             required
+            minlength="3"
             class="sign-up__form-input"
             type="text"
             placeholder="Nickname"
@@ -32,6 +33,7 @@
           <input
             id="password"
             v-model="password"
+            minlength="3"
             required
             class="sign-up__form-input"
             type="password"
