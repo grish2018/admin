@@ -18,6 +18,10 @@ Build:
   artifacts:
     paths:
       - dist/
+  only:
+    refs:
+      - master
+      - schedules
   tags:
     - gitlab-org-docker
   before_script:
