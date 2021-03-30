@@ -23,6 +23,7 @@
             id="nickname"
             v-model="nickname"
             required
+            minlength="3"
             class="sign-up__form-input"
             type="text"
             placeholder="Nickname"
@@ -32,6 +33,7 @@
           <input
             id="password"
             v-model="password"
+            minlength="3"
             required
             class="sign-up__form-input"
             type="password"
@@ -79,10 +81,14 @@ export default defineComponent({
         });
         router.push({ name: RouteNames.MAIN_PAGE });
       } catch (err) {
-        errorMessage.value = err.response.data
-          ? err.response.data
-          : "Network Error";
-        return false;
+        if (!err.response) {
+          errorMessage.value = "Error: Network Error";
+        } else {
+          errorMessage.value = err.response.data
+            ? err.response.data
+            : "Network Error";
+          return false;
+        }
       }
     };
     return {
