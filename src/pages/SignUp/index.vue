@@ -7,6 +7,7 @@
         <span class="sign-up__form-header">
           Регистрация
         </span>
+        <error-plate :error-message="errorMessage" />
         <div class="sign-up__input-wrapper">
           <input
             id="email"
@@ -51,6 +52,7 @@
 </template>
 
 <script lang="ts">
+import ErrorPlate from "@/components/ErrorPlate.vue";
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store";
@@ -58,21 +60,30 @@ import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
 export default defineComponent({
   name: "SignUp",
+  components: { ErrorPlate },
   setup() {
     const router = useRouter();
     const email = ref("");
     const nickname = ref("");
     const password = ref("");
+    const errorMessage = ref("");
     const store = useStore();
     const submit = async () => {
-      await store.dispatch(ActionType.SIGN_UP, {
-        owner: {
-          email: email.value,
-          nickname: nickname.value,
-          password: password.value,
-        },
-      });
-      router.push({ name: RouteNames.MAIN_PAGE });
+      try {
+        await store.dispatch(ActionType.SIGN_UP, {
+          owner: {
+            email: email.value,
+            nickname: nickname.value,
+            password: password.value,
+          },
+        });
+        router.push({ name: RouteNames.MAIN_PAGE });
+      } catch (err) {
+        errorMessage.value = err.response.data
+          ? err.response.data
+          : "Network Error";
+        return false;
+      }
     };
     return {
       nickname,
@@ -80,6 +91,7 @@ export default defineComponent({
       email,
       submit,
       RouteNames,
+      errorMessage,
     };
   },
 });
@@ -97,6 +109,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     margin-bottom: 40px;
+    position: relative;
     &-header {
       font-weight: 300;
       font-size: 26px;

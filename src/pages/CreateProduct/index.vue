@@ -6,7 +6,6 @@
       Список продуктов
     </router-link>
     <form
-      v-if="currentProduct"
       class="create-product__form"
       @submit.prevent="submit">
       <div class="create-product__fields">
