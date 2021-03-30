@@ -35,7 +35,7 @@ export default [
         // },
       },
       {
-        path: "/products/:mode",
+        path: "/products/new",
         name: R.CREATE_PRODUCTS,
         component: () => import(/* CreateProductPage */ "@/pages/CreateProduct/index.vue"),
         // meta: {
@@ -43,7 +43,7 @@ export default [
         // },
       },
       {
-        path: "/products/:mode/:id",
+        path: "/products/edit/:id",
         name: R.EDIT_PRODUCTS,
         component: () => import(/* EditProductPage */ "@/pages/CreateProduct/index.vue"),
         // meta: {

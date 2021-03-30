@@ -55,7 +55,9 @@
         </div>
       </div>
       <button class="create-product__button">
-        {{ route.params.mode === "new" ? "Cоздать" : "Сохранить" }}
+        {{
+          route.name === RouteNames.CREATE_PRODUCTS ? "Cоздать" : "Сохранить"
+        }}
       </button>
     </form>
   </div>
@@ -85,7 +87,7 @@ export default defineComponent({
       }
     });
     const submit = async () => {
-      if (route.params.mode === "new") {
+      if (route.name === RouteNames.CREATE_PRODUCTS) {
         await store.dispatch(ActionType.CREATE_PRODUCT, currentProduct.value);
       } else if (id !== undefined) {
         await store.dispatch(ActionType.EDIT_PRODUCT, {
