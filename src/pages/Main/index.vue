@@ -1,6 +1,6 @@
 <template>
   <div class="main-page">
-    {{ $t("message.Home") }}
+    {{ $t("Home") }}
   </div>
 </template>
 

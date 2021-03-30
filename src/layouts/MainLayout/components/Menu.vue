@@ -33,7 +33,7 @@
           <button
             class="menu-main-layout__sub-link"
             @click="logOut">
-            {{ $t("message.LogOff") }}
+            {{ $t("LogOff") }}
           </button>
         </li>
       </ul>
@@ -54,18 +54,18 @@ import { ActionType } from "@/store/modules/User/ActionType";
 const menuLinks = [
   {
     routeName: RouteNames.PRODUCTS,
-    name: "message.Catalog",
+    name: "Catalog",
     children: [
-      { routeName: RouteNames.PRODUCTS, name: "message.Products" },
-      { routeName: RouteNames.CATEGORIES, name: "message.Categories" },
+      { routeName: RouteNames.PRODUCTS, name: "Products" },
+      { routeName: RouteNames.CATEGORIES, name: "Categories" },
     ],
   },
   {
     routeName: RouteNames.ORDERS,
-    name: "message.Sales",
+    name: "Sales",
     children: [
-      { routeName: RouteNames.ORDERS, name: "message.Orders" },
-      { routeName: RouteNames.CUSTOMERS, name: "message.Customers" },
+      { routeName: RouteNames.ORDERS, name: "Orders" },
+      { routeName: RouteNames.CUSTOMERS, name: "Customers" },
     ],
   },
 ];

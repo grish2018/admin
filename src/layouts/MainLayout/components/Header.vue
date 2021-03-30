@@ -7,7 +7,7 @@
     </div>
     <div class="header-main-layout__right">
       <p class="header-main-layout__showcase">
-        {{ $t("message.Showcase") }}
+        {{ $t("Showcase") }}
       </p>
       <img
         class="header-main-layout__notification"
@@ -29,12 +29,12 @@
           <router-link
             class="menu-main-layout__sub-link"
             :to="{ name: RouteNames.PROFILE }">
-            {{ $t("message.Profile") }}
+            {{ $t("Profile") }}
           </router-link>
           <button
             class="header-main-layout__button"
             @click="logOut">
-            {{ $t("message.LogOff") }}
+            {{ $t("LogOff") }}
           </button>
         </div>
       </div>

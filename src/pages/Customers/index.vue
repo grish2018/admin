@@ -1,5 +1,5 @@
 <template>
-  <div>{{ $t("message.Customers") }}</div>
+  <div>{{ $t("Customers") }}</div>
 </template>
 
 <script lang="ts">

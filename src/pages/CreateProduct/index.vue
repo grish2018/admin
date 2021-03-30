@@ -11,7 +11,7 @@
       <div class="create-product__fields">
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.ProductName") }}
+            {{ $t("ProductName") }}
             <input
               v-model="currentProduct.title"
               class="create-product__input"
@@ -20,7 +20,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.ProductPrice") }}
+            {{ $t("ProductPrice") }}
             <input
               v-model="currentProduct.price"
               class="create-product__input"
@@ -29,7 +29,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.ArticleNumber") }}
+            {{ $t("ArticleNumber") }}
             <input
               v-model="currentProduct.sku"
               class="create-product__input"
@@ -38,7 +38,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.Weight") }}
+            {{ $t("Weight") }}
             <input
               v-model="currentProduct.weight"
               class="create-product__input"
@@ -47,7 +47,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            {{ $t("message.Description") }}
+            {{ $t("Description") }}
             <textarea
               v-model="currentProduct.desc"
               class="create-product__textarea" />
