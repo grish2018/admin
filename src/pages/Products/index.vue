@@ -14,8 +14,12 @@
       <button class="products__create-button">
         {{ $t("message.CreateProduct") }}
       </button>
+      <router-link
+        :to="{ name: RouteNames.CREATE_PRODUCTS, params: { mode: 'new' } }"
+        class="products__create-link">
+        Создать продукт
+      </router-link>
     </div>
-
     <ul class="products__list">
       <li
         v-for="item in products"
@@ -31,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import ProductCard from "@/components/ProductCard.vue";
+import ProductCard from "./Components/ProductCard.vue";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
@@ -44,6 +48,7 @@ export default defineComponent({
     const checkedProducts: { value: { id: number }[] } = ref([]);
     const store = useStore();
     const products = computed(() => store.state.products.products);
+    const showCreateProductForm = ref(false);
     const allSelected = computed(
       () => products.value.length === checkedProducts.value.length
     );
@@ -81,6 +86,7 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
+      showCreateProductForm,
     };
   },
 });
@@ -103,9 +109,9 @@ export default defineComponent({
       margin-right: 10px;
     }
   }
-  &__link {
+  &__create-link {
     height: 30px;
-    width: 120px;
+    padding: 0px 8px;
     display: flex;
     justify-content: center;
     align-items: center;

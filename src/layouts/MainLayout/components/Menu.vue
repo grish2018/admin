@@ -7,7 +7,9 @@
           :key="link.name"
           class="menu-main-layout__list-item"
           :class="{
-            'menu-main-layout__link--active': link.children.some((link) => link.routeName === currentRoute),
+            'menu-main-layout__link--active': link.children.some(
+              (link) => link.routeName === currentRoute
+            ),
           }">
           <router-link
             class="menu-main-layout__sub-link menu-main-layout__sub-link--active"
@@ -93,7 +95,10 @@ export default defineComponent({
   --sub-list-position: absolute;
   background: #1f2328;
   width: 270px;
-  height: 100%;
+  &__header {
+    text-align: center;
+    color: var(--color-text);
+  }
   &__list {
     list-style-type: none;
   }
@@ -116,7 +121,7 @@ export default defineComponent({
     background: transparent;
     transition: 0.3s;
     &:hover {
-      background: rgba(18,88,140);
+      background: rgba(18, 88, 140);
     }
   }
   &__link {

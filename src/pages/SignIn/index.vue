@@ -89,7 +89,7 @@ export default defineComponent({
 <style lang="scss">
 .sign-in {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

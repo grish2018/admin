@@ -1,6 +1,8 @@
 <template>
   <transition name="fade">
-    <div v-if="errorMessage" class="error-plate">
+    <div
+      v-if="errorMessage"
+      class="error-plate">
       <span>{{ errorMessage }}</span>
     </div>
   </transition>

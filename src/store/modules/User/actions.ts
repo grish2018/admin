@@ -4,7 +4,7 @@ import { MutationType } from "./MutationType";
 import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
-import axios from "@/plugins/Axios/axios";
+import axios from "@/plugins/Axios";
 import { setStorage, removeStorage } from "@/utils/storage";
 
 type AugmentedActionContext = {

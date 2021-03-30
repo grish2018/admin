@@ -1,6 +1,15 @@
 export interface Product {
   id: number;
-  title: string;
+  title?: string;
+  sku?: string;
+  price?: number;
+  desc?: string;
+  weight?: number;
+  quantity?: number;
+  enabled?: boolean;
+}
+export interface NewProduct {
+  title?: string;
   sku?: string;
   price?: number;
   desc?: string;
