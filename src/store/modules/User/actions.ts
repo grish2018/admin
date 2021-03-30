@@ -54,6 +54,28 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PROFILE]({ commit, state }): Promise<void> {
     const storeId = state.storeId;
     const res = await axios.get(`/${storeId}/profile`, { authorization: true });
-    commit(MutationType.SET_PROFILE, res.data.account);
+    commit(MutationType.SET_ACCOUNT, res.data.account);
+    commit(MutationType.SET_GENERAL, res.data.general);
+  },
+  async [ActionType.SET_PROFILE]({ commit, state }, data): Promise<void> {
+    const storeId = state.storeId;
+    const token = state.token;
+    axios.put(`/${storeId}/profile`, data, {
+      headers: {
+        authorization: `${token}`,
+      },
+    })
+      .then((response) => {
+        // eslint-disable-next-line no-console
+        console.log(response);
+        commit(MutationType.SET_ACCOUNT, data.account);
+        commit(MutationType.SET_GENERAL, data.general);
+      }
+      )
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+      );
   },
 };

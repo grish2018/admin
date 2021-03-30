@@ -3,7 +3,9 @@
     <h1 class="page-title">
       Профиль
     </h1>
-    <div class="form">
+    <form
+      class="form"
+      @submit.prevent="onSubmit">
       <base-input
         v-model="user.nickname"
         :required="false"
@@ -23,6 +25,15 @@
         </template>
       </base-input>
       <base-input
+              v-model="general.domain"
+              :required="false"
+              placeholder="Ваш домен"
+              type="text">
+        <template #label>
+          <span>Имя домена</span>
+        </template>
+      </base-input>
+      <base-input
         v-model="password"
         :required="false"
         placeholder="введите пароль"
@@ -34,7 +45,7 @@
       <button class="button">
         Сохранить
       </button>
-    </div>
+    </form>
   </div>
 </template>
 <script lang="ts">
@@ -43,6 +54,18 @@ import { ActionType } from "@/store/modules/User/ActionType.ts";
 import { store } from "@/store";
 import BaseInput from "@/components/BaseInput.vue";
 
+interface Profile {
+  general: {
+    name: string;
+    domain: string;
+    closed: boolean;
+  };
+  Account: {
+    nickname: string;
+    email: string;
+  };
+}
+
 export default defineComponent({
   name: "ProfilePage",
   components: {
@@ -50,16 +73,35 @@ export default defineComponent({
   },
   setup() {
     const user = ref({ nickname: "", email: "" });
+    const general = ref({ id: 0, name: "", closed: false, domain: null });
     const password = ref("");
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PROFILE);
       user.value = computed(() => store.getters.userInfo).value;
+      general.value = computed(() => store.getters.general).value;
     });
 
+    const onSubmit = () => {
+      store.dispatch(ActionType.SET_PROFILE,
+        {
+          account: {
+            nickname: user.value.nickname,
+            email: user.value.email,
+          },
+          general: {
+            name: general.value.name,
+            closed: general.value.closed,
+            domain: general.value.domain,
+          },
+        }
+      );
+    };
     return {
       store,
       user,
       password,
+      onSubmit,
+      general,
     };
   },
 });
