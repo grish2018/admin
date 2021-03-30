@@ -23,9 +23,8 @@
     <router-link
       class="product-card__link"
       :to="{
-        name: RouteNames.CREATE_PRODUCTS,
-        params: { mode: 'edit' },
-        query: { id: product.id },
+        name: RouteNames.EDIT_PRODUCTS,
+        params: { mode: 'edit', id: product.id },
       }">
       Редактировать продукт
     </router-link>
