@@ -7,9 +7,7 @@
           :key="link.name"
           class="menu-main-layout__list-item"
           :class="{
-            'menu-main-layout__link--active': link.children.some(
-              (link) => link.routeName === currentRoute
-            ),
+            'menu-main-layout__link--active': link.children.some((link) => link.routeName === currentRoute),
           }">
           <router-link
             class="menu-main-layout__sub-link"
@@ -51,10 +49,24 @@ import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 
-const menuLinks = {
-  menuLinksProducts: [{ routeName: RouteNames.PRODUCTS, name: "Каталог", children: [{ routeName: RouteNames.PRODUCTS, name: "Товары" }, { routeName: RouteNames.CATEGORIES, name: "Категории" }] }],
-  menuLinksSales: [{ routeName: RouteNames.ORDERS, name: "Продажи", children: [{ routeName: RouteNames.ORDERS, name: "Заказы" }, { routeName: RouteNames.CUSTOMERS, name: "Покупатели" }] }],
-};
+const menuLinks = [
+  {
+    routeName: RouteNames.PRODUCTS,
+    name: "Каталог",
+    children: [
+      { routeName: RouteNames.PRODUCTS, name: "Товары" },
+      { routeName: RouteNames.CATEGORIES, name: "Категории" },
+    ],
+  },
+  {
+    routeName: RouteNames.ORDERS,
+    name: "Продажи",
+    children: [
+      { routeName: RouteNames.ORDERS, name: "Заказы" },
+      { routeName: RouteNames.CUSTOMERS, name: "Покупатели" },
+    ],
+  },
+];
 
 export default defineComponent({
   name: "MenuMainLayout",

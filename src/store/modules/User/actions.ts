@@ -54,6 +54,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_PROFILE]({ commit, state }): Promise<void> {
     const storeId = state.storeId;
     const res = await axios.get(`/${storeId}/profile`, { authorization: true });
-    commit(MutationType.SET_PROFILE, res.data);
+    commit(MutationType.SET_PROFILE, res.data.account);
   },
 };
