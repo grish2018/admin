@@ -8,11 +8,11 @@
           type="checkbox"
           @change="selectAll">
         <label for="selectAll">
-          Select all products
+          {{ $t("message.SelectAllProducts") }}
         </label>
       </div>
       <button class="products__create-button">
-        Create product
+        {{ $t("message.CreateProduct") }}
       </button>
     </div>
 

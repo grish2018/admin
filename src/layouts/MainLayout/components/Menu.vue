@@ -12,7 +12,7 @@
           <router-link
             class="menu-main-layout__sub-link"
             :to="{ name: link.routeName }">
-            {{ link.name }}
+            {{ $t(link.name) }}
           </router-link>
           <ul class="menu-main-layout__sub-list">
             <li
@@ -22,7 +22,7 @@
                 class="menu-main-layout__sub-link"
                 active-class="menu-main-layout__link--active"
                 :to="{ name: subLink.routeName }">
-                {{ subLink.name }}
+                {{ $t(subLink.name) }}
               </router-link>
             </li>
           </ul>
@@ -31,7 +31,7 @@
           <button
             class="menu-main-layout__sub-link"
             @click="logOut">
-            Выйти
+            {{ $t("message.logOff") }}
           </button>
         </li>
       </ul>
@@ -52,18 +52,18 @@ import { ActionType } from "@/store/modules/User/ActionType";
 const menuLinks = [
   {
     routeName: RouteNames.PRODUCTS,
-    name: "Каталог",
+    name: "message.Catalog",
     children: [
-      { routeName: RouteNames.PRODUCTS, name: "Товары" },
-      { routeName: RouteNames.CATEGORIES, name: "Категории" },
+      { routeName: RouteNames.PRODUCTS, name: "message.Products" },
+      { routeName: RouteNames.CATEGORIES, name: "message.Categories" },
     ],
   },
   {
     routeName: RouteNames.ORDERS,
-    name: "Продажи",
+    name: "message.Sales",
     children: [
-      { routeName: RouteNames.ORDERS, name: "Заказы" },
-      { routeName: RouteNames.CUSTOMERS, name: "Покупатели" },
+      { routeName: RouteNames.ORDERS, name: "message.Orders" },
+      { routeName: RouteNames.CUSTOMERS, name: "message.Customers" },
     ],
   },
 ];
