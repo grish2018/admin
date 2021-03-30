@@ -22,6 +22,7 @@
           class="header-main-layout__arrow"
           name="down-arrow" />
         <div
+          v-click-away="onClickAway"
           v-if="showModal"
           class="header-main-layout__sub-list">
           <router-link
@@ -78,7 +79,10 @@ export default defineComponent({
     function showHeadPanel() {
       showModal.value = !showModal.value;
     }
-    return { RouteNames, logOut, showHeadPanel, showModal, setLocale };
+    function onClickAway() {
+      showModal.value = false;
+    }
+    return { RouteNames, logOut, showHeadPanel, showModal, setLocale, onClickAway };
   },
 });
 </script>
