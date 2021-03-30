@@ -14,6 +14,7 @@
             {{ $t("message.Title") }}
             <input
               v-model="currentProduct.title"
+              required
               class="create-product__input"
               type="text">
           </label>
@@ -23,6 +24,8 @@
             {{ $t("message.Price") }}
             <input
               v-model="currentProduct.price"
+              required
+              step="0.01"
               class="create-product__input"
               type="number">
           </label>
@@ -42,6 +45,7 @@
             <input
               v-model="currentProduct.weight"
               class="create-product__input"
+              step="0.01"
               type="number">
           </label>
         </div>
