@@ -7,6 +7,7 @@ export type Store = ProductsStore<Pick<RootState, "products">> &
   UserStore<Pick<RootState, "user">>;
 
 export const store = createStore({
+  strict: process.env.NODE_ENV === "development",
   modules: {
     products,
     user,

@@ -35,6 +35,14 @@ export default [
         // },
       },
       {
+        path: "/products/:mode",
+        name: R.CREATE_PRODUCTS,
+        component: () => import(/* ProductsPage */ "@/pages/CreateProduct/index.vue"),
+        // meta: {
+        //   guard: 'private',
+        // },
+      },
+      {
         path: "/categories",
         name: R.CATEGORIES,
         component: () => import(/* CategoriesPage */ "@/pages/Categories/index.vue"),

@@ -3,6 +3,7 @@ import { Axios, Config } from "./types";
 import { Store } from "@/store";
 import { Router } from "vue-router";
 import { RouteNames } from "@/router/RouteNames";
+import { ActionType } from "@/store/modules/User/ActionType";
 
 const config: Config = {
   baseURL: process.env.VUE_APP_BASE_URL || "",
@@ -23,6 +24,7 @@ export const initInterceptors = ({ store, router }: { store: Store; router: Rout
     res => res,
     err => {
       if (err.response.status === 401) {
+        store.dispatch(ActionType.SIGN_OUT);
         router.push({ name: RouteNames.SIGN_IN });
       }
       throw err;

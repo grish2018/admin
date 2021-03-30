@@ -29,11 +29,11 @@ export default defineComponent({
   max-width: 1920px;
   width: 100%;
   margin: 0 auto;
-  height: 100%;
+  min-height: 100vh;
   background: var(--background-color-layout);
   &__container {
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
     display: flex;
   }
 }

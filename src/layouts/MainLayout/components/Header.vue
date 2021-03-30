@@ -76,6 +76,7 @@ export default defineComponent({
   justify-content: space-between;
   background-color: blueviolet;
   padding: 10px 15px;
+  height: 50px;
   &__left {
     display: flex;
     align-items: center;
@@ -108,7 +109,7 @@ export default defineComponent({
     list-style: none;
     left: -80px;
     top: 45px;
-    background-color: #1F2328;
+    background-color: #1f2328;
   }
   &__button {
     display: block;
