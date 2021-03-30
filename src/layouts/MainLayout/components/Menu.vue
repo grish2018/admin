@@ -12,9 +12,9 @@
             ),
           }">
           <router-link
-            class="menu-main-layout__sub-link"
+            class="menu-main-layout__sub-link menu-main-layout__sub-link--active"
             :to="{ name: link.routeName }">
-            {{ link.name }}
+            {{ $t(link.name) }}
           </router-link>
           <ul class="menu-main-layout__sub-list">
             <li
@@ -24,7 +24,7 @@
                 class="menu-main-layout__sub-link"
                 active-class="menu-main-layout__link--active"
                 :to="{ name: subLink.routeName }">
-                {{ subLink.name }}
+                {{ $t(subLink.name) }}
               </router-link>
             </li>
           </ul>
@@ -33,7 +33,7 @@
           <button
             class="menu-main-layout__sub-link"
             @click="logOut">
-            Выйти
+            {{ $t("message.LogOff") }}
           </button>
         </li>
       </ul>
@@ -54,18 +54,18 @@ import { ActionType } from "@/store/modules/User/ActionType";
 const menuLinks = [
   {
     routeName: RouteNames.PRODUCTS,
-    name: "Каталог",
+    name: "message.Catalog",
     children: [
-      { routeName: RouteNames.PRODUCTS, name: "Товары" },
-      { routeName: RouteNames.CATEGORIES, name: "Категории" },
+      { routeName: RouteNames.PRODUCTS, name: "message.Products" },
+      { routeName: RouteNames.CATEGORIES, name: "message.Categories" },
     ],
   },
   {
     routeName: RouteNames.ORDERS,
-    name: "Продажи",
+    name: "message.Sales",
     children: [
-      { routeName: RouteNames.ORDERS, name: "Заказы" },
-      { routeName: RouteNames.CUSTOMERS, name: "Покупатели" },
+      { routeName: RouteNames.ORDERS, name: "message.Orders" },
+      { routeName: RouteNames.CUSTOMERS, name: "message.Customers" },
     ],
   },
 ];
@@ -126,7 +126,7 @@ export default defineComponent({
   }
   &__link {
     &--active {
-      background: var(--select-navigation-color);
+      color: var(--select-navigation-color);
       .menu-main-layout__sub-list {
         --sub-list-display: block;
         --sub-list-position: relative;
@@ -137,6 +137,9 @@ export default defineComponent({
           padding: 10px 30px 10px 40px;
         }
       }
+      .menu-main-layout__sub-link--active {
+        background: var(--select-navigation-color);
+      }
     }
   }
   &__sub-list {
@@ -146,7 +149,7 @@ export default defineComponent({
     width: 150px;
     top: 0;
     right: -150px;
-    background-color: #94c4e8;
+    background-color: #1F2328;
   }
 }
 </style>

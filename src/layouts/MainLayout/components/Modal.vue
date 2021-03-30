@@ -24,12 +24,12 @@
         <button
           class="modal__button cancel"
           @click="cancelModal">
-          Отменить
+          {{ $t("message.Cancel") }}
         </button>
         <button
           class="modal__button confirm"
           @click="confirmModal">
-          Вставить
+          {{ $t("message.Confirm") }}
         </button>
       </slot>
     </footer>

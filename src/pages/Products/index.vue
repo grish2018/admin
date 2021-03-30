@@ -8,9 +8,12 @@
           type="checkbox"
           @change="selectAll">
         <label for="selectAll">
-          Выбрать все продукты
+          {{ $t("message.SelectAllProducts") }}
         </label>
       </div>
+      <button class="products__create-button">
+        {{ $t("message.CreateProduct") }}
+      </button>
       <router-link
         :to="{ name: RouteNames.CREATE_PRODUCTS }"
         class="products__create-link">

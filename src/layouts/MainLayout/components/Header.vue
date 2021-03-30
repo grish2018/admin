@@ -7,7 +7,7 @@
     </div>
     <div class="header-main-layout__right">
       <p class="header-main-layout__showcase">
-        Витрина
+        {{ $t("message.Showcase") }}
       </p>
       <img
         class="header-main-layout__notification"
@@ -29,15 +29,25 @@
           <router-link
             class="menu-main-layout__sub-link"
             :to="{ name: RouteNames.PROFILE }">
-            Профиль
+            {{ $t("message.Profile") }}
           </router-link>
           <button
             class="header-main-layout__button"
             @click="logOut">
-            Выйти
+            {{ $t("message.LogOff") }}
           </button>
         </div>
       </div>
+      <select
+        v-model="$i18n.locale"
+        class="header-main-layout__select">
+        <option value="ru">
+          ru
+        </option>
+        <option value="en">
+          en
+        </option>
+      </select>
     </div>
   </header>
 </template>
@@ -125,6 +135,11 @@ export default defineComponent({
     &:hover {
       background: var(--select-navigation-color);
     }
+  }
+  &__select {
+    margin-left: 10px;
+    width: 50px;
+    outline: none;
   }
 }
 </style>
