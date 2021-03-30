@@ -13,6 +13,7 @@ const isAuthenticated = () => {
   }
 };
 const isPrivateRoute = (route: Route) => route.meta.guard === "private";
+
 const isGuestRoute = (route: Route) => route.meta.guard === "guest";
 
 export default (

@@ -1,8 +1,5 @@
 <template>
   <aside class="menu-main-layout">
-    <header class="menu-main-layout__header">
-      Управление магазином
-    </header>
     <nav class="menu-main-layout__navigation">
       <ul class="menu-main-layout__list">
         <li
@@ -10,9 +7,7 @@
           :key="link.name"
           class="menu-main-layout__list-item"
           :class="{
-            'menu-main-layout__link--active': link.children.some(
-              (link) => link.routeName === currentRoute
-            ),
+            'menu-main-layout__link--active': link.children.some((link) => link.routeName === currentRoute),
           }">
           <router-link
             class="menu-main-layout__sub-link"
@@ -68,7 +63,7 @@ const menuLinks = [
     name: "Продажи",
     children: [
       { routeName: RouteNames.ORDERS, name: "Заказы" },
-      { routeName: RouteNames.BUYERS, name: "Покупатели" },
+      { routeName: RouteNames.CUSTOMERS, name: "Покупатели" },
     ],
   },
 ];
@@ -98,6 +93,7 @@ export default defineComponent({
   --sub-list-position: absolute;
   background: #1f2328;
   width: 270px;
+  height: 100%;
   &__header {
     text-align: center;
     color: var(--color-text);
@@ -124,7 +120,7 @@ export default defineComponent({
     background: transparent;
     transition: 0.3s;
     &:hover {
-      background: var(--select-navigation-color);
+      background: rgba(18,88,140);
     }
   }
   &__link {
