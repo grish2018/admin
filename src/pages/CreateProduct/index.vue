@@ -45,7 +45,7 @@
             <input
               v-model="currentProduct.weight"
               class="create-product__input"
-              step="0.01"
+              step="0.001"
               type="number">
           </label>
         </div>
