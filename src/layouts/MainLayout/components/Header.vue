@@ -38,7 +38,8 @@
       </div>
       <select
         v-model="$i18n.locale"
-        class="header-main-layout__select">
+        class="header-main-layout__select"
+        @change="setLocale($event.target.value)">
         <option value="ru">
           ru
         </option>
@@ -59,6 +60,7 @@ import { ActionType } from "@/store/modules/User/ActionType";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { RouteNames } from "@/router/RouteNames";
+import { setStorage } from "@/utils/storage";
 
 export default defineComponent({
   name: "HeaderMainLayout",
@@ -66,6 +68,9 @@ export default defineComponent({
     const showModal = ref(false);
     const router = useRouter();
     const store = useStore();
+    const setLocale = (value: string) => {
+      setStorage("locale", value);
+    };
     const logOut = () => {
       store.dispatch(ActionType.SIGN_OUT);
       router.push({ name: RouteNames.SIGN_IN });
@@ -73,7 +78,7 @@ export default defineComponent({
     function showHeadPanel() {
       showModal.value = !showModal.value;
     }
-    return { RouteNames, logOut, showHeadPanel, showModal };
+    return { RouteNames, logOut, showHeadPanel, showModal, setLocale };
   },
 });
 </script>

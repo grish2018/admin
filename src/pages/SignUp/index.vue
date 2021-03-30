@@ -5,7 +5,7 @@
         class="sign-up__form"
         @submit.prevent="submit">
         <span class="sign-up__form-header">
-          Регистрация
+          {{ $t("message.Registration") }}
         </span>
         <error-plate :error-message="errorMessage" />
         <div class="sign-up__input-wrapper">
@@ -15,7 +15,7 @@
             required
             class="sign-up__form-input"
             type="email"
-            placeholder="Email"
+            :placeholder="$t('message.Email')"
             autocomplete="email">
         </div>
         <div class="sign-up__input-wrapper">
@@ -26,7 +26,7 @@
             minlength="3"
             class="sign-up__form-input"
             type="text"
-            placeholder="Nickname"
+            :placeholder="$t('message.Nickname')"
             autocomplete="nickname">
         </div>
         <div class="sign-up__input-wrapper">
@@ -37,17 +37,17 @@
             required
             class="sign-up__form-input"
             type="password"
-            placeholder="Password"
+            :placeholder="$t('message.Password')"
             autocomplete="current-password">
         </div>
         <button class="sign-up__form__submit-button">
-          Регистрация
+          {{ $t("message.SignUp") }}
         </button>
       </form>
       <router-link
         class="sign-up__form-link"
         :to="{ name: RouteNames.SIGN_IN }">
-        Уже есть аккаунт
+        {{ $t("message.AlreadyRegisteredUser") }}
       </router-link>
     </div>
   </div>

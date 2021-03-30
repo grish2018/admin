@@ -5,7 +5,7 @@
         class="sign-in__form"
         @submit.prevent="submit">
         <span class="sign-in__form-header">
-          Вход
+          {{ $t("message.SignIn") }}
         </span>
         <error-plate :error-message="errorMessage" />
         <div class="sign-in__input-wrapper">
@@ -15,7 +15,7 @@
             required
             class="sign-in__form-input"
             type="email"
-            placeholder="Email"
+            :placeholder="$t('message.Email')"
             autocomplete="email">
         </div>
         <div class="sign-in__input-wrapper">
@@ -25,17 +25,17 @@
             required
             class="sign-in__form-input"
             type="password"
-            placeholder="Password"
+            :placeholder="$t('message.Password')"
             autocomplete="current-password">
         </div>
         <button class="sign-in__form__submit-button">
-          Войти
+          {{ $t("message.LogIn") }}
         </button>
       </form>
       <router-link
         class="sign-in__form-link"
         :to="{ name: RouteNames.SIGN_UP }">
-        Зарегистрироваться
+        {{ $t("message.Registration") }}
       </router-link>
     </div>
   </div>

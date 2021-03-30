@@ -1,7 +1,9 @@
+import { getStorage } from "@/utils/storage";
 import { createI18n } from "vue-i18n";
 
+const locale = getStorage("locale");
 export const i18n = createI18n({
-  locale: "ru",
+  locale: locale || "ru",
   messages: {
     en: {
       message: {
@@ -11,7 +13,7 @@ export const i18n = createI18n({
         Sales: "Sales",
         Orders: "Orders",
         Customers: "Customers",
-        LogOff: "Log off",
+        LogOut: "Log out",
         Showcase: "Showcase",
         Cancel: "Cancel",
         Confirm: "Confirm",
@@ -27,6 +29,14 @@ export const i18n = createI18n({
         Description: "Description",
         Create: "Create",
         Save: "Save",
+        SignIn: "Sign in",
+        SignUp: "Sign up",
+        LogIn: "Log in",
+        Registration: "Registration",
+        Email: "e-mail",
+        Password: "Password",
+        AlreadyRegisteredUser: "Already registered user",
+        Nickname: "Nickname",
       },
     },
     ru: {
@@ -37,7 +47,7 @@ export const i18n = createI18n({
         Sales: "Продажи",
         Orders: "Заказы",
         Customers: "Покупатели",
-        LogOff: "Выйти",
+        LogOut: "Выйти",
         Showcase: "Витрина",
         Cancel: "Отменить",
         Confirm: "Вставить",
@@ -53,6 +63,14 @@ export const i18n = createI18n({
         Description: "Oписание",
         Create: "Cоздать",
         Save: "Сохранить",
+        SignIn: "Вход",
+        LogIn: "Войти",
+        SignUp: "Регистрация",
+        Registration: "Регистрация",
+        Email: "e-mail",
+        Password: "Пароль",
+        AlreadyRegisteredUser: "Уже есть аккаунт",
+        Nickname: "Псевдоним",
       },
     },
   },
