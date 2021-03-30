@@ -12,7 +12,7 @@
         </label>
       </div>
       <router-link
-        :to="{ name: RouteNames.CREATE_PRODUCTS, params: { mode: 'new' } }"
+        :to="{ name: RouteNames.CREATE_PRODUCTS }"
         class="products__create-link">
         Создать продукт
       </router-link>

@@ -8,7 +8,7 @@
     <router-link
       :to="{
         name: RouteNames.EDIT_PRODUCTS,
-        params: { mode: 'edit', id: product.id },
+        params: { id: product.id },
       }"
       class="product-card__content">
       <img
