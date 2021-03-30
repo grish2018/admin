@@ -6,7 +6,6 @@ export enum ru {
   Orders = "Заказы",
   Customers = "Покупатели",
   LogOff = "Выйти",
-  Showcase = "Витрина",
   Storefront = "Витрина",
   Cancel = "Отменить",
   Confirm = "Вставить",
