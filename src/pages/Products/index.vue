@@ -11,13 +11,10 @@
           {{ $t("message.SelectAllProducts") }}
         </label>
       </div>
-      <button class="products__create-button">
-        {{ $t("message.CreateProduct") }}
-      </button>
       <router-link
         :to="{ name: RouteNames.CREATE_PRODUCTS }"
         class="products__create-link">
-        Создать продукт
+        {{ $t("message.CreateProduct") }}
       </router-link>
     </div>
     <ul class="products__list">
