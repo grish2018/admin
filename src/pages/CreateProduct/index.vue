@@ -3,7 +3,7 @@
     <router-link
       :to="{ name: RouteNames.PRODUCTS }"
       class="create-product__link">
-      Список продуктов
+      {{ $t("message.ProductsList") }}
     </router-link>
     <form
       class="create-product__form"
@@ -11,7 +11,7 @@
       <div class="create-product__fields">
         <div class="create-product__field">
           <label class="create-product__label">
-            Название
+            {{ $t("message.Title") }}
             <input
               v-model="currentProduct.title"
               required
@@ -21,7 +21,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Цена
+            {{ $t("message.Price") }}
             <input
               v-model="currentProduct.price"
               required
@@ -32,7 +32,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Артикул
+            {{ $t("message.SKU") }}
             <input
               v-model="currentProduct.sku"
               class="create-product__input"
@@ -41,7 +41,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Вес, кг
+            {{ $t("message.Weight") }}, {{ $t("message.Kilo") }}
             <input
               v-model="currentProduct.weight"
               class="create-product__input"
@@ -51,7 +51,7 @@
         </div>
         <div class="create-product__field">
           <label class="create-product__label">
-            Oписание
+            {{ $t("message.Description") }}
             <textarea
               v-model="currentProduct.desc"
               class="create-product__textarea" />
@@ -60,7 +60,9 @@
       </div>
       <button class="create-product__button">
         {{
-          route.name === RouteNames.CREATE_PRODUCTS ? "Cоздать" : "Сохранить"
+          route.name === RouteNames.CREATE_PRODUCTS
+            ? $t("message.Create")
+            : $t("message.Save")
         }}
       </button>
     </form>
