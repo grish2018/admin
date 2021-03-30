@@ -7,7 +7,7 @@
     </div>
     <div class="header-main-layout__content">
       <p class="header-main-layout__showcase">
-        {{ $t("message.Showcase") }}
+        {{ $t("message.Storefront") }}
       </p>
       <svg-icon
         class="header-main-layout__bell-icon"
