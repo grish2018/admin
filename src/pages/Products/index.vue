@@ -46,9 +46,13 @@ export default defineComponent({
     const store = useStore();
     const products = computed(() => store.state.products.products);
     const showCreateProductForm = ref(false);
-    const allSelected = computed(
-      () => products.value.length === checkedProducts.value.length
-    );
+    const allSelected = computed(() => {
+      if (products.value.length !== 0) {
+        return false;
+      } else {
+        return products.value.length === checkedProducts.value.length;
+      }
+    });
     const selectAll = ({ target }: { target: HTMLInputElement }) => {
       if (target.checked) {
         checkedProducts.value = [...products.value];
