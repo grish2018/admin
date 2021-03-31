@@ -1,18 +1,19 @@
 <template>
-  <div class="base-input">
+  <label class="base-input">
     <div class="base-input__header">
       <slot name="header" />
     </div>
-    <label class="base-input__label">
-      <slot name="label" />
-    </label>
+    <slot name="label">
+      <span
+        v-if="label"
+        class="base-input__label">
+        {{ label }}
+      </span>
+    </slot>
     <input
+      v-bind="$attrs"
       :value="modelValue"
-      :required="required"
-      :disabled="disabled"
       :class="{'base-input__input': true, 'base-input__input--error': error}"
-      :type="type"
-      :placeholder="placeholder"
       @input="$emit('update:modelValue', $event.target.value)">
     <span
       :class="{'base-input__error': true, 'base-input__error--visible': error }">
@@ -21,40 +22,26 @@
     <div class="base-input__footer">
       <slot name="footer" />
     </div>
-  </div>
+  </label>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "BaseInput",
   props: {
-    placeholder: {
+    label: {
       type: String,
       default: "",
       required: false,
     },
-    type: {
-      type: String,
-      default: "text",
-      required: false,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
     modelValue: {
       type: String,
-      default: "text",
+      default: "",
       required: false,
     },
     error: {
       type: String,
       default: "",
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
     },
   },
   emits: ["update:modelValue"],
