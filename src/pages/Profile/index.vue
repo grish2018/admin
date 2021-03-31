@@ -38,7 +38,7 @@
         :required="false"
         placeholder="введите пароль"
         type="text"
-        :error="(password.length !== 0 && password.length < 6) ? 'ошибка' : ''">
+        :error="(password.length !== 0 && password.length < 6) ? 'Маленькая длина пароля' : ''">
         <template #label>
           <span>Password</span>
         </template>
@@ -91,6 +91,7 @@ export default defineComponent({
           account: {
             nickname: user.value.nickname,
             email: user.value.email,
+            password: password.value.length > 5 ? password.value : "",
           },
           general: {
             name: general.value.name,
@@ -99,14 +100,6 @@ export default defineComponent({
           },
         }
       );
-      if (password.value.length > 5) {
-        store.dispatch(ActionType.CHANGE_PASSWORD,
-          {
-            nickname: user.value.nickname,
-            email: user.value.email,
-            password: password.value,
-          });
-      }
     };
     return {
       store,

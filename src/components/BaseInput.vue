@@ -10,11 +10,14 @@
       :value="modelValue"
       :required="required"
       :disabled="disabled"
-      class="base-input__input"
+      :class="{'base-input__input': true, 'base-input__input--error': error}"
       :type="type"
       :placeholder="placeholder"
       @input="$emit('update:modelValue', $event.target.value)">
-
+    <span
+      :class="{'base-input__error': true, 'base-input__error--visible': error }">
+      {{ error }}
+    </span>
     <div class="base-input__footer">
       <slot name="footer" />
     </div>
@@ -40,18 +43,18 @@ export default defineComponent({
       default: false,
       required: false,
     },
-    disabled: {
-      type: Boolean,
-      default: false,
+    modelValue: {
+      type: String,
+      default: "text",
+      required: false,
     },
     error: {
       type: String,
       default: "",
     },
-    modelValue: {
-      type: String,
-      default: "",
-      required: false,
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ["update:modelValue"],
@@ -83,7 +86,8 @@ export default defineComponent({
     outline: none;
     padding: 0px 15px;
     font-size: 14px;
-    &:invalid {
+    &:invalid,
+    &--error {
       border: 1px solid red;
     }
     &::placeholder {
@@ -97,6 +101,15 @@ export default defineComponent({
     font-size: 14px;
     margin-bottom: 2px;
     display: block;
+  }
+  &__error {
+    color: red;
+    font-size: 12px;
+    padding: 2px;
+    display: none;
+    &--visible {
+      display: block;
+    }
   }
 }
 </style>
