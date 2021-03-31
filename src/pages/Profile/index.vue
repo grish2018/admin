@@ -8,36 +8,29 @@
       @submit.prevent="onSubmit">
       <base-input
         v-model="user.nickname"
-        :required="false"
-        placeholder="Введите вашу почту"
-        type="text">
+        placeholder="Введите вашу почту">
         <template #label>
           <span>Nickname</span>
         </template>
       </base-input>
       <base-input
         v-model="user.email"
-        :required="false"
         placeholder="Введите вашу почту"
-        type="text">
+        type="email">
         <template #label>
           <span>email</span>
         </template>
       </base-input>
       <base-input
         v-model="general.domain"
-        :required="false"
-        placeholder="Ваш домен"
-        type="text">
+        placeholder="Ваш домен">
         <template #label>
           <span>Имя домена</span>
         </template>
       </base-input>
       <base-input
         v-model="password"
-        :required="false"
         placeholder="введите пароль"
-        type="text"
         :error="(password.length !== 0 && password.length < 6) ? 'Маленькая длина пароля' : ''">
         <template #label>
           <span>Password</span>
