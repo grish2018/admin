@@ -13,17 +13,19 @@ import { languages } from "@/plugins/Translation/languages";
 //   },
 // });
 
-export const i18n = createI18n({});
+export const i18n = createI18n({
+  locale: "",
+});
 const locale = getStorage("locale") || "en";
 const loadedLanguages: any[] = [];
 
-function setI18Language(lang: any) {
+function setI18Language(lang: string) {
   i18n.global.locale = lang;
   setStorage("locale", lang);
   return lang;
 }
 
-export function loadedLanguagesAsync(lang: any) {
+export function loadedLanguagesAsync(lang: string) {
   if (i18n.global.locale === lang) {
     return Promise.resolve(setI18Language(lang));
   }
@@ -34,9 +36,9 @@ export function loadedLanguagesAsync(lang: any) {
     lang = "en";
   }
 
-  return import(`@/plugins/Translation/${lang}`).then(
+  return import(/* webpackChunkName: "lang-[request]" */`@/plugins/Translation/${lang}`).then(
     (messages) => {
-      i18n.global.setLocaleMessage(lang, messages);
+      i18n.global.setLocaleMessage(lang, messages[lang]);
       loadedLanguages.push(lang);
       return setI18Language(lang);
     }

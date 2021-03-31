@@ -38,9 +38,9 @@
         </div>
       </div>
       <select
-        v-model="$i18n.locale"
+        :value="$i18n.locale"
         class="header-main-layout__select"
-        @change="setLocale($event.target.value)">
+        @change="setLocale">
         <option value="ru">
           ru
         </option>
@@ -69,8 +69,9 @@ export default defineComponent({
     const showModal = ref(false);
     const router = useRouter();
     const store = useStore();
-    const setLocale = (value: string) => {
-      setStorage("locale", value);
+    const setLocale = ({ target }: {target: HTMLSelectElement}) => {
+      setStorage("locale", target.value);
+      window.location.reload();
     };
     const logOut = () => {
       store.dispatch(ActionType.SIGN_OUT);
