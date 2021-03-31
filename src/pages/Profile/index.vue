@@ -37,7 +37,8 @@
         v-model="password"
         :required="false"
         placeholder="введите пароль"
-        type="text">
+        type="text"
+        :error="(password.length !== 0 && password.length < 6) ? 'ошибка' : ''">
         <template #label>
           <span>Password</span>
         </template>
@@ -75,6 +76,9 @@ export default defineComponent({
     const user = ref({ nickname: "", email: "" });
     const general = ref({ id: 0, name: "", closed: false, domain: null });
     const password = ref("");
+    const passwordError = computed(() => {
+      return (password.value.length !== 0 && password.value.length < 6) ? "ошибка" : "";
+    }).value;
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PROFILE);
       user.value = computed(() => store.getters.userInfo).value;
@@ -95,6 +99,14 @@ export default defineComponent({
           },
         }
       );
+      if (password.value.length > 5) {
+        store.dispatch(ActionType.CHANGE_PASSWORD,
+          {
+            nickname: user.value.nickname,
+            email: user.value.email,
+            password: password.value,
+          });
+      }
     };
     return {
       store,
@@ -102,6 +114,7 @@ export default defineComponent({
       password,
       onSubmit,
       general,
+      passwordError,
     };
   },
 });

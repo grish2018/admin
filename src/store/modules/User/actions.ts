@@ -78,4 +78,23 @@ export const actions: ActionTree<State, RootState> & Actions = {
       }
       );
   },
+  async [ActionType.CHANGE_PASSWORD]({ state }, data): Promise<void> {
+    const storeId = state.storeId;
+    const token = state.token;
+    axios.put(`/${storeId}/profile`, data, {
+      headers: {
+        authorization: `${token}`,
+      },
+    })
+      .then((response) => {
+        // eslint-disable-next-line no-console
+        console.log(response);
+      }
+      )
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+      );
+  },
 };
