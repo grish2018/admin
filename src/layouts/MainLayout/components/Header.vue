@@ -53,9 +53,7 @@
 </template>
 
 <script lang="ts">
-/**
- * Шапка на основном экране
- */
+
 import { defineComponent, ref } from "vue";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { useRouter } from "vue-router";
