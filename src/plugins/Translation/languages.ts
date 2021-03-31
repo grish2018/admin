@@ -1,1 +1,1 @@
-export const languages: any[] = ["en", "ru"];
+export const languages: string[] = ["en", "ru"];
