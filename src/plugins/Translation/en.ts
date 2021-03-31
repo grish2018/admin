@@ -5,7 +5,7 @@ export enum en {
   Sales = "Sales",
   Orders = "Orders",
   Customers = "Customers",
-  LogOff = "Log off",
+  LogOut = "Log out",
   Storefront = "Storefront",
   Cancel = "Cancel",
   Confirm = "Confirm",

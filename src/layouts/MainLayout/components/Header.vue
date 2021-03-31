@@ -33,7 +33,7 @@
           <button
             class="header-main-layout__button"
             @click="logOut">
-            {{ $t("LogOff") }}
+            {{ $t("LogOut") }}
           </button>
         </div>
       </div>
@@ -82,7 +82,14 @@ export default defineComponent({
     function onClickAway() {
       showModal.value = false;
     }
-    return { RouteNames, logOut, showHeadPanel, showModal, setLocale, onClickAway };
+    return {
+      RouteNames,
+      logOut,
+      showHeadPanel,
+      showModal,
+      setLocale,
+      onClickAway,
+    };
   },
 });
 </script>
