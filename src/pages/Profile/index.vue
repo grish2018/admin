@@ -76,9 +76,7 @@ export default defineComponent({
     const user = ref({ nickname: "", email: "" });
     const general = ref({ id: 0, name: "", closed: false, domain: null });
     const password = ref("");
-    const passwordError = computed(() => {
-      return (password.value.length !== 0 && password.value.length < 6) ? "ошибка" : "";
-    }).value;
+
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PROFILE);
       user.value = computed(() => store.getters.userInfo).value;
@@ -100,14 +98,13 @@ export default defineComponent({
           },
         }
       );
+      password.value = "";
     };
     return {
-      store,
       user,
       password,
       onSubmit,
       general,
-      passwordError,
     };
   },
 });
