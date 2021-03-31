@@ -22,8 +22,8 @@
           class="header-main-layout__arrow"
           name="down-arrow" />
         <div
-          v-click-away="onClickAway"
           v-if="showModal"
+          v-click-away="onClickAway"
           class="header-main-layout__sub-list">
           <router-link
             class="menu-main-layout__sub-link"
