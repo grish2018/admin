@@ -13,7 +13,8 @@
     <input
       v-bind="$attrs"
       :value="modelValue"
-      :class="{'base-input__input': true, 'base-input__input--error': error}"
+      class="base-input__input"
+      :class="{ 'base-input__input--error': error}"
       @input="$emit('update:modelValue', $event.target.value)">
     <span
       :class="{'base-input__error': true, 'base-input__error--visible': error }">
@@ -32,12 +33,9 @@ export default defineComponent({
     label: {
       type: String,
       default: "",
-      required: false,
     },
     modelValue: {
-      type: String,
       default: "",
-      required: false,
     },
     error: {
       type: String,
@@ -48,7 +46,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .base-input {
   width: 400px;
   display: flex;
