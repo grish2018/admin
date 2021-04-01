@@ -43,21 +43,21 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onBeforeMount, computed, ref } from "vue";
+import { defineComponent, onBeforeMount, ref } from "vue";
 import { ActionType } from "@/store/modules/User/ActionType.ts";
 import { store } from "@/store";
 import BaseInput from "@/components/BaseInput.vue";
 
-interface Profile {
-  general: {
-    name: string;
-    domain: string;
-    closed: boolean;
-  };
-  Account: {
-    nickname: string;
-    email: string;
-  };
+interface User {
+  nickname?: string;
+  email?: string;
+}
+
+interface General {
+  id?: number;
+  name?: string;
+  closed?: boolean;
+  domain?: string;
 }
 
 export default defineComponent({
@@ -66,14 +66,14 @@ export default defineComponent({
     BaseInput,
   },
   setup() {
-    const user = ref({ nickname: "", email: "" });
-    const general = ref({ id: 0, name: "", closed: false, domain: null });
+    const user: {value: User} = ref({});
+    const general: {value: General} = ref({});
     const password = ref("");
 
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PROFILE);
-      user.value = computed(() => store.getters.userInfo).value;
-      general.value = computed(() => store.getters.general).value;
+      user.value = { ...store.state.user.user };
+      general.value = { ...store.state.user.general };
     });
 
     const onSubmit = () => {
@@ -95,9 +95,9 @@ export default defineComponent({
     };
     return {
       user,
-      password,
       onSubmit,
       general,
+      password,
     };
   },
 });
