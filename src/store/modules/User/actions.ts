@@ -29,7 +29,7 @@ export interface Actions {
 
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
-    const res = await axios.post("/login", data);
+    const res = await axios.post("/login", data, { authorization: false });
     setStorage("token", res.data.owner.token);
     setStorage("storeId", String(res.data.owner.storeId));
     commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
@@ -37,7 +37,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_USER, res.data);
   },
   async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
-    const res = await axios.post("/signup", data);
+    const res = await axios.post("/signup", data, { authorization: false });
     setStorage("token", res.data.owner.token);
     setStorage("storeId", String(res.data.owner.storeId));
     commit(MutationType.SET_TOKEN, res.data.owner.token);
@@ -53,7 +53,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionType.GET_PROFILE]({ commit, state }): Promise<void> {
     const storeId = state.storeId;
-    const res = await axios.get(`/${storeId}/profile`, { authorization: true });
+    const res = await axios.get(`/${storeId}/profile`);
     commit(MutationType.SET_PROFILE, res.data);
   },
 };
