@@ -30,7 +30,7 @@ export default defineComponent({
     showEditForm: {
       type: Function,
       default: () => {
-        return false;
+        return true;
       },
     },
     currentCategory: {

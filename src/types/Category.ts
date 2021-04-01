@@ -6,7 +6,7 @@ export interface Category {
 }
 export interface NewCategory {
     id?: number;
+    parent?: number;
     title?: string;
     desc?: string;
-    childs?: Category[];
 }

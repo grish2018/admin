@@ -15,7 +15,10 @@
           <span
             :class="{ 'categories__list-active': !showSubCategories }"
             @click="showSubCategories = false">
-            {{ $t("CollapseAll") }} </span>|<span
+            {{ $t("CollapseAll") }}
+          </span>
+          |
+          <span
             :class="{ 'categories__list-active': showSubCategories }"
             @click="showSubCategories = true">
             {{ $t("ExpandAll") }}
@@ -50,7 +53,8 @@
         <create-category
           v-if="showCreateCategory"
           :current-category="currentCategory"
-          :current-mode="currentMode" />
+          :current-mode="currentMode"
+          :add-subcategory-mode="openEditForm" />
       </div>
     </div>
   </div>
@@ -62,7 +66,7 @@ import CreateCategory from "./components/CreateCategory.vue";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
-import { Category } from "@/types/Category";
+import { Category, NewCategory } from "@/types/Category";
 export default defineComponent({
   name: "CategoriesPage",
   components: { CreateCategory, Subcategory },
@@ -72,11 +76,11 @@ export default defineComponent({
     const showSubCategories = ref(true);
     const showCreateCategory = ref(false);
     const currentMode = ref("new");
-    const currentCategory: { value: Category | null } = ref(null);
-    const openEditForm = (mode: string, category: Category | null) => {
+    const currentCategory: { value: Category | NewCategory } = ref({});
+    const openEditForm = (mode: string, category: Category | NewCategory) => {
       showCreateCategory.value = true;
       currentMode.value = mode;
-      currentCategory.value = category;
+      currentCategory.value = { ...category };
     };
     onBeforeMount(() => {
       store.dispatch(ActionType.GET_CATEGORIES);

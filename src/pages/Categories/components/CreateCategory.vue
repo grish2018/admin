@@ -1,15 +1,25 @@
 <template>
   <div class="create-category">
     <div
-      v-if="currentMode === 'edit'"
+      v-if="currentMode !== 'new'"
       class="create-category__header">
       <span class="create-category__title">
-        {{ currentCategory.title }}
+        {{
+          currentMode === "addSubcategory"
+            ? `Добавить категорию к ${currentCategory.title}`
+            : currentCategory.title
+        }}
       </span>
-      <button class="create-category__create-subcategory">
+      <button
+        class="create-category__create-subcategory"
+        :disabled="currentMode === 'addSubcategory'"
+        @click="addSubcategoryMode('addSubcategory', currentCategory)">
         {{ $t("AddSubcategory") }}
       </button>
-      <button class="create-category__delete-category">
+      <button
+        :disabled="currentMode === 'addSubcategory'"
+        class="create-category__delete-category"
+        @click="deleteCategory">
         {{ $t("Delete") }}
       </button>
     </div>
@@ -37,7 +47,13 @@
         </div>
       </div>
       <button class="create-category__button">
-        {{ currentMode === "edit" ? $t("Save") : $t("Create") }}
+        {{
+          currentMode === "edit"
+            ? $t("Save")
+            : currentMode === "addSubcategory"
+              ? `Add`
+              : $t("Create")
+        }}
       </button>
     </form>
   </div>
@@ -47,33 +63,66 @@
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { Category, NewCategory } from "@/types/Category";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "CreateCategory",
   props: {
     currentCategory: {
       type: Object as () => Category,
-      default: {},
+      default: () => ({}),
     },
     currentMode: {
       type: String,
       default: "",
     },
+    addSubcategoryMode: {
+      type: Function,
+      default: () => {
+        return true;
+      },
+    },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const currentCategoryValue: { value: Category | NewCategory } = ref({
       ...props.currentCategory,
     });
+    watch(
+      () => props.currentCategory,
+      (count) => {
+        currentCategoryValue.value = { ...count };
+      }
+    );
     const store = useStore();
-    const submit = async () => {
+    const deleteCategory = async () => {
       await store.dispatch(
-        ActionType.CREATE_CATEGORY,
-        currentCategoryValue.value
+        ActionType.DELETE_CATEGORY,
+        props.currentCategory.id
       );
+      props.addSubcategoryMode("new", {});
+      await store.dispatch(ActionType.GET_CATEGORIES);
+    };
+    const submit = async () => {
+      if (
+        props.currentMode === "new" ||
+        props.currentMode === "addSubcategory"
+      ) {
+        const newCategory = {
+          title: currentCategoryValue.value.title,
+          desc: currentCategoryValue.value.desc,
+          parent: props.currentCategory.id,
+        };
+        await store.dispatch(ActionType.CREATE_CATEGORY, newCategory);
+      } else {
+        const editedCategory = {
+          ...currentCategoryValue.value,
+          id: props.currentCategory.id,
+        };
+        await store.dispatch(ActionType.EDIT_CATEGORY, editedCategory);
+      }
       await store.dispatch(ActionType.GET_CATEGORIES);
       currentCategoryValue.value = {};
     };
-    return { submit, currentCategoryValue };
+    return { submit, currentCategoryValue, deleteCategory, emit };
   },
 });
 </script>
@@ -108,6 +157,9 @@ export default defineComponent({
     background: var(--select-navigation-color);
     color: white;
     outline: none;
+    &:disabled {
+      opacity: 0.7;
+    }
   }
 
   &__delete-category {
