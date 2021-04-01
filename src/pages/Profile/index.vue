@@ -106,7 +106,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .page-wrap {
     padding: 50px;
     width: 100%;
