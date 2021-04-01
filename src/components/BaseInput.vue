@@ -36,6 +36,7 @@ export default defineComponent({
       default: "",
     },
     modelValue: {
+      type: [String, Number],
       default: "",
     },
     error: {
