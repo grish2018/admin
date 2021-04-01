@@ -6,7 +6,7 @@
       <span class="create-category__title">
         {{
           currentMode === "addSubcategory"
-            ? `Добавить категорию к ${currentCategory.title}`
+            ? `${$t("AddCategoryTo")} ${currentCategory.title}`
             : currentCategory.title
         }}
       </span>
@@ -51,7 +51,7 @@
           currentMode === "edit"
             ? $t("Save")
             : currentMode === "addSubcategory"
-              ? `Add`
+              ? $t("Add")
               : $t("Create")
         }}
       </button>
@@ -89,7 +89,11 @@ export default defineComponent({
     watch(
       () => props.currentCategory,
       (count) => {
-        currentCategoryValue.value = { ...count };
+        if (props.currentMode === "addSubcategory") {
+          currentCategoryValue.value = {};
+        } else {
+          currentCategoryValue.value = { ...count };
+        }
       }
     );
     const store = useStore();
@@ -114,7 +118,8 @@ export default defineComponent({
         await store.dispatch(ActionType.CREATE_CATEGORY, newCategory);
       } else {
         const editedCategory = {
-          ...currentCategoryValue.value,
+          title: currentCategoryValue.value.title,
+          desc: currentCategoryValue.value.desc,
           id: props.currentCategory.id,
         };
         await store.dispatch(ActionType.EDIT_CATEGORY, editedCategory);

@@ -7,19 +7,19 @@
     <div class="categories__content">
       <div class="categories__list">
         <button
-          class="categories__list--create-category"
+          class="categories__create-category"
           @click="openEditForm('new', {})">
           {{ $t("AddRootCategory") }}
         </button>
-        <div class="categories__list--toggle-show">
+        <div class="categories__toggle-show">
           <span
-            :class="{ 'categories__list-active': !showSubCategories }"
+            :class="{ 'categories__list--active': !showSubCategories }"
             @click="showSubCategories = false">
             {{ $t("CollapseAll") }}
           </span>
           |
           <span
-            :class="{ 'categories__list-active': showSubCategories }"
+            :class="{ 'categories__list--active': showSubCategories }"
             @click="showSubCategories = true">
             {{ $t("ExpandAll") }}
           </span>
@@ -28,10 +28,11 @@
           <li
             v-for="category in categories"
             :key="category.id"
-            class="categories__list--item">
+            class="categories__list-item">
             <span
               :class="{
-                'categories__list-active': currentCategory?.id === category?.id,
+                'categories__list--active':
+                  currentCategory?.id === category?.id,
               }"
               @click="openEditForm('edit', category)">
               {{ category.title }}
@@ -124,36 +125,37 @@ export default defineComponent({
       padding: 0px 10px;
       margin-top: 10px;
     }
-    &--create-category {
-      padding: 8px 8px;
-      border-radius: 5px;
-      background: var(--select-navigation-color);
-      color: white;
-      margin-bottom: 15px;
-      outline: none;
-    }
-    &--item {
-      margin-bottom: 15px;
-      & span {
-        &:hover {
-          color: var(--select-navigation-color);
-          cursor: pointer;
-        }
-      }
-    }
-    &--toggle-show {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      & span {
-        cursor: pointer;
-        &:hover {
-          color: var(--select-navigation-color);
-        }
-      }
-    }
-    &-active {
+
+    &--active {
       color: var(--select-navigation-color);
+    }
+  }
+  &__create-category {
+    padding: 8px 8px;
+    border-radius: 5px;
+    background: var(--select-navigation-color);
+    color: white;
+    margin-bottom: 15px;
+    outline: none;
+  }
+  &__toggle-show {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    & span {
+      cursor: pointer;
+      &:hover {
+        color: var(--select-navigation-color);
+      }
+    }
+  }
+  &__list-item {
+    margin-bottom: 15px;
+    & span {
+      &:hover {
+        color: var(--select-navigation-color);
+        cursor: pointer;
+      }
     }
   }
   &__sub-list {

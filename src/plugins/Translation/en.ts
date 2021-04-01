@@ -35,5 +35,8 @@ export enum en {
   Delete = "Delete",
   AddRootCategory = "Add root category",
   ExpandAll = "Expand all",
-  CollapseAll = "Collapse all"
+  CollapseAll = "Collapse all",
+  Add = "Add",
+  AddCategoryTo = "Add category to"
+
 }

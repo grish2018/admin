@@ -35,5 +35,7 @@ export enum ru {
   Delete = "Удалить",
   AddRootCategory = "Добавить корневую категорию",
   ExpandAll = "Развернуть все",
-  CollapseAll = "Свернуть все"
+  CollapseAll = "Свернуть все",
+  Add = "Добавить",
+  AddCategoryTo = "Добавить категорию к"
 }
