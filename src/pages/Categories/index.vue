@@ -68,6 +68,7 @@ import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Category, NewCategory } from "@/types/Category";
+import { MutationType } from "@/store/modules/Categories/MutationType";
 export default defineComponent({
   name: "CategoriesPage",
   components: { CreateCategory, Subcategory },
@@ -81,7 +82,8 @@ export default defineComponent({
     const openEditForm = (mode: string, category: Category | NewCategory) => {
       showCreateCategory.value = true;
       currentMode.value = mode;
-      currentCategory.value = { ...category };
+      store.commit(MutationType.SET_CURRENT_CATEGORY, category);
+      currentCategory.value = { ...store.state.categories.currentCategory };
     };
     onBeforeMount(() => {
       store.dispatch(ActionType.GET_CATEGORIES);
@@ -124,6 +126,7 @@ export default defineComponent({
       list-style: none;
       padding: 0px 10px;
       margin-top: 10px;
+      overflow: auto;
     }
 
     &--active {

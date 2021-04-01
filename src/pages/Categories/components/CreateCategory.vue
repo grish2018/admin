@@ -88,11 +88,11 @@ export default defineComponent({
     });
     watch(
       () => props.currentCategory,
-      (count) => {
+      (newVal) => {
         if (props.currentMode === "addSubcategory") {
           currentCategoryValue.value = {};
         } else {
-          currentCategoryValue.value = { ...count };
+          currentCategoryValue.value = { ...newVal };
         }
       }
     );
@@ -116,16 +116,20 @@ export default defineComponent({
           parent: props.currentCategory.id,
         };
         await store.dispatch(ActionType.CREATE_CATEGORY, newCategory);
+        currentCategoryValue.value = {};
       } else {
         const editedCategory = {
           title: currentCategoryValue.value.title,
           desc: currentCategoryValue.value.desc,
           id: props.currentCategory.id,
         };
-        await store.dispatch(ActionType.EDIT_CATEGORY, editedCategory);
+        const res = await store.dispatch(
+          ActionType.EDIT_CATEGORY,
+          editedCategory
+        );
+        props.addSubcategoryMode("edit", res);
       }
       await store.dispatch(ActionType.GET_CATEGORIES);
-      currentCategoryValue.value = {};
     };
     return { submit, currentCategoryValue, deleteCategory, emit };
   },
