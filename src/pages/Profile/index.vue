@@ -7,14 +7,14 @@
       class="form"
       @submit.prevent="onSubmit">
       <base-input
-        v-model="user.nickname"
+        v-model="nickname"
         placeholder="Введите вашу почту">
         <template #label>
           <span>Nickname</span>
         </template>
       </base-input>
       <base-input
-        v-model="user.email"
+        v-model="email"
         placeholder="Введите вашу почту"
         type="email">
         <template #label>
@@ -22,7 +22,7 @@
         </template>
       </base-input>
       <base-input
-        v-model="general.domain"
+        v-model="user.general.domain"
         placeholder="Ваш домен">
         <template #label>
           <span>Имя домена</span>
@@ -47,7 +47,7 @@ import { defineComponent, onBeforeMount, ref } from "vue";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { store } from "@/store";
 import BaseInput from "@/components/BaseInput.vue";
-import { User, General } from "@/types/User";
+import { User } from "@/types/User";
 
 export default defineComponent({
   name: "ProfilePage",
@@ -55,28 +55,41 @@ export default defineComponent({
     BaseInput,
   },
   setup() {
-    const user: {value: User} = ref({});
-    const general: {value: General} = ref({});
+    const user: {value: User} = ref({ account: {}, general: {} });
+    const nickname = ref("");
+    const domain = ref("");
+    const email = ref("");
     const password = ref("");
 
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PROFILE);
       user.value = { ...store.state.user.user };
-      general.value = { ...store.state.user.general };
+      nickname.value = user.value.account.nickname!!;
+      email.value = user.value.account.email!!;
+      domain.value = user.value.general.domain!!;
     });
 
     const onSubmit = () => {
+      let query = {};
+      if (password.value.length > 5) {
+        query = {
+          nickname: nickname.value,
+          email: email.value,
+          password: password.value.length > 5 ? password.value : "",
+        };
+      } else {
+        query = {
+          nickname: nickname.value,
+          email: email.value,
+        };
+      }
       store.dispatch(ActionType.SET_PROFILE,
         {
-          account: {
-            nickname: user.value.nickname,
-            email: user.value.email,
-            password: password.value.length > 5 ? password.value : "",
-          },
+          account: query,
           general: {
-            name: general.value.name,
-            closed: general.value.closed,
-            domain: general.value.domain,
+            name: user.value.general.name,
+            closed: user.value.general.closed,
+            domain: domain.value,
           },
         }
       );
@@ -85,8 +98,9 @@ export default defineComponent({
     return {
       user,
       onSubmit,
-      general,
       password,
+      nickname,
+      email,
     };
   },
 });

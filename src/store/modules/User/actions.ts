@@ -47,32 +47,22 @@ export const actions: ActionTree<State, RootState> & Actions = {
   [ActionType.SIGN_OUT]({ commit }): void {
     removeStorage("token");
     removeStorage("storeId");
-    commit(MutationType.SET_USER, {});
+    commit(MutationType.SET_USER, { account: {}, general: {} });
     commit(MutationType.SET_STOREID, "");
     commit(MutationType.SET_TOKEN, null);
   },
   async [ActionType.GET_PROFILE]({ commit, state }): Promise<void> {
     const storeId = state.storeId;
     const res = await axios.get(`/${storeId}/profile`, { authorization: true });
-    commit(MutationType.SET_ACCOUNT, res.data.account);
-    commit(MutationType.SET_GENERAL, res.data.general);
+    commit(MutationType.SET_USER, res.data);
   },
-  async [ActionType.SET_PROFILE]({ commit, state }, data): Promise<void> {
+  async [ActionType.SET_PROFILE]({ state }, data): Promise<void> {
     const storeId = state.storeId;
     const token = state.token;
     axios.put(`/${storeId}/profile`, data, {
       headers: {
         authorization: `${token}`,
       },
-    })
-      .then(() => {
-        commit(MutationType.SET_ACCOUNT, data.account);
-        commit(MutationType.SET_GENERAL, data.general);
-      }
-      )
-      .catch((error) => {
-        console.error(error);
-      }
-      );
+    });
   },
 };

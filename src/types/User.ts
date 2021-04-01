@@ -1,11 +1,12 @@
 export interface User {
-    nickname?: string;
-    email?: string;
-}
-
-export interface General {
-    id?: number;
-    name?: string;
-    closed?: boolean;
-    domain?: string;
+    account: {
+        nickname?: string;
+        email?: string;
+    };
+    general: {
+        id?: number;
+        name?: string;
+        closed?: boolean;
+        domain?: string;
+    };
 }
