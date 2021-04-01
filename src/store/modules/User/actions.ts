@@ -65,16 +65,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
         authorization: `${token}`,
       },
     })
-      .then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response);
+      .then(() => {
         commit(MutationType.SET_ACCOUNT, data.account);
         commit(MutationType.SET_GENERAL, data.general);
       }
       )
       .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        console.error(error);
       }
       );
   },

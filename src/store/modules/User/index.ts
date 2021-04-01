@@ -7,14 +7,12 @@ import {
 
 import { RootState } from "@/store/rootState";
 
-import { getters, Getters } from "./getters";
 import { state, State } from "./state";
 import { actions, Actions } from "./actions";
 import { mutations, Mutations } from "./mutations";
 
 export const store: Module<State, RootState> = {
   state,
-  getters,
   mutations,
   actions,
   namespaced: false,
@@ -35,8 +33,4 @@ export type UserStore<S = State> = Omit<
     payload?: Parameters<Actions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<Actions[K]>;
-} & {
-  getters: {
-    [K in keyof Getters]: ReturnType<Getters[K]>;
-  };
 };

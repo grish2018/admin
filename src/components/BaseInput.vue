@@ -17,7 +17,8 @@
       :class="{ 'base-input__input--error': error}"
       @input="$emit('update:modelValue', $event.target.value)">
     <span
-      :class="{'base-input__error': true, 'base-input__error--visible': error }">
+      class="base-input__error"
+      :class="{'base-input__error--visible': error }">
       {{ error }}
     </span>
     <div class="base-input__footer">

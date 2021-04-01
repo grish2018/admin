@@ -44,21 +44,10 @@
 </template>
 <script lang="ts">
 import { defineComponent, onBeforeMount, ref } from "vue";
-import { ActionType } from "@/store/modules/User/ActionType.ts";
+import { ActionType } from "@/store/modules/User/ActionType";
 import { store } from "@/store";
 import BaseInput from "@/components/BaseInput.vue";
-
-interface User {
-  nickname?: string;
-  email?: string;
-}
-
-interface General {
-  id?: number;
-  name?: string;
-  closed?: boolean;
-  domain?: string;
-}
+import { User, General } from "@/types/User";
 
 export default defineComponent({
   name: "ProfilePage",
