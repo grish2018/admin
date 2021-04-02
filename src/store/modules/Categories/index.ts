@@ -6,11 +6,12 @@ import {
 } from "vuex";
 
 import { RootState } from "@/store/rootState";
+
 import { state, State } from "./state";
 import { actions, Actions } from "./actions";
 import { mutations, Mutations } from "./mutations";
 
-export type CustomersStore<S = State> = Omit<
+export type CategoriesStore<S = State> = Omit<
   VuexStore<S>,
   "getters" | "commit" | "dispatch"
 > & {
