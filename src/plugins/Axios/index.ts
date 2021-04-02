@@ -15,9 +15,10 @@ const client: Axios = axios.create(config);
 export const initInterceptors = ({ store, router }: { store: Store; router: Router }) => {
   client.interceptors.request.use((config: Config) => {
     const token = store.state.user.token;
-    if (config.authorization) {
-      config.headers.authorization = token;
+    if (config.authorization === false) {
+      return config;
     }
+    config.headers.authorization = token;
     return config;
   }, (error) => Promise.reject(error));
   client.interceptors.response.use(

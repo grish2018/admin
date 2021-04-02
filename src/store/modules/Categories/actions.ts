@@ -5,7 +5,7 @@ import { MutationType } from "./MutationType";
 import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
-import axios from "@/plugins/Axios";
+import api from "@/plugins/Axios/api";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -31,27 +31,25 @@ export interface Actions {
   ): Promise<void>;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionType.GET_CATEGORIES]({ commit, rootState }): Promise<void> {
+  async [ActionType.GET_CATEGORIES]({ commit, rootState }) {
     const storeId = rootState.user.storeId;
-    const res = await axios.get(`/${storeId}/categories`, {
-      authorization: true,
-    });
+    const res = await api.get(`/${storeId}/categories`);
     commit(MutationType.SET_CATEGORIES, res.data);
   },
   async [ActionType.CREATE_CATEGORY]({ rootState }, category) {
     const storeId = rootState.user.storeId;
-    const res = await axios.post(`/${storeId}/categories`, { category }, { authorization: true });
+    const res = await api.post(`/${storeId}/categories`, { category });
     return res.data.category;
   },
   async [ActionType.EDIT_CATEGORY]({ rootState }, editedCategory) {
     const storeId = rootState.user.storeId;
     const id = editedCategory.id;
     const category = { title: editedCategory.title, desc: editedCategory.desc };
-    const res = await axios.put(`/${storeId}/categories/${id}`, { category }, { authorization: true });
+    const res = await api.put(`/${storeId}/categories/${id}`, { category });
     return res.data.category;
   },
-  async [ActionType.DELETE_CATEGORY]({ rootState }, id): Promise<void> {
+  async [ActionType.DELETE_CATEGORY]({ rootState }, id) {
     const storeId = rootState.user.storeId;
-    await axios.delete(`/${storeId}/categories/${id}`, { authorization: true });
+    await api.delete(`/${storeId}/categories/${id}`);
   },
 };

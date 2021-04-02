@@ -56,17 +56,17 @@ export default defineComponent({
   },
   setup() {
     const user: {value: User} = ref({ account: {}, general: {} });
-    const nickname = ref("");
-    const domain = ref("");
-    const email = ref("");
+    const nickname: { value: string | undefined } = ref("");
+    const domain: { value: string | undefined } = ref("");
+    const email: { value: string | undefined } = ref("");
     const password = ref("");
 
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PROFILE);
       user.value = { ...store.state.user.user };
-      nickname.value = user.value.account.nickname!!;
-      email.value = user.value.account.email!!;
-      domain.value = user.value.general.domain!!;
+      nickname.value = user.value.account.nickname;
+      email.value = user.value.account.email;
+      domain.value = user.value.general.domain;
     });
 
     const onSubmit = () => {
