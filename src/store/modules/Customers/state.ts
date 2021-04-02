@@ -1,7 +1,7 @@
-import { Customers } from "@/types/Customers";
+import { Customer } from "@/types/Customer";
 
 export type State = {
-  customers: Customers[];
+  customers: Customer[];
 };
 
 export const state: State = {
