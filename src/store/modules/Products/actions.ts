@@ -28,21 +28,21 @@ export interface Actions {
   ): Promise<void>;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionType.GET_PRODUCTS]({ commit, rootState }): Promise<void> {
+  async [ActionType.GET_PRODUCTS]({ commit, rootState }) {
     const storeId = rootState.user.storeId;
     const res = await api.get(`/${storeId}/products`);
     commit(MutationType.SET_PRODUCTS, res.data);
   },
-  async [ActionType.GET_PRODUCT_BY_ID]({ commit, rootState }, id): Promise<void> {
+  async [ActionType.GET_PRODUCT_BY_ID]({ commit, rootState }, id) {
     const storeId = rootState.user.storeId;
     const res = await api.get(`/${storeId}/products/${id}`);
     commit(MutationType.SET_CURRENT_PRODUCT, res.data.product);
   },
-  async [ActionType.CREATE_PRODUCT]({ rootState }, product): Promise<void> {
+  async [ActionType.CREATE_PRODUCT]({ rootState }, product) {
     const storeId = rootState.user.storeId;
     await api.post(`/${storeId}/products`, { product });
   },
-  async [ActionType.EDIT_PRODUCT]({ rootState }, product): Promise<void> {
+  async [ActionType.EDIT_PRODUCT]({ rootState }, product) {
     const storeId = rootState.user.storeId;
     const id = product.id;
     await api.put(`/${storeId}/products/${id}`, { product });

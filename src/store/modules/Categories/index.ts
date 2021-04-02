@@ -11,14 +11,7 @@ import { state, State } from "./state";
 import { actions, Actions } from "./actions";
 import { mutations, Mutations } from "./mutations";
 
-export const store: Module<State, RootState> = {
-  state,
-  mutations,
-  actions,
-  namespaced: false,
-};
-
-export type UserStore<S = State> = Omit<
+export type CategoriesStore<S = State> = Omit<
   VuexStore<S>,
   "getters" | "commit" | "dispatch"
 > & {
@@ -33,4 +26,11 @@ export type UserStore<S = State> = Omit<
     payload?: Parameters<Actions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<Actions[K]>;
+};
+
+export const store: Module<State, RootState> = {
+  state,
+  mutations,
+  actions,
+  namespaced: false,
 };

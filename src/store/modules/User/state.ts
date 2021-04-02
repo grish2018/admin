@@ -5,15 +5,22 @@ function getStoreId(): string | null {
   return window.localStorage.getItem("storeId");
 }
 
+interface User {
+  account: {};
+  general: {};
+}
+
 export type State = {
-  user: {};
+  user: User;
+  general: object;
   token: string | null;
   storeId: string | null;
   profile: {} | null;
 };
 
 export const state: State = {
-  user: {},
+  user: { account: {}, general: {} },
+  general: {},
   token: getToken(),
   storeId: getStoreId(),
   profile: null,

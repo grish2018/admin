@@ -6,7 +6,7 @@ export default {
   get: (url: string, config?: Config): Promise<NewAxiosResponse> => {
     return axios.get(url, config);
   },
-  delete: (url: string, data: any, config?: Config): Promise<NewAxiosResponse> => {
+  delete: (url: string, data?: any, config?: Config): Promise<NewAxiosResponse> => {
     return axios.delete(url, {
       ...config,
       data,

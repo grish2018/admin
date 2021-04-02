@@ -28,7 +28,7 @@ export interface Actions {
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionType.SIGN_IN]({ commit }, data): Promise<void> {
+  async [ActionType.SIGN_IN]({ commit }, data) {
     const res = await api.post("/login", data, { authorization: false });
     setStorage("token", res.data.owner.token);
     setStorage("storeId", String(res.data.owner.storeId));
@@ -36,7 +36,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_TOKEN, res.data.owner.token);
     commit(MutationType.SET_USER, res.data);
   },
-  async [ActionType.SIGN_UP]({ commit }, data): Promise<void> {
+  async [ActionType.SIGN_UP]({ commit }, data) {
     const res = await api.post("/signup", data, { authorization: false });
     setStorage("token", res.data.owner.token);
     setStorage("storeId", String(res.data.owner.storeId));
@@ -44,16 +44,20 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
     commit(MutationType.SET_USER, res.data);
   },
-  [ActionType.SIGN_OUT]({ commit }): void {
+  [ActionType.SIGN_OUT]({ commit }) {
     removeStorage("token");
     removeStorage("storeId");
-    commit(MutationType.SET_USER, {});
+    commit(MutationType.SET_USER, { account: {}, general: {} });
     commit(MutationType.SET_STOREID, "");
     commit(MutationType.SET_TOKEN, null);
   },
-  async [ActionType.GET_PROFILE]({ commit, state }): Promise<void> {
+  async [ActionType.GET_PROFILE]({ commit, state }) {
     const storeId = state.storeId;
     const res = await api.get(`/${storeId}/profile`);
-    commit(MutationType.SET_PROFILE, res.data);
+    commit(MutationType.SET_USER, res.data);
+  },
+  async [ActionType.SET_PROFILE]({ state }, data) {
+    const storeId = state.storeId;
+    api.put(`/${storeId}/profile`, data);
   },
 };
