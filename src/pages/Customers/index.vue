@@ -76,6 +76,7 @@ export default defineComponent({
         ActionType.DELETE_CHECKED_CUSTOMERS,
         checkedCustomers.value
       );
+      await store.dispatch(ActionType.GET_CUSTOMERS);
     };
     return { customers, addItem, deleteCustomer, deleteCheckedCustomers };
   },

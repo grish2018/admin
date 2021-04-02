@@ -35,8 +35,9 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.DELETE_CHECKED_CUSTOMERS]({ rootState }, checkedCustomers): Promise<void> {
     const storeId = rootState.user.storeId;
 
-    await axios.delete(`/${storeId}/customers`, { list: [...checkedCustomers] }, {
+    await axios.delete(`/${storeId}/customers`, {
       authorization: true,
+      data: { list: [...checkedCustomers] },
     });
   },
 };
