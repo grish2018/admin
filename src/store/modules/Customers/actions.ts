@@ -4,7 +4,7 @@ import { MutationType } from "./MutationType";
 import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
-import axios from "@/plugins/Axios";
+import api from "@/plugins/Axios/api";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -21,23 +21,18 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_CUSTOMERS]({ commit, rootState }): Promise<void> {
     const storeId = rootState.user.storeId;
-    const res = await axios.get(`/${storeId}/customers`, {
-      authorization: true,
-    });
+    const res = await api.get(`/${storeId}/customers`);
     commit(MutationType.SET_CUSTOMERS, res.data);
   },
   async [ActionType.DELETE_CUSTOMER]({ rootState }, token): Promise<void> {
     const storeId = rootState.user.storeId;
-    await axios.delete(`/${storeId}/customers/${token}`, {
-      authorization: true,
-    });
+    await api.delete(`/${storeId}/customers/${token}`);
   },
   async [ActionType.DELETE_CHECKED_CUSTOMERS]({ rootState }, checkedCustomers): Promise<void> {
     const storeId = rootState.user.storeId;
 
-    await axios.delete(`/${storeId}/customers`, {
-      authorization: true,
-      data: { list: [...checkedCustomers] },
+    await api.delete(`/${storeId}/customers`, {
+      list: [...checkedCustomers],
     });
   },
 };
