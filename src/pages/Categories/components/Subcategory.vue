@@ -12,7 +12,8 @@
         v-for="subcategory in category.childs"
         :key="subcategory.id"
         :category="subcategory"
-        :show-edit-form="showEditForm" />
+        :show-edit-form="showEditForm"
+        :current-category="currentCategory" />
     </ul>
   </li>
 </template>

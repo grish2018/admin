@@ -64,6 +64,7 @@ import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { Category, NewCategory } from "@/types/Category";
 import { defineComponent, ref, watch } from "vue";
+
 export default defineComponent({
   name: "CreateCategory",
   props: {
@@ -82,7 +83,7 @@ export default defineComponent({
       },
     },
   },
-  setup(props, { emit }) {
+  setup(props) {
     const currentCategoryValue: { value: Category | NewCategory } = ref({
       ...props.currentCategory,
     });
@@ -115,8 +116,11 @@ export default defineComponent({
           desc: currentCategoryValue.value.desc,
           parent: props.currentCategory.id,
         };
-        await store.dispatch(ActionType.CREATE_CATEGORY, newCategory);
-        currentCategoryValue.value = {};
+        const res = await store.dispatch(
+          ActionType.CREATE_CATEGORY,
+          newCategory
+        );
+        props.addSubcategoryMode("edit", res);
       } else {
         const editedCategory = {
           title: currentCategoryValue.value.title,
@@ -131,7 +135,7 @@ export default defineComponent({
       }
       await store.dispatch(ActionType.GET_CATEGORIES);
     };
-    return { submit, currentCategoryValue, deleteCategory, emit };
+    return { submit, currentCategoryValue, deleteCategory };
   },
 });
 </script>
