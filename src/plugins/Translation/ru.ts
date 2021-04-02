@@ -31,4 +31,18 @@ export enum ru {
   Password = "Пароль",
   AlreadyRegisteredUser = "Уже есть аккаунт",
   Nickname = "Псевдоним",
+  NumberOfProducts = "Товаров",
+  NEW = "Новый заказ",
+  PROCESSING = "В обработке",
+  SHIPPED = "Заказ был отправлен (введен track)",
+  DELIVERED = "Доставлен",
+  WILL_NOT_DELIVER = "Доставка отменена",
+  RETURNED = "Возвращен",
+  INCOMPLETE = "Оформление заказа не завершено",
+  AWAITING_PAYMENT = "Ожидает оплаты",
+  CHARGEABLE = "TODO",
+  PAID = "Оплачен",
+  DECLINED = "Платеж отменен по внешним причинам",
+  CANCELLED = "Платеж отменен владельцем магазина или пользователем",
+  REFUNDED = "Деньги возвращены"
 }

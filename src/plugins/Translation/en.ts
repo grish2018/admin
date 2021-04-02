@@ -30,5 +30,19 @@ export enum en {
   Email = "e-mail",
   Password = "Password",
   AlreadyRegisteredUser = "Already registered user",
-  Nickname = "Nickname"
+  Nickname = "Nickname",
+  NumberOfProducts = "Products",
+  NEW = "New order",
+  PROCESSING = "In processing",
+  SHIPPED = "The order has been sent (entered by track)",
+  DELIVERED = "Delivered",
+  WILL_NOT_DELIVER = "Delivery canceled",
+  RETURNED = "Returned",
+  INCOMPLETE = "Checkout not completed",
+  AWAITING_PAYMENT = "Awaiting payment",
+  CHARGEABLE = "TODO",
+  PAID = "Paid up",
+  DECLINED = "Payment canceled due to external reasons",
+  CANCELLED = "Payment canceled by the store owner or user",
+  REFUNDED = "Money returned"
 }
