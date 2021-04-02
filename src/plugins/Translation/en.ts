@@ -30,5 +30,6 @@ export enum en {
   Email = "e-mail",
   Password = "Password",
   AlreadyRegisteredUser = "Already registered user",
-  Nickname = "Nickname"
+  Nickname = "Nickname",
+  DeleteChecked = "Delete checked"
 }

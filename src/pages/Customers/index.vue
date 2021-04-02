@@ -3,8 +3,8 @@
     <table>
       <tr class="customers__table-header">
         <th />
-        <th>Name</th>
-        <th>Mail</th>
+        <th>{{ $t("Nickname") }}</th>
+        <th>{{ $t("Email") }}</th>
         <th />
       </tr>
       <tr
@@ -34,7 +34,7 @@
     <button
       class="customers__delete-all-button"
       @click="deleteCheckedCustomers">
-      Delete all
+      {{ $t("DeleteChecked") }}
     </button>
   </div>
 </template>

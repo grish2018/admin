@@ -31,4 +31,5 @@ export enum ru {
   Password = "Пароль",
   AlreadyRegisteredUser = "Уже есть аккаунт",
   Nickname = "Псевдоним",
+  DeleteChecked = "Удалить отмеченные"
 }
