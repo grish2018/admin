@@ -8,7 +8,7 @@ export type Mutations<S = State> = {
 };
 
 export const mutations: MutationTree<State> & Mutations = {
-  [MutationType.SET_CATEGORIES](state: State, categories): void {
+  [MutationType.SET_CATEGORIES](state, categories) {
     state.categories = categories;
   },
 };
