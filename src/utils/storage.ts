@@ -8,7 +8,3 @@ export const getStorage = (key: string): string | null =>
 export const removeStorage = (key: string): void => {
   window.localStorage.removeItem(key);
 };
-
-export const getLanguage = () => {
-  return window.localStorage.getItem("locale") || "ru";
-};

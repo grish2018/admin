@@ -60,9 +60,7 @@
       </div>
       <button class="create-product__button">
         {{
-          route.name === RouteNames.CREATE_PRODUCTS
-            ? $t("Create")
-            : $t("Save")
+          route.name === RouteNames.CREATE_PRODUCTS ? $t("Create") : $t("Save")
         }}
       </button>
     </form>
@@ -188,13 +186,10 @@ export default defineComponent({
   &__button {
     height: 30px;
     width: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 5px;
-    text-decoration: none;
     background: var(--select-navigation-color);
     color: white;
+    outline: none;
   }
 }
 </style>

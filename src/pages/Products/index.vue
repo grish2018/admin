@@ -45,7 +45,6 @@ export default defineComponent({
     const checkedProducts: { value: { id: number }[] } = ref([]);
     const store = useStore();
     const products = computed(() => store.state.products.products);
-    const showCreateProductForm = ref(false);
     const allSelected = computed(() => {
       if (products.value.length === 0) {
         return false;
@@ -86,7 +85,6 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
-      showCreateProductForm,
     };
   },
 });
