@@ -3,4 +3,6 @@ export interface Order {
     paymentStatus?: string;
     fulfillmentStatus?: string;
     total?: number;
+    customerEmail: string;
+    products: any;
 }
