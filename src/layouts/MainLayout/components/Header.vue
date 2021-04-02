@@ -38,9 +38,9 @@
         </div>
       </div>
       <select
-        v-model="$i18n.locale"
+        :value="$i18n.locale"
         class="header-main-layout__select"
-        @change="setLocale($event.target.value)">
+        @change="setLocale">
         <option value="ru">
           ru
         </option>
@@ -53,9 +53,7 @@
 </template>
 
 <script lang="ts">
-/**
- * Шапка на основном экране
- */
+
 import { defineComponent, ref } from "vue";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { useRouter } from "vue-router";
@@ -69,8 +67,9 @@ export default defineComponent({
     const showModal = ref(false);
     const router = useRouter();
     const store = useStore();
-    const setLocale = (value: string) => {
-      setStorage("locale", value);
+    const setLocale = ({ target }: {target: HTMLSelectElement}) => {
+      setStorage("locale", target.value);
+      window.location.reload();
     };
     const logOut = () => {
       store.dispatch(ActionType.SIGN_OUT);
