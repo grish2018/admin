@@ -1,10 +1,10 @@
 <template>
-  <div class="page-wrap">
-    <h1 class="page-title">
+  <div class="profile-page">
+    <h1 class="profile-page__title">
       Профиль
     </h1>
     <form
-      class="form"
+      class="profile-page__form"
       @submit.prevent="onSubmit">
       <base-input
         v-model="nickname"
@@ -36,7 +36,7 @@
           <span>Password</span>
         </template>
       </base-input>
-      <button class="button">
+      <button class="profile-page__button">
         Сохранить
       </button>
     </form>
@@ -107,19 +107,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-  .page-wrap {
+  .profile-page {
     padding: 50px;
     width: 100%;
-  }
-  .page-title {
+   &__title {
     text-align: center;
     margin-bottom: 30px;
   }
-  .form {
+  &__form {
     margin: 0 auto;
     width: 400px;
   }
-  .button {
+  &__button {
     background: #8a2be2;
     color: #fff;
     width: 150px;
@@ -132,5 +131,6 @@ export default defineComponent({
     &:hover {
       background: #943ee4;
     }
+  }
   }
 </style>
