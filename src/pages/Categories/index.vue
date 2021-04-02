@@ -32,7 +32,7 @@
             <span
               :class="{
                 'categories__list--active':
-                  currentCategory?.id === category?.id,
+                  currentCategory?.id === category.id,
               }"
               @click="openEditForm('edit', category)">
               {{ category.title }}
@@ -44,18 +44,18 @@
                 v-for="subcategory in category.childs"
                 :key="subcategory.id"
                 :category="subcategory"
-                :show-edit-form="openEditForm"
-                :current-category="currentCategory" />
+                :current-category="currentCategory"
+                @openEditForm="openEditForm('edit', $event)" />
             </ul>
           </li>
         </ul>
       </div>
       <div class="categories__main">
         <create-category
-          v-if="showCreateCategory"
+          v-if="currentCategory"
           :current-category="currentCategory"
           :current-mode="currentMode"
-          :add-subcategory-mode="openEditForm" />
+          @openEditForm="openEditForm" />
       </div>
     </div>
   </div>
@@ -68,7 +68,6 @@ import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Category, NewCategory } from "@/types/Category";
-import { MutationType } from "@/store/modules/Categories/MutationType";
 export default defineComponent({
   name: "CategoriesPage",
   components: { CreateCategory, Subcategory },
@@ -76,14 +75,11 @@ export default defineComponent({
     const store = useStore();
     const categories = computed(() => store.state.categories.categories);
     const showSubCategories = ref(true);
-    const showCreateCategory = ref(false);
     const currentMode = ref("new");
-    const currentCategory: { value: Category | NewCategory } = ref({});
+    const currentCategory: { value: Category | NewCategory | null } = ref(null);
     const openEditForm = (mode: string, category: Category | NewCategory) => {
-      showCreateCategory.value = true;
       currentMode.value = mode;
-      store.commit(MutationType.SET_CURRENT_CATEGORY, category);
-      currentCategory.value = { ...store.state.categories.currentCategory };
+      currentCategory.value = { ...category };
     };
     onBeforeMount(() => {
       store.dispatch(ActionType.GET_CATEGORIES);
@@ -92,7 +88,6 @@ export default defineComponent({
       store,
       categories,
       showSubCategories,
-      showCreateCategory,
       currentCategory,
       openEditForm,
       currentMode,

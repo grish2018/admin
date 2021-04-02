@@ -1,4 +1,4 @@
-import { NewCategory } from "@/types/Category";
+import { Category, NewCategory } from "@/types/Category";
 import { ActionTree, ActionContext } from "vuex";
 import { ActionType } from "./ActionType";
 import { MutationType } from "./MutationType";
@@ -19,12 +19,12 @@ export interface Actions {
   [ActionType.CREATE_CATEGORY](
     context: AugmentedActionContext,
     category: NewCategory,
-  ): Promise<void>;
+  ): Promise<Category>;
   [ActionType.EDIT_CATEGORY](
     context: AugmentedActionContext,
     category: NewCategory,
     id: number
-  ): Promise<void>;
+  ): Promise<Category>;
   [ActionType.DELETE_CATEGORY](
     context: AugmentedActionContext,
     id: number
@@ -38,17 +38,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationType.SET_CATEGORIES, res.data);
   },
-  async [ActionType.CREATE_CATEGORY]({ rootState }, category): Promise<void> {
+  async [ActionType.CREATE_CATEGORY]({ rootState }, category) {
     const storeId = rootState.user.storeId;
     const res = await axios.post(`/${storeId}/categories`, { category }, { authorization: true });
-    return res.data?.category;
+    return res.data.category;
   },
-  async [ActionType.EDIT_CATEGORY]({ rootState }, editedCategory): Promise<void> {
+  async [ActionType.EDIT_CATEGORY]({ rootState }, editedCategory) {
     const storeId = rootState.user.storeId;
     const id = editedCategory.id;
     const category = { title: editedCategory.title, desc: editedCategory.desc };
     const res = await axios.put(`/${storeId}/categories/${id}`, { category }, { authorization: true });
-    return res.data?.category;
+    return res.data.category;
   },
   async [ActionType.DELETE_CATEGORY]({ rootState }, id): Promise<void> {
     const storeId = rootState.user.storeId;

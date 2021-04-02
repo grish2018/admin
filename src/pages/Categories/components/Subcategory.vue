@@ -4,7 +4,7 @@
       :class="{
         'subcategory--active': currentCategory?.id === category?.id,
       }"
-      @click="showEditForm('edit', category)">
+      @click="openEditForm(category)">
       {{ category.title }}
     </span>
     <ul>
@@ -12,14 +12,14 @@
         v-for="subcategory in category.childs"
         :key="subcategory.id"
         :category="subcategory"
-        :show-edit-form="showEditForm"
-        :current-category="currentCategory" />
+        :current-category="currentCategory"
+        @openEditForm="openEditForm" />
     </ul>
   </li>
 </template>
 
 <script lang="ts">
-import { Category } from "@/types/Category";
+import { Category, NewCategory } from "@/types/Category";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Subcategory",
@@ -28,19 +28,17 @@ export default defineComponent({
       type: Object as () => Category,
       default: null,
     },
-    showEditForm: {
-      type: Function,
-      default: () => {
-        return true;
-      },
-    },
     currentCategory: {
       type: Object as () => Category,
-      default: {},
+      default: () => ({}),
     },
   },
-  setup(props) {
-    return { props };
+  emits: ["openEditForm"],
+  setup(_, { emit }) {
+    function openEditForm(category: Category | NewCategory) {
+      emit("openEditForm", category);
+    }
+    return { openEditForm };
   },
 });
 </script>

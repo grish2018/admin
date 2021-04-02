@@ -5,19 +5,19 @@
       class="create-category__header">
       <span class="create-category__title">
         {{
-          currentMode === "addSubcategory"
+          currentMode === "addSubCategory"
             ? `${$t("AddCategoryTo")} ${currentCategory.title}`
             : currentCategory.title
         }}
       </span>
       <button
         class="create-category__create-subcategory"
-        :disabled="currentMode === 'addSubcategory'"
-        @click="addSubcategoryMode('addSubcategory', currentCategory)">
+        :disabled="currentMode === 'addSubCategory'"
+        @click="addSubCategory">
         {{ $t("AddSubcategory") }}
       </button>
       <button
-        :disabled="currentMode === 'addSubcategory'"
+        :disabled="currentMode === 'addSubCategory'"
         class="create-category__delete-category"
         @click="deleteCategory">
         {{ $t("Delete") }}
@@ -50,7 +50,7 @@
         {{
           currentMode === "edit"
             ? $t("Save")
-            : currentMode === "addSubcategory"
+            : currentMode === "addSubCategory"
               ? $t("Add")
               : $t("Create")
         }}
@@ -76,66 +76,57 @@ export default defineComponent({
       type: String,
       default: "",
     },
-    addSubcategoryMode: {
-      type: Function,
-      default: () => {
-        return true;
-      },
-    },
   },
-  setup(props) {
+  emits: ["openEditForm"],
+  setup(props, { emit }) {
+    const store = useStore();
     const currentCategoryValue: { value: Category | NewCategory } = ref({
       ...props.currentCategory,
     });
     watch(
       () => props.currentCategory,
       (newVal) => {
-        if (props.currentMode === "addSubcategory") {
+        if (props.currentMode === "addSubCategory") {
           currentCategoryValue.value = {};
         } else {
           currentCategoryValue.value = { ...newVal };
         }
       }
     );
-    const store = useStore();
     const deleteCategory = async () => {
       await store.dispatch(
         ActionType.DELETE_CATEGORY,
         props.currentCategory.id
       );
-      props.addSubcategoryMode("new", {});
+      emit("openEditForm", "new", {});
       await store.dispatch(ActionType.GET_CATEGORIES);
     };
     const submit = async () => {
-      if (
-        props.currentMode === "new" ||
-        props.currentMode === "addSubcategory"
-      ) {
-        const newCategory = {
-          title: currentCategoryValue.value.title,
-          desc: currentCategoryValue.value.desc,
-          parent: props.currentCategory.id,
-        };
-        const res = await store.dispatch(
-          ActionType.CREATE_CATEGORY,
-          newCategory
-        );
-        props.addSubcategoryMode("edit", res);
-      } else {
-        const editedCategory = {
-          title: currentCategoryValue.value.title,
-          desc: currentCategoryValue.value.desc,
-          id: props.currentCategory.id,
-        };
-        const res = await store.dispatch(
+      let res: Category;
+      const category: Category | NewCategory = {
+        title: currentCategoryValue.value.title,
+        desc: currentCategoryValue.value.desc,
+      };
+      if (props.currentMode === "edit") {
+        category.id = props.currentCategory.id;
+        res = await store.dispatch(
           ActionType.EDIT_CATEGORY,
-          editedCategory
+          category
         );
-        props.addSubcategoryMode("edit", res);
+      } else {
+        category.parent = props.currentCategory.id;
+        res = await store.dispatch(
+          ActionType.CREATE_CATEGORY,
+          category
+        );
       }
+      emit("openEditForm", "edit", res);
       await store.dispatch(ActionType.GET_CATEGORIES);
     };
-    return { submit, currentCategoryValue, deleteCategory };
+    const addSubCategory = () => {
+      emit("openEditForm", "addSubCategory", props.currentCategory);
+    };
+    return { submit, currentCategoryValue, deleteCategory, addSubCategory };
   },
 });
 </script>
