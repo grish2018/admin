@@ -19,16 +19,16 @@ export interface Actions {
   [ActionType.DELETE_CHECKED_CUSTOMERS](context: AugmentedActionContext, checkedCustomers: number[]): Promise<void>;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionType.GET_CUSTOMERS]({ commit, rootState }): Promise<void> {
+  async [ActionType.GET_CUSTOMERS]({ commit, rootState }) {
     const storeId = rootState.user.storeId;
     const res = await api.get(`/${storeId}/customers`);
     commit(MutationType.SET_CUSTOMERS, res.data);
   },
-  async [ActionType.DELETE_CUSTOMER]({ rootState }, token): Promise<void> {
+  async [ActionType.DELETE_CUSTOMER]({ rootState }, token) {
     const storeId = rootState.user.storeId;
     await api.delete(`/${storeId}/customers/${token}`);
   },
-  async [ActionType.DELETE_CHECKED_CUSTOMERS]({ rootState }, checkedCustomers): Promise<void> {
+  async [ActionType.DELETE_CHECKED_CUSTOMERS]({ rootState }, checkedCustomers) {
     const storeId = rootState.user.storeId;
 
     await api.delete(`/${storeId}/customers`, {
