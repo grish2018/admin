@@ -5,7 +5,7 @@ import { MutationType } from "./MutationType";
 import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
-import axios from "@/plugins/Axios";
+import api from "@/plugins/Axios/api";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -28,27 +28,23 @@ export interface Actions {
   ): Promise<void>;
 }
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionType.GET_PRODUCTS]({ commit, rootState }): Promise<void> {
+  async [ActionType.GET_PRODUCTS]({ commit, rootState }) {
     const storeId = rootState.user.storeId;
-    const res = await axios.get(`/${storeId}/products`, {
-      authorization: true,
-    });
+    const res = await api.get(`/${storeId}/products`);
     commit(MutationType.SET_PRODUCTS, res.data);
   },
-  async [ActionType.GET_PRODUCT_BY_ID]({ commit, rootState }, id): Promise<void> {
+  async [ActionType.GET_PRODUCT_BY_ID]({ commit, rootState }, id) {
     const storeId = rootState.user.storeId;
-    const res = await axios.get(`/${storeId}/products/${id}`, {
-      authorization: true,
-    });
+    const res = await api.get(`/${storeId}/products/${id}`);
     commit(MutationType.SET_CURRENT_PRODUCT, res.data.product);
   },
-  async [ActionType.CREATE_PRODUCT]({ rootState }, product): Promise<void> {
+  async [ActionType.CREATE_PRODUCT]({ rootState }, product) {
     const storeId = rootState.user.storeId;
-    await axios.post(`/${storeId}/products`, { product }, { authorization: true });
+    await api.post(`/${storeId}/products`, { product });
   },
-  async [ActionType.EDIT_PRODUCT]({ rootState }, product): Promise<void> {
+  async [ActionType.EDIT_PRODUCT]({ rootState }, product) {
     const storeId = rootState.user.storeId;
     const id = product.id;
-    await axios.put(`/${storeId}/products/${id}`, { product }, { authorization: true });
+    await api.put(`/${storeId}/products/${id}`, { product });
   },
 };
