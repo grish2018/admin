@@ -79,7 +79,6 @@ export default defineComponent({
       store.dispatch(ActionType.GET_PRODUCTS);
     });
     return {
-      store,
       products,
       checkedProducts,
       selectAll,
