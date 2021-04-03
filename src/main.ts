@@ -11,7 +11,7 @@ import { getStorage } from "@/utils/storage";
 
 initInterceptors({ store, router });
 
-const lang = getStorage("local") || "ru";
+const lang = getStorage("locale") || "ru";
 
 loadedLanguagesAsync(lang).then(() => {
   createApp(App)
