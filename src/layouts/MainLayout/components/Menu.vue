@@ -7,9 +7,8 @@
           :key="link.name"
           class="menu-main-layout__list-item"
           :class="{
-            'menu-main-layout__link--active': link.children.some(
-              (link) => link.routeName === currentRoute
-            ),
+            'menu-main-layout__link--active':
+              currentRoute.includes(link.routeName) || isActive(link.children),
           }">
           <router-link
             class="menu-main-layout__sub-link menu-main-layout__sub-link--active"
@@ -22,7 +21,11 @@
               :key="subLink.routeName">
               <router-link
                 class="menu-main-layout__sub-link"
-                active-class="menu-main-layout__link--active"
+                :class="{
+                  'menu-main-layout__link--active': currentRoute.includes(
+                    subLink.routeName
+                  ),
+                }"
                 :to="{ name: subLink.routeName }">
                 {{ $t(subLink.name) }}
               </router-link>
@@ -69,7 +72,10 @@ const menuLinks = [
     ],
   },
 ];
-
+interface Link {
+  routeName: string;
+  name: string;
+}
 export default defineComponent({
   name: "MenuMainLayout",
 
@@ -84,7 +90,10 @@ export default defineComponent({
     const currentRoute = computed(() => {
       return route.name;
     });
-    return { RouteNames, logOut, menuLinks, currentRoute };
+    const isActive = (links: Link[]) => {
+      return links.some((link) => link.routeName === currentRoute.value);
+    };
+    return { RouteNames, logOut, menuLinks, currentRoute, isActive };
   },
 });
 </script>

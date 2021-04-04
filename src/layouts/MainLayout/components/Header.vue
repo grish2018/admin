@@ -53,7 +53,6 @@
 </template>
 
 <script lang="ts">
-
 import { defineComponent, ref } from "vue";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { useRouter } from "vue-router";
@@ -67,7 +66,7 @@ export default defineComponent({
     const showModal = ref(false);
     const router = useRouter();
     const store = useStore();
-    const setLocale = ({ target }: {target: HTMLSelectElement}) => {
+    const setLocale = ({ target }: { target: HTMLSelectElement }) => {
       setStorage("locale", target.value);
       window.location.reload();
     };
