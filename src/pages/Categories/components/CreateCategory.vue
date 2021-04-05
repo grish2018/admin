@@ -3,13 +3,6 @@
     <div
       v-if="currentMode !== 'new'"
       class="create-category__header">
-      <span class="create-category__title">
-        {{
-          currentMode === "addSubCategory"
-            ? `${$t("AddCategoryTo")} ${currentCategory.title}`
-            : currentCategory.title
-        }}
-      </span>
       <button
         class="create-category__create-subcategory"
         :disabled="currentMode === 'addSubCategory'"
@@ -109,16 +102,10 @@ export default defineComponent({
       };
       if (props.currentMode === "edit") {
         category.id = props.currentCategory.id;
-        res = await store.dispatch(
-          ActionType.EDIT_CATEGORY,
-          category
-        );
+        res = await store.dispatch(ActionType.EDIT_CATEGORY, category);
       } else {
         category.parent = props.currentCategory.id;
-        res = await store.dispatch(
-          ActionType.CREATE_CATEGORY,
-          category
-        );
+        res = await store.dispatch(ActionType.CREATE_CATEGORY, category);
       }
       emit("openEditForm", "edit", res);
       await store.dispatch(ActionType.GET_CATEGORIES);
@@ -135,18 +122,13 @@ export default defineComponent({
 .create-category {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 80%;
   flex-direction: column;
+  padding: 15px 20px;
   &__header {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
-    & span {
-      width: 100%;
-      width: 100%;
-      font-size: 30px;
-      font-weight: bold;
-    }
   }
   &__title {
     margin-bottom: 5px;

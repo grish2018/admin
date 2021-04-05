@@ -8,7 +8,10 @@
       <div class="categories__list">
         <button
           class="categories__create-category"
-          @click="openEditForm('new', {})">
+          @click="
+            openEditForm('new', {});
+            setCurrentTab('main');
+          ">
           {{ $t("AddRootCategory") }}
         </button>
         <div class="categories__toggle-show">
@@ -31,8 +34,7 @@
             class="categories__list-item">
             <span
               :class="{
-                'categories__list--active':
-                  currentCategory?.id === category.id,
+                'categories__list--active': currentCategory?.id === category.id,
               }"
               @click="openEditForm('edit', category)">
               {{ category.title }}
@@ -51,11 +53,27 @@
         </ul>
       </div>
       <div class="categories__main">
+        <category-header
+          :current-mode="currentMode"
+          :current-category="currentCategory"
+          :current-tab="currentTab"
+          @toggleTab="setCurrentTab" />
         <create-category
-          v-if="currentCategory"
+          v-if="currentCategory && currentTab === 'main'"
           :current-category="currentCategory"
           :current-mode="currentMode"
           @openEditForm="openEditForm" />
+        <category-products
+          v-if="currentTab === 'products'"
+          :current-category="currentCategory"
+          @toggleShowModal="toggleShowModal" />
+        <teleport to="#app">
+          <modal v-if="showModal">
+            <products-list
+              :current-category="currentCategory"
+              @toggleShowModal="toggleShowModal" />
+          </modal>
+        </teleport>
       </div>
     </div>
   </div>
@@ -64,19 +82,38 @@
 <script lang="ts">
 import Subcategory from "./components/Subcategory.vue";
 import CreateCategory from "./components/CreateCategory.vue";
+import CategoryHeader from "./components/CategoryHeader.vue";
+import CategoryProducts from "./components/CategoryProducts.vue";
+import ProductsList from "./components/ProductsList.vue";
+import Modal from "@/components/Modal.vue";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Category, NewCategory } from "@/types/Category";
 export default defineComponent({
   name: "CategoriesPage",
-  components: { CreateCategory, Subcategory },
+  components: {
+    CreateCategory,
+    Subcategory,
+    CategoryHeader,
+    CategoryProducts,
+    Modal,
+    ProductsList,
+  },
   setup() {
     const store = useStore();
+    const showModal = ref(false);
+    const toggleShowModal = (value: boolean) => {
+      showModal.value = value;
+    };
+    const currentTab = ref("main");
     const categories = computed(() => store.state.categories.categories);
     const showSubCategories = ref(true);
     const currentMode = ref("new");
     const currentCategory: { value: Category | NewCategory | null } = ref(null);
+    const setCurrentTab = (tab: string) => {
+      currentTab.value = tab;
+    };
     const openEditForm = (mode: string, category: Category | NewCategory) => {
       currentMode.value = mode;
       currentCategory.value = { ...category };
@@ -91,6 +128,10 @@ export default defineComponent({
       currentCategory,
       openEditForm,
       currentMode,
+      currentTab,
+      setCurrentTab,
+      showModal,
+      toggleShowModal,
     };
   },
 });
@@ -161,7 +202,8 @@ export default defineComponent({
   }
   &__main {
     width: 75%;
-    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

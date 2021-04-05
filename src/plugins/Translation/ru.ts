@@ -2,6 +2,7 @@ export enum ru {
   Catalog = "Каталог",
   Products = "Товары",
   Categories = "Категории",
+  Category = "Категория",
   Sales = "Продажи",
   Orders = "Заказы",
   Customers = "Покупатели",
@@ -38,5 +39,9 @@ export enum ru {
   ExpandAll = "Развернуть все",
   CollapseAll = "Свернуть все",
   Add = "Добавить",
-  AddCategoryTo = "Добавить категорию к"
+  AddCategoryTo = "Добавить категорию к",
+  Main = "Основное",
+  ProductsInCategory = "Товары в категории",
+  AddProducts = "Добавить товары",
+  DeleteAll = "Удалить все"
 }

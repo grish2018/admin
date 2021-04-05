@@ -2,6 +2,7 @@ export enum en {
   Catalog = "Catalog",
   Products = "Products",
   Categories = "Categories",
+  Category = "Category",
   Sales = "Sales",
   Orders = "Orders",
   Customers = "Customers",
@@ -38,6 +39,9 @@ export enum en {
   ExpandAll = "Expand all",
   CollapseAll = "Collapse all",
   Add = "Add",
-  AddCategoryTo = "Add category to"
-
+  AddCategoryTo = "Add category to",
+  Main = "Main",
+  ProductsInCategory = "Products in category",
+  AddProducts = "Add products",
+  DeleteAll = "Delete all"
 }
