@@ -1,13 +1,13 @@
 <template>
   <div class="orders">
-    <div class="orders-title">
+    <div class="orders__title">
       {{ $t("Orders") }}
     </div>
     <ul>
-      <li v-for="item in orders"
+      <li
+        v-for="item in orders"
         :key="item.id">
-        <order-card
-          :order="item" />
+        <order-card :order="item" />
       </li>
     </ul>
   </div>
@@ -41,7 +41,7 @@ export default defineComponent({
   padding: 10px 10px;
 }
 .orders{
-  &-title {
+  &__title {
     padding: 10px 10px;
   }
 }
