@@ -40,13 +40,11 @@
 </template>
 
 <script lang="ts">
-import SvgIcon from "@/components/UI/SvgIcon.vue";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Customers/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 export default defineComponent({
   name: "CustomersPage",
-  components: { SvgIcon },
   setup() {
     const store = useStore();
     onBeforeMount(() => {
@@ -95,8 +93,6 @@ export default defineComponent({
   &__table-row {
     background: white;
     height: 50px;
-  }
-  &__table-header {
   }
   &__table-check {
     padding-left: 10px;
