@@ -42,8 +42,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { RouteNames } from "@/router/RouteNames";
-import { Order } from "@/types/Order";
-import { Product } from "@/types/Product";
+import { Order, ProductData } from "@/types/Order";
 import ProductOrderCard from "./ProductOrderCard.vue";
 export default defineComponent({
   name: "OrderCard",
@@ -63,7 +62,7 @@ export default defineComponent({
   setup(props) {
     const isShowing = ref(false);
     const totalAmount = computed(() => {
-      return props.order.products.reduce((sum: number, product: Product) => sum + product.price, 0);
+      return props.order.products.reduce((sum: number, product: ProductData) => sum + product.price, 0);
     });
     return {
       RouteNames,
