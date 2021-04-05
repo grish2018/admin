@@ -8,7 +8,7 @@ import { RootState } from "./rootState";
 export type Store = ProductsStore<Pick<RootState, "products">> &
   UserStore<Pick<RootState, "user">> &
   OrdersStore<Pick<RootState, "orders">> &
-  CategoriesStore<Pick<RootState, "categories">> ;
+  CategoriesStore<Pick<RootState, "categories">>;
 
 export const store = createStore({
   strict: process.env.NODE_ENV === "development",
