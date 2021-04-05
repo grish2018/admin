@@ -7,11 +7,10 @@
           :key="link.name"
           class="menu-main-layout__list-item"
           :class="{
-            'menu-main-layout__link--active':
-              currentRoute.includes(link.routeName) || isActive(link.children),
+            'menu-main-layout__list-item--active': isActive(link.children),
           }">
           <router-link
-            class="menu-main-layout__sub-link menu-main-layout__sub-link--active"
+            class="menu-main-layout__link"
             :to="{ name: link.routeName }">
             {{ $t(link.name) }}
           </router-link>
@@ -20,11 +19,11 @@
               v-for="subLink in link.children"
               :key="subLink.routeName">
               <router-link
+                v-if="subLink.name"
                 class="menu-main-layout__sub-link"
+                active-class="menu-main-layout__sub-link--active"
                 :class="{
-                  'menu-main-layout__link--active': currentRoute.includes(
-                    subLink.routeName
-                  ),
+                  'menu-main-layout__sub-link--active': isActive(subLink.children),
                 }"
                 :to="{ name: subLink.routeName }">
                 {{ $t(subLink.name) }}
@@ -34,7 +33,7 @@
         </li>
         <li class="menu-main-layout__list-item">
           <button
-            class="menu-main-layout__sub-link"
+            class="menu-main-layout__logout"
             @click="logOut">
             {{ $t("LogOut") }}
           </button>
@@ -59,7 +58,15 @@ const menuLinks = [
     routeName: RouteNames.PRODUCTS,
     name: "Catalog",
     children: [
-      { routeName: RouteNames.PRODUCTS, name: "Products" },
+      {
+        routeName: RouteNames.PRODUCTS,
+        name: "Products",
+        children: [
+          { routeName: RouteNames.PRODUCTS },
+          { routeName: RouteNames.CREATE_PRODUCTS },
+          { routeName: RouteNames.EDIT_PRODUCTS },
+        ],
+      },
       { routeName: RouteNames.CATEGORIES, name: "Categories" },
     ],
   },
@@ -75,6 +82,7 @@ const menuLinks = [
 interface SubLink {
   routeName: string;
   name: string;
+  children: SubLink[];
 }
 export default defineComponent({
   name: "MenuMainLayout",
@@ -90,8 +98,8 @@ export default defineComponent({
     const currentRoute = computed(() => {
       return route.name;
     });
-    const isActive = (links: SubLink[]) => {
-      return links.some((link) => link.routeName === currentRoute.value);
+    const isActive = (links: SubLink[] = []): boolean => {
+      return links.some((link) => link.routeName === currentRoute.value || isActive(link.children));
     };
     return { RouteNames, logOut, menuLinks, currentRoute, isActive };
   },
@@ -100,8 +108,7 @@ export default defineComponent({
 
 <style lang="scss">
 .menu-main-layout {
-  --sub-list-display: none;
-  --sub-list-position: absolute;
+
   background: #1f2328;
   width: 270px;
   &__header {
@@ -112,13 +119,26 @@ export default defineComponent({
     list-style-type: none;
   }
   &__list-item {
+    --link-background: transparent;
+    --sub-list-display: none;
+    --sub-list-position: absolute;
+    --sub-list-max-width: 150px;
+    --sub-link-padding: 10px 30px;
+
     position: relative;
-    &:hover .menu-main-layout__sub-list {
+    &:hover {
       --sub-list-display: block;
-      z-index: 1;
+    }
+
+    &--active {
+      --link-background: var(--select-navigation-color);
+      --sub-list-display: block;
+      --sub-list-position: static;
+      --sub-list-max-width: none;
+      --sub-link-padding: 10px 30px 10px 40px;
     }
   }
-  &__sub-link {
+  &__link, &__sub-link, &__logout {
     display: block;
     text-align: left;
     width: 100%;
@@ -128,36 +148,29 @@ export default defineComponent({
     line-height: 120%;
     font-size: var(--font-size-navigation-link);
     background: transparent;
-    transition: 0.3s;
+    transition: background-color 0.3s;
     &:hover {
       background: rgba(18, 88, 140);
     }
   }
   &__link {
+    background: var(--link-background);
+  }
+  &__sub-link {
+    padding: var(--sub-link-padding);
     &--active {
       color: var(--select-navigation-color);
-      .menu-main-layout__sub-list {
-        --sub-list-display: block;
-        --sub-list-position: relative;
-        width: 100%;
-        top: 0;
-        right: 0;
-        .menu-main-layout__sub-link {
-          padding: 10px 30px 10px 40px;
-        }
-      }
-      .menu-main-layout__sub-link--active {
-        background: var(--select-navigation-color);
-      }
     }
   }
   &__sub-list {
     display: var(--sub-list-display);
     position: var(--sub-list-position);
+    z-index: 1;
     list-style: none;
-    width: 150px;
+    width: 100%;
+    max-width: var(--sub-list-max-width);
     top: 0;
-    right: -150px;
+    left: 100%;
     background-color: #1f2328;
   }
 }
