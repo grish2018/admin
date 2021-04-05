@@ -8,7 +8,7 @@
         </p>
       </div>
       <p class="order-date__price">
-        ${{ order.products.reduce((sum, product) => sum + product.price, 0) }}
+        ${{ totalAmount }}
       </p>
     </div>
     <div class="order-card__content">
@@ -21,15 +21,14 @@
       <p class="order-card__payment">
         {{ $t(order.fulfillmentStatus) }}
       </p>
-      <div class="order-quantity-goods">
+      <div class="order-quantity__goods">
         <p
-          :class="{active: isShowing}"
+          :class="{'active': isShowing}"
           @click="isShowing = !isShowing">
           {{ $t("NumberOfProducts") }}: {{ order.products.length }}
           <svg-icon
             v-if="order.products.length"
-            name="down-arrow-grey"
-            fill="grey" />
+            name="down-arrow-grey" />
         </p>
         <product
           v-if="isShowing"
@@ -40,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { Order } from "@/types/Order";
 import Product from "@/pages/Orders/Components/Product.vue";
@@ -59,11 +58,15 @@ export default defineComponent({
       default: false,
     },
   },
-  setup() {
+  setup(props) {
     const isShowing = ref(false);
+    const totalAmount = computed(() => {
+      return props.order.products.reduce((sum: number, product: any) => sum + product.price, 0);
+    });
     return {
       RouteNames,
       isShowing,
+      totalAmount,
     };
   },
 });
@@ -99,7 +102,7 @@ export default defineComponent({
   &-card__payment {
     margin-top: 5px;
   }
-  &-quantity-goods {
+  &-quantity__goods {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
