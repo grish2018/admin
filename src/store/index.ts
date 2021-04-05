@@ -18,8 +18,8 @@ export const store = createStore({
     categories,
     products,
     user,
-    customers,
     orders,
+    customers,
   },
 });
 
