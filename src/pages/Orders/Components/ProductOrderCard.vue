@@ -22,7 +22,7 @@ import { defineComponent } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { Order } from "@/types/Order";
 export default defineComponent({
-  name: "Product",
+  name: "ProductOrderCard",
   props: {
     products: {
       type: Object as () => Order,

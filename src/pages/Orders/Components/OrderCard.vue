@@ -21,16 +21,17 @@
       <p class="order-card__payment">
         {{ $t(order.fulfillmentStatus) }}
       </p>
-      <div class="order-quantity__goods">
-        <p
+      <div class="order-card__quantity-products">
+        <button
+          class="order-card__show-button"
           :class="{'active': isShowing}"
           @click="isShowing = !isShowing">
-          {{ $t("NumberOfProducts") }}: {{ order.products.length }}
+          <span>{{ $t("NumberOfProducts") }}: {{ order.products.length }}</span>
           <svg-icon
             v-if="order.products.length"
             name="down-arrow-grey" />
-        </p>
-        <product
+        </button>
+        <product-order-card
           v-if="isShowing"
           :products="order.products" />
       </div>
@@ -42,10 +43,11 @@
 import { computed, defineComponent, ref } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { Order } from "@/types/Order";
-import Product from "@/pages/Orders/Components/Product.vue";
+import { Product } from "@/types/Product";
+import ProductOrderCard from "./ProductOrderCard.vue";
 export default defineComponent({
   name: "OrderCard",
-  components: { Product },
+  components: { ProductOrderCard },
   props: {
     order: {
       type: Object as () => Order,
@@ -61,7 +63,7 @@ export default defineComponent({
   setup(props) {
     const isShowing = ref(false);
     const totalAmount = computed(() => {
-      return props.order.products.reduce((sum: number, product: any) => sum + product.price, 0);
+      return props.order.products.reduce((sum: number, product: Product) => sum + product.price, 0);
     });
     return {
       RouteNames,
@@ -102,24 +104,32 @@ export default defineComponent({
   &-card__payment {
     margin-top: 5px;
   }
-  &-quantity__goods {
+  &-card__quantity-products {
     display: flex;
+    align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
     margin-top: 5px;
-    p {
-      cursor: pointer;
+    span {
+      font-size: 15px;
     }
     svg {
       transition: 0.3s;
       width: 15px;
       height: 15px;
+      margin-left: 10px;
     }
     .active {
       svg {
         transform: rotate(180deg);
       }
     }
+  }
+  &-card__show-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    outline: none;
   }
   &-arrow-list {
     cursor: pointer;
