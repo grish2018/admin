@@ -1,43 +1,47 @@
 <template>
   <div class="profile-page">
     <h1 class="profile-page__title">
-      Профиль
+      {{ $t("Profile") }}
     </h1>
     <form
       class="profile-page__form"
       @submit.prevent="onSubmit">
       <base-input
         v-model="nickname"
-        placeholder="Введите вашу почту">
+        :placeholder="$t('EnterYourNickname')">
         <template #label>
-          <span>Nickname</span>
+          <span>{{ $t("Nickname") }}</span>
         </template>
       </base-input>
       <base-input
         v-model="email"
-        placeholder="Введите вашу почту"
+        :placeholder="$t('EnterYourEmail')"
         type="email">
         <template #label>
-          <span>email</span>
+          <span>{{ $t("Email") }}</span>
         </template>
       </base-input>
       <base-input
         v-model="user.general.domain"
-        placeholder="Ваш домен">
+        :placeholder="$t('YourDomen')">
         <template #label>
-          <span>Имя домена</span>
+          <span>{{ $t("DomenName") }}</span>
         </template>
       </base-input>
       <base-input
         v-model="password"
-        placeholder="введите пароль"
-        :error="(password.length !== 0 && password.length < 6) ? 'Маленькая длина пароля' : ''">
+        :placeholder="$t('EnterPassword')"
+        :error="
+          password.length !== 0 && password.length < 6
+            ? $t('PasswordIsTooShort')
+            : ''
+        ">
         <template #label>
-          <span>Password</span>
+          <span>{{ $t("Password") }}</span>
         </template>
       </base-input>
       <button class="profile-page__button">
-        Сохранить
+        {{ $t("Save") }}
       </button>
     </form>
   </div>
@@ -55,7 +59,7 @@ export default defineComponent({
     BaseInput,
   },
   setup() {
-    const user: {value: User} = ref({ account: {}, general: {} });
+    const user: { value: User } = ref({ account: {}, general: {} });
     const nickname: { value: string | undefined } = ref("");
     const domain: { value: string | undefined } = ref("");
     const email: { value: string | undefined } = ref("");
@@ -83,16 +87,14 @@ export default defineComponent({
           email: email.value,
         };
       }
-      store.dispatch(ActionType.SET_PROFILE,
-        {
-          account: query,
-          general: {
-            name: user.value.general.name,
-            closed: user.value.general.closed,
-            domain: domain.value,
-          },
-        }
-      );
+      store.dispatch(ActionType.SET_PROFILE, {
+        account: query,
+        general: {
+          name: user.value.general.name,
+          closed: user.value.general.closed,
+          domain: domain.value,
+        },
+      });
       password.value = "";
     };
     return {
@@ -107,10 +109,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-  .profile-page {
-    padding: 50px;
-    width: 100%;
-   &__title {
+.profile-page {
+  padding: 50px;
+  width: 100%;
+  &__title {
     text-align: center;
     margin-bottom: 30px;
   }
@@ -125,12 +127,12 @@ export default defineComponent({
     height: 40px;
     border-radius: 5px;
     outline: none;
-    transition: background .3s;
+    transition: background 0.3s;
     margin: 0 auto;
     display: block;
     &:hover {
       background: #943ee4;
     }
   }
-  }
+}
 </style>
