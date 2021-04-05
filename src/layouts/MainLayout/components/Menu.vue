@@ -72,7 +72,7 @@ const menuLinks = [
     ],
   },
 ];
-interface Link {
+interface SubLink {
   routeName: string;
   name: string;
 }
@@ -90,7 +90,7 @@ export default defineComponent({
     const currentRoute = computed(() => {
       return route.name;
     });
-    const isActive = (links: Link[]) => {
+    const isActive = (links: SubLink[]) => {
       return links.some((link) => link.routeName === currentRoute.value);
     };
     return { RouteNames, logOut, menuLinks, currentRoute, isActive };
