@@ -94,12 +94,19 @@ export default defineComponent({
       }
     );
     const deleteCategory = async () => {
-      await store.dispatch(
-        ActionType.DELETE_CATEGORY,
-        props.currentCategory.id
+      const permission = confirm(
+        `Вы действительно хотите удалить категорию ${props.currentCategory.title}?`
       );
-      emit("openEditForm", "new", {});
-      await store.dispatch(ActionType.GET_CATEGORIES);
+      if (permission) {
+        await store.dispatch(
+          ActionType.DELETE_CATEGORY,
+          props.currentCategory.id
+        );
+        emit("openEditForm", "new", {});
+        await store.dispatch(ActionType.GET_CATEGORIES);
+      } else {
+        return false;
+      }
     };
     const submit = async () => {
       let res: Category;
@@ -109,16 +116,10 @@ export default defineComponent({
       };
       if (props.currentMode === "edit") {
         category.id = props.currentCategory.id;
-        res = await store.dispatch(
-          ActionType.EDIT_CATEGORY,
-          category
-        );
+        res = await store.dispatch(ActionType.EDIT_CATEGORY, category);
       } else {
         category.parent = props.currentCategory.id;
-        res = await store.dispatch(
-          ActionType.CREATE_CATEGORY,
-          category
-        );
+        res = await store.dispatch(ActionType.CREATE_CATEGORY, category);
       }
       emit("openEditForm", "edit", res);
       await store.dispatch(ActionType.GET_CATEGORIES);
