@@ -24,7 +24,7 @@
       <div class="order-card__quantity-products">
         <button
           class="order-card__show-button"
-          :class="{'active': isShowing}"
+          :class="{'order-card__show-button--active': isShowing}"
           @click="isShowing = !isShowing">
           <span>{{ $t("NumberOfProducts") }}: {{ order.products.length }}</span>
           <svg-icon
@@ -74,14 +74,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.order{
-  &-card {
-    width: 600px;
-    background-color: #ffffff;
-    padding: 10px 10px;
-    margin-top: 5px;
-  }
-  &-card__checkbox {
+.order-card {
+  width: 600px;
+  background-color: #ffffff;
+  padding: 10px 10px;
+  margin-top: 5px;
+  &__checkbox {
     display: flex;
     align-items: center;
     input {
@@ -89,26 +87,32 @@ export default defineComponent({
       margin-right: 20px;
     }
   }
-  &-card__header {
+  &__header {
     display: flex;
     justify-content: space-between;
   }
-  &-card__content {
+  &__content {
     margin-top: 10px;
     padding-left: 30px;
   }
-  &-card__mail {
+  &__mail {
     margin-top: 5px;
   }
-  &-card__payment {
+  &__payment {
     margin-top: 5px;
   }
-  &-card__quantity-products {
+  &__quantity-products {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
     margin-top: 5px;
+  }
+  &__show-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    outline: none;
     span {
       font-size: 15px;
     }
@@ -118,20 +122,11 @@ export default defineComponent({
       height: 15px;
       margin-left: 10px;
     }
-    .active {
+    &--active {
       svg {
         transform: rotate(180deg);
       }
     }
-  }
-  &-card__show-button {
-    display: flex;
-    align-items: center;
-    background: none;
-    outline: none;
-  }
-  &-arrow-list {
-    cursor: pointer;
   }
 }
 </style>
