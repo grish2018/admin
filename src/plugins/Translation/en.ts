@@ -38,6 +38,12 @@ export enum en {
   ExpandAll = "Expand all",
   CollapseAll = "Collapse all",
   Add = "Add",
-  AddCategoryTo = "Add category to"
+  AddCategoryTo = "Add category to",
+  DomenName = "Domen name",
+  EnterPassword = "enter password",
+  PasswordIsTooShort = "Password is too short",
+  EnterYourEmail = "Enter your e-mail",
+  EnterYourNickname = "Enter your nickname",
+  YourDomen = "Your domen"
 
 }
