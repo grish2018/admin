@@ -31,6 +31,7 @@ export enum en {
   Password = "Password",
   AlreadyRegisteredUser = "Already registered user",
   Nickname = "Nickname",
+  DeleteChecked = "Delete checked",
   AddSubcategory = "Add subcategory",
   Delete = "Delete",
   AddRootCategory = "Add root category",

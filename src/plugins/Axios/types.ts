@@ -2,6 +2,7 @@ import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 export interface Config extends AxiosRequestConfig {
     authorization?: boolean;
+    data?: any;
 }
 
 export interface Axios extends AxiosInstance {

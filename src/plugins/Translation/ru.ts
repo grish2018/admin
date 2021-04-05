@@ -31,6 +31,7 @@ export enum ru {
   Password = "Пароль",
   AlreadyRegisteredUser = "Уже есть аккаунт",
   Nickname = "Псевдоним",
+  DeleteChecked = "Удалить отмеченные",
   AddSubcategory = "Добавить подкатегорию",
   Delete = "Удалить",
   AddRootCategory = "Добавить корневую категорию",

@@ -1,10 +1,11 @@
 import { createStore } from "vuex";
 import { store as products, ProductsStore } from "@/store/modules/Products";
 import { store as categories, CategoriesStore } from "@/store/modules/Categories";
+import { store as customers, CustomersStore } from "@/store/modules/Customers";
 import { store as user, UserStore } from "@/store/modules/User";
 import { RootState } from "./rootState";
 
-export type Store = CategoriesStore<Pick<RootState, "categories">> & ProductsStore<Pick<RootState, "products">> &
+export type Store = CustomersStore<Pick<RootState, "customers">> & CategoriesStore<Pick<RootState, "categories">> & ProductsStore<Pick<RootState, "products">> &
   UserStore<Pick<RootState, "user">>;
 
 export const store = createStore({
@@ -13,6 +14,7 @@ export const store = createStore({
     categories,
     products,
     user,
+    customers,
   },
 });
 
