@@ -14,65 +14,41 @@ export default [
         path: "/",
         name: R.MAIN_PAGE,
         component: () => import(/* MainPage */ "@/pages/Main/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
       {
         path: "/profile",
         name: R.PROFILE,
         component: () => import(/* ProfilePage */ "@/pages/Profile/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
       {
         path: "/products",
         name: R.PRODUCTS,
         component: () => import(/* ProductsPage */ "@/pages/Products/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
       {
         path: "/products/new",
         name: R.CREATE_PRODUCTS,
         component: () => import(/* CreateProductPage */ "@/pages/CreateProduct/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
       {
         path: "/products/edit/:id",
         name: R.EDIT_PRODUCTS,
         component: () => import(/* EditProductPage */ "@/pages/CreateProduct/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
       {
         path: "/categories",
         name: R.CATEGORIES,
         component: () => import(/* CategoriesPage */ "@/pages/Categories/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
       {
         path: "/orders",
         name: R.ORDERS,
         component: () => import(/* OrdersPage */ "@/pages/Orders/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
       {
         path: "/customers",
         name: R.CUSTOMERS,
         component: () => import(/* CustomersPage */ "@/pages/Customers/index.vue"),
-        // meta: {
-        //   guard: 'private',
-        // },
       },
     ],
   },
