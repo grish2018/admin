@@ -44,6 +44,19 @@ export enum en {
   PasswordIsTooShort = "Password is too short",
   EnterYourEmail = "Enter your e-mail",
   EnterYourNickname = "Enter your nickname",
-  YourDomain = "Your domain"
-
+  YourDomain = "Your domein",
+  NumberOfProducts = "Products",
+  NEW = "New order",
+  PROCESSING = "In processing",
+  SHIPPED = "The order has been sent (entered by track)",
+  DELIVERED = "Delivered",
+  WILL_NOT_DELIVER = "Delivery canceled",
+  RETURNED = "Returned",
+  INCOMPLETE = "Checkout not completed",
+  AWAITING_PAYMENT = "Awaiting payment",
+  CHARGEABLE = "TODO",
+  PAID = "Paid up",
+  DECLINED = "Payment canceled due to external reasons",
+  CANCELLED = "Payment canceled by the store owner or user",
+  REFUNDED = "Money returned"
 }

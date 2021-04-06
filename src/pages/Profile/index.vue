@@ -23,7 +23,7 @@
       </base-input>
       <base-input
         v-model="user.general.domain"
-        :placeholder="$t('YourDomen')">
+        :placeholder="$t('YourDomain')">
         <template #label>
           <span>{{ $t("DomenName") }}</span>
         </template>
