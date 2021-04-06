@@ -39,7 +39,6 @@
 
 <script lang="ts">
 import ProductCard from "./Components/ProductCard.vue";
-import LoaderComponent from "@/components/LoaderComponent.vue";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
