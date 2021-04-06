@@ -44,7 +44,7 @@ export enum en {
   PasswordIsTooShort = "Password is too short",
   EnterYourEmail = "Enter your e-mail",
   EnterYourNickname = "Enter your nickname",
-  YourDomain = "Your domein",
+  YourDomain = "Your domain",
   NumberOfProducts = "Products",
   NEW = "New order",
   PROCESSING = "In processing",
