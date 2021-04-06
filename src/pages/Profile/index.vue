@@ -25,7 +25,7 @@
         v-model="user.general.domain"
         :placeholder="$t('YourDomain')">
         <template #label>
-          <span>{{ $t("DomenName") }}</span>
+          <span>{{ $t("DomainName") }}</span>
         </template>
       </base-input>
       <base-input
