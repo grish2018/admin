@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="products"
+    v-if="products.length !== 0"
     class="products-list">
     <table>
       <tr class="products-list__table-header">
@@ -16,7 +16,7 @@
         <th />
       </tr>
       <tr>
-        <th>Filter</th>
+        <th>{{ $t("Filter") }}</th>
         <th><input type="text"></th>
         <th><input type="text"></th>
       </tr>
@@ -144,6 +144,7 @@ export default defineComponent({
       );
       emit("toggleShowModal", false);
     };
+
     return {
       products,
       addItem,

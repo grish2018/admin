@@ -6,14 +6,11 @@
 
     <div class="categories__content">
       <div class="categories__list">
-        <button
+        <router-link
           class="categories__create-category"
-          @click="
-            openEditForm('new', {});
-            setCurrentTab('main');
-          ">
+          :to="{ name: RouteNames.CREATE_CATEGORY }">
           {{ $t("AddRootCategory") }}
-        </button>
+        </router-link>
         <div class="categories__toggle-show">
           <span
             :class="{ 'categories__list--active': !showSubCategories }"
@@ -39,7 +36,6 @@
                 name: RouteNames.EDIT_CATEGORY,
                 params: { id: category.id },
               }">
-              <!-- @click="openEditForm('edit', category)" -->
               {{ category.title }}
             </router-link>
             <ul
@@ -48,41 +44,12 @@
               <subcategory
                 v-for="subcategory in category.childs"
                 :key="subcategory.id"
-                :category="subcategory"
-                :current-category="currentCategory"
-                @openEditForm="openEditForm('edit', $event)" />
+                :category="subcategory" />
             </ul>
           </li>
         </ul>
       </div>
       <div class="categories__main">
-        <category-header
-          :current-mode="currentMode"
-          :current-category="currentCategory"
-          :current-tab="currentTab"
-          @toggleTab="setCurrentTab" />
-        <!-- <create-category
-          v-if="currentCategory && currentTab === 'main'"
-          :current-category="currentCategory"
-          :current-mode="currentMode"
-          @openEditForm="openEditForm"
-        />
-        <category-products
-          v-if="currentTab === 'products'"
-          :current-category="currentCategory"
-          @toggleShowModal="toggleShowModal"
-        />
-        <teleport to="#app">
-          <modal v-if="showModal" @close="toggleShowModal(false)">
-            <products-list
-              :current-category="currentCategory"
-              @toggleShowModal="toggleShowModal"
-            />
-            <template #footer>
-              <div />
-            </template>
-          </modal>
-        </teleport> -->
         <router-view />
       </div>
     </div>
@@ -91,51 +58,26 @@
 
 <script lang="ts">
 import Subcategory from "./components/Subcategory.vue";
-import CategoryHeader from "./components/CategoryHeader.vue";
 import { useStore } from "@/store";
 import { RouteNames } from "@/router/RouteNames";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
-import { Category, NewCategory } from "@/types/Category";
 export default defineComponent({
   name: "CategoriesPage",
   components: {
     Subcategory,
-    CategoryHeader,
   },
   setup() {
     const store = useStore();
-    const showModal = ref(false);
-    const toggleShowModal = (value: boolean) => {
-      showModal.value = value;
-    };
-    const currentTab = ref("main");
     const categories = computed(() => store.state.categories.categories);
     const showSubCategories = ref(true);
-    const currentMode = ref("new");
-    const currentCategory: { value: Category | NewCategory | null } = ref(null);
-    const setCurrentTab = (tab: string) => {
-      currentTab.value = tab;
-    };
-    const openEditForm = (mode: string, category: Category | NewCategory) => {
-      currentMode.value = mode;
-      currentCategory.value = { ...category };
-    };
     onBeforeMount(() => {
       store.dispatch(ActionType.GET_CATEGORIES);
     });
     return {
       RouteNames,
-      store,
       categories,
       showSubCategories,
-      currentCategory,
-      openEditForm,
-      currentMode,
-      currentTab,
-      setCurrentTab,
-      showModal,
-      toggleShowModal,
     };
   },
 });
@@ -188,6 +130,8 @@ export default defineComponent({
     color: white;
     margin-bottom: 15px;
     outline: none;
+    text-decoration: none;
+    display: flex;
   }
   &__toggle-show {
     display: flex;

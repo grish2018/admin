@@ -23,7 +23,9 @@
                 class="menu-main-layout__sub-link"
                 active-class="menu-main-layout__sub-link--active"
                 :class="{
-                  'menu-main-layout__sub-link--active': isActive(subLink.children),
+                  'menu-main-layout__sub-link--active': isActive(
+                    subLink.children
+                  ),
                 }"
                 :to="{ name: subLink.routeName }">
                 {{ $t(subLink.name) }}
@@ -67,7 +69,17 @@ const menuLinks = [
           { routeName: RouteNames.EDIT_PRODUCTS },
         ],
       },
-      { routeName: RouteNames.CATEGORIES, name: "Categories" },
+      {
+        routeName: RouteNames.CATEGORIES,
+        name: "Categories",
+        children: [
+          { routeName: RouteNames.CREATE_CATEGORY },
+          { routeName: RouteNames.CATEGORY },
+          { routeName: RouteNames.EDIT_CATEGORY },
+          { routeName: RouteNames.ADD_SUB_CATEGORY },
+          { routeName: RouteNames.CATEGORY_PRODUCTS },
+        ],
+      },
     ],
   },
   {
@@ -99,7 +111,10 @@ export default defineComponent({
       return route.name;
     });
     const isActive = (links: SubLink[] = []): boolean => {
-      return links.some((link) => link.routeName === currentRoute.value || isActive(link.children));
+      return links.some(
+        (link) =>
+          link.routeName === currentRoute.value || isActive(link.children)
+      );
     };
     return { RouteNames, logOut, menuLinks, currentRoute, isActive };
   },
@@ -108,7 +123,6 @@ export default defineComponent({
 
 <style lang="scss">
 .menu-main-layout {
-
   background: #1f2328;
   width: 270px;
   &__header {
@@ -138,7 +152,9 @@ export default defineComponent({
       --sub-link-padding: 10px 30px 10px 40px;
     }
   }
-  &__link, &__sub-link, &__logout {
+  &__link,
+  &__sub-link,
+  &__logout {
     display: block;
     text-align: left;
     width: 100%;

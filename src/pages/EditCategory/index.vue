@@ -1,51 +1,45 @@
 <template>
-  <div class="create-category">
-    <div
-      v-if="currentMode !== 'new'"
-      class="create-category__header">
+  <div class="edit-category">
+    <div class="edit-category__header">
       <button
-        class="create-category__create-subcategory"
-        :disabled="currentMode === 'addSubCategory'"
+        class="edit-category__create-subcategory"
+        :disabled="currentRouteName === RouteNames.ADD_SUB_CATEGORY"
         @click="addSubCategory">
         {{ $t("AddSubcategory") }}
       </button>
       <button
-        :disabled="currentMode === 'addSubCategory'"
-        class="create-category__delete-category"
+        :disabled="currentRouteName === RouteNames.ADD_SUB_CATEGORY"
+        class="edit-category__delete-category"
         @click="deleteCategory">
         {{ $t("Delete") }}
       </button>
     </div>
     <form
-      class="create-category__form"
+      class="edit-category__form"
       @submit.prevent="submit">
-      <div class="create-category__fields">
-        <div class="create-category__field">
-          <label class="create-category__label">
+      <div class="edit-category__fields">
+        <div class="edit-category__field">
+          <label class="edit-category__label">
             {{ $t("Title") }}
             <input
               v-model="currentCategoryValue.title"
               required
-              class="create-category__input"
+              class="edit-category__input"
               type="text">
           </label>
         </div>
-        <div class="create-category__field">
-          <label class="create-category__label">
+        <div class="edit-category__field">
+          <label class="edit-category__label">
             {{ $t("Description") }}
             <textarea
               v-model="currentCategoryValue.desc"
-              class="create-category__textarea" />
+              class="edit-category__textarea" />
           </label>
         </div>
       </div>
-      <button class="create-category__button">
+      <button class="edit-category__button">
         {{
-          currentMode === "edit"
-            ? $t("Save")
-            : currentMode === "addSubCategory"
-              ? $t("Add")
-              : $t("Create")
+          currentRouteName === RouteNames.EDIT_CATEGORY ? $t("Save") : $t("Add")
         }}
       </button>
     </form>
@@ -53,80 +47,93 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
+import { useRouter, useRoute } from "vue-router";
+import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+import { useStore } from "@/store";
+import { RouteNames } from "@/router/RouteNames";
 import { Category, NewCategory } from "@/types/Category";
-import { defineComponent, ref, watch } from "vue";
 
 export default defineComponent({
-  name: "CreateCategory",
+  name: "EditCategory",
   props: {
     currentCategory: {
       type: Object as () => Category,
       default: () => ({}),
     },
-    currentMode: {
-      type: String,
-      default: "",
-    },
   },
-  emits: ["openEditForm"],
-  setup(props, { emit }) {
+  setup(props) {
+    const route = useRoute();
+    const router = useRouter();
+    const currentRouteName = computed(() => route.name);
     const store = useStore();
     const currentCategoryValue: { value: Category | NewCategory } = ref({
       ...props.currentCategory,
     });
+    onBeforeMount(() => {
+      // eslint-disable-next-line no-console
+      console.log(props.currentCategory);
+    });
     watch(
       () => props.currentCategory,
       (newVal) => {
-        if (props.currentMode === "addSubCategory") {
-          currentCategoryValue.value = {};
-        } else {
-          currentCategoryValue.value = { ...newVal };
-        }
+        // eslint-disable-next-line no-console
+        console.log(newVal);
+
+        currentCategoryValue.value = { ...newVal };
       }
     );
+    const addSubCategory = () => {
+      router.push({
+        name: RouteNames.ADD_SUB_CATEGORY,
+        params: { id: route.params.id },
+      });
+    };
+
     const deleteCategory = async () => {
       const permission = confirm(
-        `Вы действительно хотите удалить категорию ${props.currentCategory.title}?`
+        `Вы действительно хотите удалить категорию ${currentCategoryValue.value?.title}?`
       );
       if (permission) {
-        await store.dispatch(
-          ActionType.DELETE_CATEGORY,
-          props.currentCategory.id
-        );
-        emit("openEditForm", "new", {});
+        await store.dispatch(ActionType.DELETE_CATEGORY, +route.params.id);
+        router.push({ name: RouteNames.CREATE_CATEGORY });
         await store.dispatch(ActionType.GET_CATEGORIES);
       } else {
         return false;
       }
     };
+
     const submit = async () => {
       let res: Category;
       const category: Category | NewCategory = {
-        title: currentCategoryValue.value.title,
-        desc: currentCategoryValue.value.desc,
+        title: currentCategoryValue.value?.title,
+        desc: currentCategoryValue.value?.desc,
       };
-      if (props.currentMode === "edit") {
-        category.id = props.currentCategory.id;
+      if (currentRouteName.value === RouteNames.EDIT_CATEGORY) {
+        category.id = +route.params.id;
         res = await store.dispatch(ActionType.EDIT_CATEGORY, category);
       } else {
-        category.parent = props.currentCategory.id;
+        category.parent = +route.params.id;
         res = await store.dispatch(ActionType.CREATE_CATEGORY, category);
       }
-      emit("openEditForm", "edit", res);
+      router.push({ name: RouteNames.EDIT_CATEGORY, params: { id: res.id } });
       await store.dispatch(ActionType.GET_CATEGORIES);
     };
-    const addSubCategory = () => {
-      emit("openEditForm", "addSubCategory", props.currentCategory);
+    return {
+      currentRouteName,
+      currentCategoryValue,
+      route,
+      RouteNames,
+      addSubCategory,
+      deleteCategory,
+      submit,
     };
-    return { submit, currentCategoryValue, deleteCategory, addSubCategory };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.create-category {
+.edit-category {
   display: flex;
   width: 100%;
   height: 80%;

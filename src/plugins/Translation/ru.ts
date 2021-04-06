@@ -63,5 +63,6 @@ export enum ru {
   PasswordIsTooShort = "Маленькая длина пароля",
   EnterYourEmail = "Введите вашу почту",
   EnterYourNickname = "Введите ваш псевдоним",
-  YourDomen = "Ваш домен"
+  YourDomen = "Ваш домен",
+  Filter = "Фильтр"
 }

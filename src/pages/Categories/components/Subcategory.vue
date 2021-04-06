@@ -4,23 +4,20 @@
       active-class="subcategory--active"
       class="subcategory__item"
       :to="{ name: RouteNames.EDIT_CATEGORY, params: { id: category.id } }">
-      <!-- @click="openEditForm(category)" -->
       {{ category.title }}
     </router-link>
     <ul>
       <subcategory
         v-for="subcategory in category.childs"
         :key="subcategory.id"
-        :category="subcategory"
-        :current-category="currentCategory"
-        @openEditForm="openEditForm" />
+        :category="subcategory" />
     </ul>
   </li>
 </template>
 
 <script lang="ts">
 import { RouteNames } from "@/router/RouteNames";
-import { Category, NewCategory } from "@/types/Category";
+import { Category } from "@/types/Category";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Subcategory",
@@ -29,17 +26,9 @@ export default defineComponent({
       type: Object as () => Category,
       default: null,
     },
-    currentCategory: {
-      type: Object as () => Category,
-      default: () => ({}),
-    },
   },
-  emits: ["openEditForm"],
-  setup(_, { emit }) {
-    function openEditForm(category: Category | NewCategory) {
-      emit("openEditForm", category);
-    }
-    return { openEditForm, RouteNames };
+  setup() {
+    return { RouteNames };
   },
 });
 </script>

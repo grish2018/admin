@@ -1,7 +1,6 @@
 <template>
   <div class="category-products">
-    category products
-    <!-- <div class="category-products__buttons">
+    <div class="category-products__buttons">
       <button
         class="category-products__add-product-button"
         @click="$emit('toggleShowModal', true)">
@@ -38,64 +37,54 @@
           </button>
         </td>
       </tr>
-    </table> -->
+    </table>
   </div>
 </template>
 
 <script lang="ts">
-// import { useStore } from "@/store";
-// import { ActionType } from "@/store/modules/Categories/ActionType";
+import { useStore } from "@/store";
+import { useRoute } from "vue-router";
+import { ActionType } from "@/store/modules/Categories/ActionType";
 // import { Category } from "@/types/Category";
-import { defineComponent } from "vue";
+import { computed, defineComponent, onBeforeMount, watch } from "vue";
 
 export default defineComponent({
   name: "CategoryProducts",
-  //   props: {
-  //     currentCategory: {
-  //       type: Object as () => Category,
-  //       default: () => ({}),
-  //     },
-  //   },
-
   setup() {
-    // const store = useStore();
-    // onBeforeMount(() => {
-    //   store.dispatch(
-    //     ActionType.GET_CATEGORY_PRODUCTS,
-    //     props.currentCategory.id
-    //   );
-    // });
-    // watch(
-    //   () => props.currentCategory,
-    //   async (count) => {
-    //     await store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, count.id);
-    //   }
-    // );
-    // const categoryProducts = computed(
-    //   () => store.state.categories.categoryProducts
-    // );
-    // const deleteProductFromCategory = async (productId: number) => {
-    //   const data = {
-    //     categoryId: props.currentCategory.id,
-    //     productId,
-    //   };
-    //   await store.dispatch(ActionType.DELETE_PRODUCT_FROM_CATEGORY, data);
-    //   await store.dispatch(
-    //     ActionType.GET_CATEGORY_PRODUCTS,
-    //     props.currentCategory.id
-    //   );
-    // };
-    // const deleteAllProducts = async () => {
-    //   await store.dispatch(
-    //     ActionType.DELETE_ALL_PRODUCTS_FROM_CATEGORY,
-    //     props.currentCategory.id
-    //   );
-    //   await store.dispatch(
-    //     ActionType.GET_CATEGORY_PRODUCTS,
-    //     props.currentCategory.id
-    //   );
-    // };
-    // return { categoryProducts, deleteProductFromCategory, deleteAllProducts };
+    const route = useRoute();
+    const store = useStore();
+    onBeforeMount(() => {
+      store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +route.params.id);
+    });
+    watch(
+      () => route.params.id,
+      async (count) => {
+        await store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +count);
+      }
+    );
+    const categoryProducts = computed(
+      () => store.state.categories.categoryProducts
+    );
+    const deleteProductFromCategory = async (productId: number) => {
+      const data = {
+        categoryId: +route.params.id,
+        productId,
+      };
+      await store.dispatch(ActionType.DELETE_PRODUCT_FROM_CATEGORY, data);
+      await store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +route.params.id);
+    };
+    const deleteAllProducts = async () => {
+      await store.dispatch(
+        ActionType.DELETE_ALL_PRODUCTS_FROM_CATEGORY,
+        +route.params.id
+      );
+      await store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +route.params.id);
+    };
+    return {
+      categoryProducts,
+      deleteProductFromCategory,
+      deleteAllProducts,
+    };
   },
 });
 </script>
@@ -128,6 +117,7 @@ export default defineComponent({
     width: 100%;
     border-spacing: 0 10px;
     margin-top: 25px;
+    margin-bottom: 25px;
   }
   &__table-row {
     background: whitesmoke;

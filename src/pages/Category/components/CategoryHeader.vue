@@ -1,12 +1,10 @@
 <template>
-  <div
-    v-if="currentRouteName !== RouteNames.CREATE_CATEGORY && route.params.id"
-    class="category-header">
+  <div class="category-header">
     <span class="category-header__title">
       {{
         currentRouteName === RouteNames.ADD_SUB_CATEGORY
-          ? `${$t("AddCategoryTo")} 11`
-          : `${$t("Category")} 111`
+          ? `${$t("AddCategoryTo")} ${currentCategory.title}`
+          : `${$t("Category")} ${currentCategory.title}`
       }}
     </span>
     <div class="category-header__nav">
@@ -25,10 +23,10 @@
 </template>
 
 <script lang="ts">
-import { Category } from "@/types/Category";
 import { computed, defineComponent } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { useRoute } from "vue-router";
+import { Category } from "@/types/Category";
 
 const linksList = [
   {
@@ -48,14 +46,6 @@ export default defineComponent({
       type: Object as () => Category,
       default: () => ({}),
     },
-    currentMode: {
-      type: String,
-      default: "",
-    },
-    currentTab: {
-      type: String,
-      default: "",
-    },
   },
   setup() {
     const route = useRoute();
@@ -68,7 +58,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .category-header {
   width: 100%;
-  height: 20%;
   display: flex;
   flex-direction: column;
   padding: 15px 20px;
