@@ -1,6 +1,5 @@
 <template>
-  <div
-    class="products">
+  <div class="products">
     <div class="products__header">
       <div class="products__checkbox">
         <input
@@ -96,7 +95,6 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
-      loader,
     };
   },
 });
