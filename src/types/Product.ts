@@ -7,6 +7,7 @@ export interface Product {
   weight?: number;
   quantity?: number;
   enabled?: boolean;
+  count?: number;
 }
 export interface NewProduct {
   title?: string;

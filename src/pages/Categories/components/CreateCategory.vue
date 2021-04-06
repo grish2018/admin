@@ -87,12 +87,19 @@ export default defineComponent({
       }
     );
     const deleteCategory = async () => {
-      await store.dispatch(
-        ActionType.DELETE_CATEGORY,
-        props.currentCategory.id
+      const permission = confirm(
+        `Вы действительно хотите удалить категорию ${props.currentCategory.title}?`
       );
-      emit("openEditForm", "new", {});
-      await store.dispatch(ActionType.GET_CATEGORIES);
+      if (permission) {
+        await store.dispatch(
+          ActionType.DELETE_CATEGORY,
+          props.currentCategory.id
+        );
+        emit("openEditForm", "new", {});
+        await store.dispatch(ActionType.GET_CATEGORIES);
+      } else {
+        return false;
+      }
     };
     const submit = async () => {
       let res: Category;
