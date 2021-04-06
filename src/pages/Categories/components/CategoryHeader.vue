@@ -1,42 +1,43 @@
 <template>
   <div
-    v-if="currentMode !== 'new'"
+    v-if="currentRouteName !== RouteNames.CREATE_CATEGORY && route.params.id"
     class="category-header">
     <span class="category-header__title">
       {{
-        currentMode === "addSubCategory"
-          ? `${$t("AddCategoryTo")} ${currentCategory.title}`
-          : `${$t("Category")} ${currentCategory.title}`
+        currentRouteName === RouteNames.ADD_SUB_CATEGORY
+          ? `${$t("AddCategoryTo")} 11`
+          : `${$t("Category")} 111`
       }}
     </span>
     <div class="category-header__nav">
-      <div
-        v-for="tab in tabsList"
-        :key="tab.value"
-        :class="{
-          'category-header__nav-item--active': currentTab === tab.value,
-        }"
+      <router-link
+        v-for="link in linksList"
+        :key="link.routeName"
+        :to="{ name: link.routeName, params: { id: route.params.id } }"
+        active-class="category-header__nav-item--active"
         class="category-header__nav-item">
-        <span @click="$emit('toggleTab', tab.value)">
-          {{ $t(tab.name) }}
+        <span>
+          {{ $t(link.name) }}
         </span>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Category } from "@/types/Category";
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
+import { RouteNames } from "@/router/RouteNames";
+import { useRoute } from "vue-router";
 
-const tabsList = [
+const linksList = [
   {
     name: "Main",
-    value: "main",
+    routeName: RouteNames.EDIT_CATEGORY,
   },
   {
     name: "ProductsInCategory",
-    value: "products",
+    routeName: RouteNames.CATEGORY_PRODUCTS,
   },
 ];
 
@@ -57,7 +58,9 @@ export default defineComponent({
     },
   },
   setup() {
-    return { tabsList };
+    const route = useRoute();
+    const currentRouteName = computed(() => route.name);
+    return { linksList, currentRouteName, RouteNames, route };
   },
 });
 </script>
@@ -87,6 +90,8 @@ export default defineComponent({
     padding: 0px 10px;
     transition: all 0.3s;
     border: 1px solid transparent;
+    text-decoration: none;
+    color: black;
     &:hover {
       cursor: pointer;
     }

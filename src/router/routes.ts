@@ -39,6 +39,29 @@ export default [
         path: "/categories",
         name: R.CATEGORIES,
         component: () => import(/* CategoriesPage */ "@/pages/Categories/index.vue"),
+        children: [
+          {
+            path: "/categories/new",
+            name: R.CREATE_CATEGORY,
+            component: () => import(/* CreateCategoryPage */ "@/pages/CreateCategory/index.vue"),
+          },
+          {
+            path: "/categories/:id/edit",
+            name: R.EDIT_CATEGORY,
+            component: () => import(/* EditCategoryPage */ "@/pages/CreateCategory/index.vue"),
+          },
+          {
+            path: "/categories/:id/addSubCategory",
+            name: R.ADD_SUB_CATEGORY,
+            component: () => import(/* EditCategoryPage */ "@/pages/CreateCategory/index.vue"),
+          },
+          {
+            path: "/categories/:id/products",
+            name: R.CATEGORY_PRODUCTS,
+            component: () => import(/* CategoryProductsPage */ "@/pages/CategoryProducts/index.vue"),
+          },
+
+        ],
       },
       {
         path: "/orders",

@@ -159,12 +159,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .products-list {
-  width: 80%;
-  height: 80%;
   display: flex;
   flex-direction: column;
   overflow: auto;
-  background: gray;
+  height: 500px;
+  background: whitesmoke;
   & table {
     width: 100%;
     border-spacing: 0 10px;

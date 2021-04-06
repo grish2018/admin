@@ -32,13 +32,16 @@
             v-for="category in categories"
             :key="category.id"
             class="categories__list-item">
-            <span
-              :class="{
-                'categories__list--active': currentCategory?.id === category.id,
-              }"
-              @click="openEditForm('edit', category)">
+            <router-link
+              active-class="categories__list--active"
+              class="categories__list-item-link"
+              :to="{
+                name: RouteNames.EDIT_CATEGORY,
+                params: { id: category.id },
+              }">
+              <!-- @click="openEditForm('edit', category)" -->
               {{ category.title }}
-            </span>
+            </router-link>
             <ul
               v-if="showSubCategories"
               class="categories__sub-list">
@@ -58,22 +61,29 @@
           :current-category="currentCategory"
           :current-tab="currentTab"
           @toggleTab="setCurrentTab" />
-        <create-category
+        <!-- <create-category
           v-if="currentCategory && currentTab === 'main'"
           :current-category="currentCategory"
           :current-mode="currentMode"
-          @openEditForm="openEditForm" />
+          @openEditForm="openEditForm"
+        />
         <category-products
           v-if="currentTab === 'products'"
           :current-category="currentCategory"
-          @toggleShowModal="toggleShowModal" />
+          @toggleShowModal="toggleShowModal"
+        />
         <teleport to="#app">
-          <modal v-if="showModal">
+          <modal v-if="showModal" @close="toggleShowModal(false)">
             <products-list
               :current-category="currentCategory"
-              @toggleShowModal="toggleShowModal" />
+              @toggleShowModal="toggleShowModal"
+            />
+            <template #footer>
+              <div />
+            </template>
           </modal>
-        </teleport>
+        </teleport> -->
+        <router-view />
       </div>
     </div>
   </div>
@@ -81,24 +91,17 @@
 
 <script lang="ts">
 import Subcategory from "./components/Subcategory.vue";
-import CreateCategory from "./components/CreateCategory.vue";
 import CategoryHeader from "./components/CategoryHeader.vue";
-import CategoryProducts from "./components/CategoryProducts.vue";
-import ProductsList from "./components/ProductsList.vue";
-import Modal from "@/components/Modal.vue";
 import { useStore } from "@/store";
+import { RouteNames } from "@/router/RouteNames";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Category, NewCategory } from "@/types/Category";
 export default defineComponent({
   name: "CategoriesPage",
   components: {
-    CreateCategory,
     Subcategory,
     CategoryHeader,
-    CategoryProducts,
-    Modal,
-    ProductsList,
   },
   setup() {
     const store = useStore();
@@ -122,6 +125,7 @@ export default defineComponent({
       store.dispatch(ActionType.GET_CATEGORIES);
     });
     return {
+      RouteNames,
       store,
       categories,
       showSubCategories,
@@ -153,6 +157,14 @@ export default defineComponent({
     flex-grow: 1;
     background: white;
     border-radius: 10px;
+  }
+  &__list-item-link {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      color: var(--select-navigation-color);
+      cursor: pointer;
+    }
   }
   &__list {
     width: 25%;
@@ -190,13 +202,8 @@ export default defineComponent({
   }
   &__list-item {
     margin-bottom: 15px;
-    & span {
-      &:hover {
-        color: var(--select-navigation-color);
-        cursor: pointer;
-      }
-    }
   }
+
   &__sub-list {
     padding: 0px 10px;
   }
