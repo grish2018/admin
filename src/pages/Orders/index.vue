@@ -1,9 +1,13 @@
 <template>
   <div class="orders">
+    <loader-component v-if="loader" />
     <div class="orders__title">
       {{ $t("Orders") }}
     </div>
-    <ul>
+    <div v-if="orders.length === 0 && !loader">
+      <p>{{ $t("NoOrders") }}</p>
+    </div>
+    <ul v-if="!loader">
       <li
         v-for="item in orders"
         :key="item.id">
@@ -17,20 +21,23 @@
 
 import { ActionType } from "@/store/modules/Orders/ActionType";
 import { useStore } from "@/store";
-import { computed, defineComponent, onBeforeMount } from "vue";
+import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import OrderCard from "./Components/OrderCard.vue";
+import LoaderComponent from "@/components/LoaderComponent.vue";
 
 export default defineComponent({
   name: "OrdersPage",
-  components: { OrderCard },
+  components: { OrderCard, LoaderComponent },
   setup() {
     const store = useStore();
+    const loader = ref(true);
     const orders = computed(() => store.state.orders.orders);
-    onBeforeMount(() => {
-      store.dispatch(ActionType.GET_ORDERS);
+    onBeforeMount(async () => {
+      await store.dispatch(ActionType.GET_ORDERS);
+      loader.value = false;
     });
 
-    return { orders };
+    return { orders, loader };
   },
 });
 </script>
@@ -38,7 +45,11 @@ export default defineComponent({
 <style lang="scss">
 .orders {
   width: 100%;
-  padding: 10px 10px;
+  margin: 10px 10px;
+  position: relative;
+  ul {
+    list-style: none;
+  }
 }
 .orders{
   &__title {

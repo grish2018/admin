@@ -58,5 +58,9 @@ export enum en {
   PAID = "Paid up",
   DECLINED = "Payment canceled due to external reasons",
   CANCELLED = "Payment canceled by the store owner or user",
-  REFUNDED = "Money returned"
+  REFUNDED = "Money returned",
+  NoCategory = "There are no categories",
+  NoBuyers = "No customer information",
+  NoOrders = "No orders",
+  NoProducts = "No products",
 }

@@ -5,13 +5,19 @@
     </span>
 
     <div class="categories__content">
+      <loader-component v-if="loader" />
       <div class="categories__list">
         <button
           class="categories__create-category"
           @click="openEditForm('new', {})">
           {{ $t("AddRootCategory") }}
         </button>
-        <div class="categories__toggle-show">
+        <div v-if="categories.length === 0 && !loader">
+          <p>{{ $t("NoCategory") }}</p>
+        </div>
+        <div
+          v-if="categories.length"
+          class="categories__toggle-show">
           <span
             :class="{ 'categories__list--active': !showSubCategories }"
             @click="showSubCategories = false">
@@ -24,7 +30,7 @@
             {{ $t("ExpandAll") }}
           </span>
         </div>
-        <ul>
+        <ul v-if="!loader">
           <li
             v-for="category in categories"
             :key="category.id"
@@ -64,25 +70,28 @@
 <script lang="ts">
 import Subcategory from "./components/Subcategory.vue";
 import CreateCategory from "./components/CreateCategory.vue";
+import LoaderComponent from "@/components/LoaderComponent.vue";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Category, NewCategory } from "@/types/Category";
 export default defineComponent({
   name: "CategoriesPage",
-  components: { CreateCategory, Subcategory },
+  components: { CreateCategory, Subcategory, LoaderComponent },
   setup() {
     const store = useStore();
     const categories = computed(() => store.state.categories.categories);
     const showSubCategories = ref(true);
+    const loader = ref(true);
     const currentMode = ref("new");
     const currentCategory: { value: Category | NewCategory | null } = ref(null);
     const openEditForm = (mode: string, category: Category | NewCategory) => {
       currentMode.value = mode;
       currentCategory.value = { ...category };
     };
-    onBeforeMount(() => {
-      store.dispatch(ActionType.GET_CATEGORIES);
+    onBeforeMount(async () => {
+      await store.dispatch(ActionType.GET_CATEGORIES);
+      loader.value = false;
     });
     return {
       store,
@@ -91,6 +100,7 @@ export default defineComponent({
       currentCategory,
       openEditForm,
       currentMode,
+      loader,
     };
   },
 });
@@ -112,6 +122,7 @@ export default defineComponent({
     flex-grow: 1;
     background: white;
     border-radius: 10px;
+    position: relative;
   }
   &__list {
     width: 25%;
