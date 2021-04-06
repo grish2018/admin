@@ -55,11 +55,12 @@
 <script lang="ts">
 // import { useStore } from "@/store";
 // import { Category, NewCategory } from "@/types/Category";
+import { ActionType } from "@/store/modules/Categories/ActionType";
 import { useRouter, useRoute } from "vue-router";
 import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
 import { useStore } from "@/store";
 import { RouteNames } from "@/router/RouteNames";
-import { Category } from "@/types/Category";
+import { Category, NewCategory } from "@/types/Category";
 
 export default defineComponent({
   name: "CreateCategory",
@@ -79,28 +80,26 @@ export default defineComponent({
     const router = useRouter();
     const currentRouteName = computed(() => route.name);
     const store = useStore();
-    const currentCategory = ref({});
+    const currentCategory: {
+      value: NewCategory | undefined | Category;
+    } = ref(undefined);
     const categories = computed(() => store.state.categories.categories);
     const findById = (
-      obj: any,
+      categoties: Category[],
       id: number
-    ): Category[] | Category | undefined => {
-      let result;
-      for (const item in obj) {
-        if (obj.id === id) {
-          return obj;
-        } else {
-          if (typeof obj[item] === "object") {
-            result = findById(obj[item], id);
-            if (result) {
-              return result;
-            }
-          }
+    ): Category | undefined => {
+      return categoties.reduce((category: Category | undefined, el) => {
+        if (el.id === id) {
+          return el;
         }
-      }
-      return result;
+        if (el.childs) {
+          return findById(el.childs, id);
+        }
+      }, undefined);
     };
     onBeforeMount(() => {
+      // eslint-disable-next-line no-console
+      console.log(findById(categories.value, Number(route.params.id)));
       currentCategory.value = {
         ...findById(categories.value, Number(route.params.id)),
       };
@@ -109,6 +108,9 @@ export default defineComponent({
     watch(
       () => route.params.id,
       (newId) => {
+        // eslint-disable-next-line no-console
+        console.log(findById(categories.value, Number(newId)));
+
         currentCategory.value = {
           ...findById(categories.value, Number(newId)),
         };
@@ -122,21 +124,19 @@ export default defineComponent({
       });
     };
 
-    // const deleteCategory = async () => {
-    //   const permission = confirm(
-    //     `Вы действительно хотите удалить категорию ${currentCategory.value.title}?`
-    //   );
-    //   if (permission) {
-    //     await store.dispatch(
-    //       ActionType.DELETE_CATEGORY,
-    //       currentCategory.value.id
-    //     );
-    //     router.push({ name: RouteNames.CREATE_CATEGORY });
-    //     await store.dispatch(ActionType.GET_CATEGORIES);
-    //   } else {
-    //     return false;
-    //   }
-    // };
+    const deleteCategory = async () => {
+      const permission = confirm("Вы действительно хотите удалить категорию ?");
+      if (permission) {
+        await store.dispatch(
+          ActionType.DELETE_CATEGORY,
+          Number(route.params.id)
+        );
+        router.push({ name: RouteNames.CREATE_CATEGORY });
+        await store.dispatch(ActionType.GET_CATEGORIES);
+      } else {
+        return false;
+      }
+    };
     // const store = useStore();
     // const currentCategoryValue: { value: Category | NewCategory } = ref({
     //   ...props.currentCategory,
@@ -192,6 +192,7 @@ export default defineComponent({
       route,
       RouteNames,
       addSubCategory,
+      deleteCategory,
     };
   },
 });
