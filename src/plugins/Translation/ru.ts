@@ -53,10 +53,10 @@ export enum ru {
   CollapseAll = "Свернуть все",
   Add = "Добавить",
   AddCategoryTo = "Добавить категорию к",
-  DomenName = "Имя домена",
+  DomainName = "Имя домена",
   EnterPassword = "Введите пароль",
   PasswordIsTooShort = "Маленькая длина пароля",
   EnterYourEmail = "Введите вашу почту",
   EnterYourNickname = "Введите ваш псевдоним",
-  YourDomen = "Ваш домен"
+  YourDomain = "Ваш домен"
 }
