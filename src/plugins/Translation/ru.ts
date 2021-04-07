@@ -58,10 +58,9 @@ export enum ru {
   PasswordIsTooShort = "Маленькая длина пароля",
   EnterYourEmail = "Введите вашу почту",
   EnterYourNickname = "Введите ваш псевдоним",
-  YourDomen = "Ваш домен",
+  YourDomain = "Ваш домен",
   NoCategory = "Категории отсутствуют",
   NoBuyers = "Нет информации о покупателях",
   NoOrders = "Заказов нет",
   NoProducts = "Товаров нет",
-  YourDomain = "Ваш домен"
 }
