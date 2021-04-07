@@ -45,6 +45,8 @@ import { computed, defineComponent, ref } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { Order, ProductData } from "@/types/Order";
 import ProductOrderCard from "./ProductOrderCard.vue";
+import { dateTime } from "@/utils/dateTime";
+
 export default defineComponent({
   name: "OrderCard",
   components: { ProductOrderCard },
@@ -71,14 +73,7 @@ export default defineComponent({
     const totalAmount = computed(() => {
       return props.order.products.reduce((sum: number, product: ProductData) => sum + product.price, 0);
     });
-    const dateData = new Intl.DateTimeFormat(props.localeLanguage, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "numeric",
-      hour12: true,
-    }).format(props.order.created).replace("г.,", "");
+    const dateData = dateTime(props.localeLanguage, props.order.created);
     return {
       RouteNames,
       isShowing,
