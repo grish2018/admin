@@ -7,7 +7,9 @@
       <li
         v-for="item in orders"
         :key="item.id">
-        <order-card :order="item" />
+        <order-card
+          :order="item"
+          :locale-language="localeLanguage" />
       </li>
     </ul>
   </div>
@@ -19,6 +21,7 @@ import { ActionType } from "@/store/modules/Orders/ActionType";
 import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount } from "vue";
 import OrderCard from "./Components/OrderCard.vue";
+import { getLocale } from "@/utils/storage";
 
 export default defineComponent({
   name: "OrdersPage",
@@ -26,11 +29,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const orders = computed(() => store.state.orders.orders);
+    const localeLanguage = getLocale();
     onBeforeMount(() => {
       store.dispatch(ActionType.GET_ORDERS);
     });
 
-    return { orders };
+    return { orders, localeLanguage };
   },
 });
 </script>

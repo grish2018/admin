@@ -7,11 +7,11 @@ import { i18n, loadedLanguagesAsync } from "@/plugins/i18n";
 import { initInterceptors } from "@/plugins/Axios";
 import UI from "@/components/UI";
 import VueClickAway from "vue3-click-away";
-import { getStorage } from "@/utils/storage";
+import { getLocale } from "@/utils/storage";
 
 initInterceptors({ store, router });
 
-const lang = getStorage("locale") || "ru";
+const lang = getLocale();
 
 loadedLanguagesAsync(lang).then(() => {
   createApp(App)

@@ -55,6 +55,12 @@ export default defineComponent({
         return {};
       },
     },
+    localeLanguage: {
+      type: String,
+      default: () => {
+        return "ru";
+      },
+    },
     checked: {
       type: Boolean,
       default: false,
@@ -65,7 +71,7 @@ export default defineComponent({
     const totalAmount = computed(() => {
       return props.order.products.reduce((sum: number, product: ProductData) => sum + product.price, 0);
     });
-    const dateData = new Intl.DateTimeFormat(String(localStorage.getItem("locale")), {
+    const dateData = new Intl.DateTimeFormat(props.localeLanguage, {
       year: "numeric",
       month: "long",
       day: "numeric",
