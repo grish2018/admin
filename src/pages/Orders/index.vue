@@ -11,7 +11,9 @@
       <li
         v-for="item in orders"
         :key="item.id">
-        <order-card :order="item" />
+        <order-card
+          :order="item"
+          :locale-language="localeLanguage" />
       </li>
     </ul>
   </div>
@@ -24,6 +26,7 @@ import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import OrderCard from "./Components/OrderCard.vue";
 import LoaderComponent from "@/components/LoaderComponent.vue";
+import { getLocale } from "@/utils/storage";
 
 export default defineComponent({
   name: "OrdersPage",
@@ -32,12 +35,13 @@ export default defineComponent({
     const store = useStore();
     const loader = ref(true);
     const orders = computed(() => store.state.orders.orders);
+    const localeLanguage = getLocale();
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_ORDERS);
       loader.value = false;
     });
 
-    return { orders, loader };
+    return { orders, loader, localeLanguage };
   },
 });
 </script>
