@@ -4,7 +4,8 @@
       <div class="order-card__checkbox">
         <input type="checkbox">
         <p class="order-date__text">
-          Data
+          {{ order.number }},
+          {{ dateData }}
         </p>
       </div>
       <p class="order-date__price">
@@ -54,6 +55,12 @@ export default defineComponent({
         return {};
       },
     },
+    localeLanguage: {
+      type: String,
+      default: () => {
+        return "ru";
+      },
+    },
     checked: {
       type: Boolean,
       default: false,
@@ -64,10 +71,19 @@ export default defineComponent({
     const totalAmount = computed(() => {
       return props.order.products.reduce((sum: number, product: ProductData) => sum + product.price, 0);
     });
+    const dateData = new Intl.DateTimeFormat(props.localeLanguage, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "numeric",
+      hour12: true,
+    }).format(props.order.created).replace("г.,", "");
     return {
       RouteNames,
       isShowing,
       totalAmount,
+      dateData,
     };
   },
 });

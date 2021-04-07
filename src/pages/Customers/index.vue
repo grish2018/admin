@@ -1,6 +1,10 @@
 <template>
   <div class="customers">
-    <table>
+    <loader-component v-if="loader" />
+    <div v-else-if="customers.length === 0">
+      <p>{{ $t("NoBuyers") }}</p>
+    </div>
+    <table v-else>
       <tr class="customers__table-header">
         <th />
         <th>{{ $t("Nickname") }}</th>
@@ -40,15 +44,19 @@
 </template>
 
 <script lang="ts">
+import LoaderComponent from "@/components/LoaderComponent.vue";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/Customers/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 export default defineComponent({
   name: "CustomersPage",
+  components: { LoaderComponent },
   setup() {
     const store = useStore();
-    onBeforeMount(() => {
-      store.dispatch(ActionType.GET_CUSTOMERS);
+    const loader = ref(true);
+    onBeforeMount(async () => {
+      await store.dispatch(ActionType.GET_CUSTOMERS);
+      loader.value = false;
     });
 
     const customers = computed(() => store.state.customers.customers);
@@ -65,18 +73,22 @@ export default defineComponent({
     };
 
     const deleteCustomer = async (token: string) => {
+      loader.value = true;
       await store.dispatch(ActionType.DELETE_CUSTOMER, token);
       await store.dispatch(ActionType.GET_CUSTOMERS);
+      loader.value = false;
     };
 
     const deleteCheckedCustomers = async () => {
+      loader.value = true;
       await store.dispatch(
         ActionType.DELETE_CHECKED_CUSTOMERS,
         checkedCustomers.value
       );
       await store.dispatch(ActionType.GET_CUSTOMERS);
+      loader.value = false;
     };
-    return { customers, addItem, deleteCustomer, deleteCheckedCustomers };
+    return { customers, addItem, deleteCustomer, deleteCheckedCustomers, loader };
   },
 });
 </script>
@@ -86,6 +98,7 @@ export default defineComponent({
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
   & table {
     width: 100%;
     border-spacing: 0 10px;

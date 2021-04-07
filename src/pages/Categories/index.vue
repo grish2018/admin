@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="categories.length > 0"
-    class="categories">
+  <div class="categories">
     <span class="categories__header">
       {{ $t("Categories") }}
     </span>
@@ -54,7 +52,9 @@
           </li>
         </ul>
       </div>
-      <div class="categories__main">
+      <div
+        v-if="categories.length > 0"
+        class="categories__main">
         <router-view />
       </div>
     </div>
@@ -107,6 +107,7 @@ export default defineComponent({
     flex-grow: 1;
     background: white;
     border-radius: 10px;
+    position: relative;
   }
   &__list-item-link {
     text-decoration: none;
