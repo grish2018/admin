@@ -1,9 +1,24 @@
 <template>
   <div class="category-products">
+    <teleport to="#app">
+      <modal
+        v-if="showModal"
+        @close="toggleShowModal(false)">
+        <template #title>
+          {{ $t("Products") }}
+        </template>
+        <products-list
+          :current-category="currentCategory"
+          @toggleShowModal="toggleShowModal" />
+        <template #footer>
+          <div />
+        </template>
+      </modal>
+    </teleport>
     <div class="category-products__buttons">
       <button
         class="category-products__add-product-button"
-        @click="$emit('toggleShowModal', true)">
+        @click="toggleShowModal(true)">
         {{ $t("AddProducts") }}
       </button>
       <button
@@ -12,8 +27,15 @@
         {{ $t("DeleteAll") }}
       </button>
     </div>
-
-    <table v-if="categoryProducts.length !== 0">
+    <loader-component v-if="loader" />
+    <div
+      v-else-if="categoryProducts.length === 0"
+      class="category-products__no-products">
+      <span>{{
+        `${$t("NoProductsInCategory")} "${currentCategory.title}"`
+      }}</span>
+    </div>
+    <table v-else>
       <tr class="category-products__table-header">
         <th>{{ $t("SKU") }}</th>
         <th>{{ $t("Title") }}</th>
@@ -38,13 +60,6 @@
         </td>
       </tr>
     </table>
-    <div
-      v-else
-      class="category-products__no-products">
-      <span>{{
-        `${$t("NoProductsInCategory")} "${currentCategory.title}"`
-      }}</span>
-    </div>
   </div>
 </template>
 
@@ -52,11 +67,19 @@
 import { useStore } from "@/store";
 import { useRoute } from "vue-router";
 import { ActionType } from "@/store/modules/Categories/ActionType";
-import { computed, defineComponent, onBeforeMount, watch } from "vue";
+import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+import LoaderComponent from "@/components/LoaderComponent.vue";
 import { Category } from "@/types/Category";
+import Modal from "@/components/Modal.vue";
+import ProductsList from "./components/ProductsList.vue";
 
 export default defineComponent({
   name: "CategoryProducts",
+  components: {
+    Modal,
+    ProductsList,
+    LoaderComponent,
+  },
   props: {
     currentCategory: {
       type: Object as () => Category,
@@ -64,11 +87,13 @@ export default defineComponent({
     },
   },
   setup() {
+    const loader = ref(true);
     const route = useRoute();
     const store = useStore();
-    onBeforeMount(() => {
-      store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +route.params.id);
-    });
+    const showModal = ref(false);
+    const toggleShowModal = (value: boolean) => {
+      showModal.value = value;
+    };
     watch(
       () => route.params.id,
       async (count) => {
@@ -93,16 +118,23 @@ export default defineComponent({
       );
       await store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +route.params.id);
     };
+    onBeforeMount(async () => {
+      await store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +route.params.id);
+      loader.value = false;
+    });
     return {
       categoryProducts,
       deleteProductFromCategory,
       deleteAllProducts,
+      toggleShowModal,
+      showModal,
+      loader,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .category-products {
   width: 100%;
   display: flex;

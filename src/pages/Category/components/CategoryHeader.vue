@@ -2,13 +2,13 @@
   <div class="category-header">
     <span class="category-header__title">
       {{
-        currentRouteName === RouteNames.ADD_SUB_CATEGORY
-          ? `${$t("AddCategoryTo")} ${title}`
-          : `${$t("Category")} ${title}`
+        `${
+          isRouteAddSubCategory ? $t("AddCategoryTo") : $t("Category")
+        } ${title}`
       }}
     </span>
     <div
-      v-if="currentRouteName !== RouteNames.ADD_SUB_CATEGORY"
+      v-if="!isRouteAddSubCategory"
       class="category-header__nav">
       <router-link
         v-for="link in linksList"
@@ -50,19 +50,20 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-
-    const currentRouteName = computed(() => route.name);
+    const isRouteAddSubCategory = computed(
+      () => route.name === RouteNames.ADD_SUB_CATEGORY
+    );
     return {
       linksList,
-      currentRouteName,
       RouteNames,
       route,
+      isRouteAddSubCategory,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .category-header {
   width: 100%;
   display: flex;

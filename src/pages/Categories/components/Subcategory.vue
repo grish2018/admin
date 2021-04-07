@@ -9,7 +9,7 @@
       :to="{ name: RouteNames.EDIT_CATEGORY, params: { id: category.id } }">
       {{ category.title }}
     </router-link>
-    <ul>
+    <ul v-if="showSubCategories">
       <subcategory
         v-for="subcategory in category.childs"
         :key="subcategory.id"
@@ -30,6 +30,10 @@ export default defineComponent({
       type: Object as () => Category,
       default: null,
     },
+    showSubCategories: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup() {
     const route = useRoute();
@@ -38,9 +42,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .subcategory {
-  margin-bottom: 10px;
   &__item {
     margin-bottom: 5px;
     text-decoration: none;

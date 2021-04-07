@@ -47,8 +47,8 @@ export default defineComponent({
     const router = useRouter();
     const submit = async () => {
       const category: NewCategory = {
-        title: newCategory.value?.title,
-        desc: newCategory.value?.desc,
+        title: newCategory.value.title,
+        desc: newCategory.value.desc,
       };
       const res = await store.dispatch(ActionType.CREATE_CATEGORY, category);
       await store.dispatch(ActionType.GET_CATEGORIES);
@@ -59,7 +59,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .create-category {
   padding: 15px 20px;
   height: 100%;

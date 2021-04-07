@@ -1,31 +1,12 @@
 <template>
   <div class="category">
     <category-header :title="currentCategory.title" />
-    <router-view
-      :current-category="currentCategory"
-      @toggleShowModal="toggleShowModal" />
-    <teleport to="#app">
-      <modal
-        v-if="showModal"
-        @close="toggleShowModal(false)">
-        <template #title>
-          {{ $t("Products") }}
-        </template>
-        <products-list
-          :current-category="currentCategory"
-          @toggleShowModal="toggleShowModal" />
-        <template #footer>
-          <div />
-        </template>
-      </modal>
-    </teleport>
+    <router-view :current-category="currentCategory" />
   </div>
 </template>
 
 <script lang="ts">
 import CategoryHeader from "./components/CategoryHeader.vue";
-import Modal from "@/components/Modal.vue";
-import ProductsList from "./components/ProductsList.vue";
 import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
 import { Category, NewCategory } from "@/types/Category";
 import { useStore } from "@/store";
@@ -35,16 +16,10 @@ export default defineComponent({
   name: "Category",
   components: {
     CategoryHeader,
-    Modal,
-    ProductsList,
   },
   setup() {
     const store = useStore();
     const route = useRoute();
-    const showModal = ref(false);
-    const toggleShowModal = (value: boolean) => {
-      showModal.value = value;
-    };
 
     const categories = computed(() => store.state.categories.categories);
 
@@ -83,12 +58,12 @@ export default defineComponent({
     watch(categories, (newVal) => {
       currentCategory.value = findById(newVal, +route.params.id);
     });
-    return { currentCategory, toggleShowModal, showModal, categories };
+    return { currentCategory, categories };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .category {
   height: 100%;
   display: flex;

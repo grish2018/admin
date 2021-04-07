@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="products.length !== 0"
-    class="products-list">
+  <div class="products-list">
     <table>
       <tr class="products-list__table-header">
         <th>
@@ -76,6 +74,7 @@ export default defineComponent({
   },
   emits: ["toggleShowModal"],
   setup(props, { emit }) {
+    const loader = ref(true);
     const store = useStore();
     onBeforeMount(() => {
       store.dispatch(productsActions.GET_PRODUCTS);
@@ -153,12 +152,13 @@ export default defineComponent({
       itemChecked,
       addProducts,
       addProduct,
+      loader,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .products-list {
   display: flex;
   flex-direction: column;

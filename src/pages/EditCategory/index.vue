@@ -3,12 +3,12 @@
     <div class="edit-category__header">
       <button
         class="edit-category__create-subcategory"
-        :disabled="currentRouteName === RouteNames.ADD_SUB_CATEGORY"
+        :disabled="isRouteAddSubCategory"
         @click="addSubCategory">
         {{ $t("AddSubcategory") }}
       </button>
       <button
-        :disabled="currentRouteName === RouteNames.ADD_SUB_CATEGORY"
+        :disabled="isRouteAddSubCategory"
         class="edit-category__delete-category"
         @click="deleteCategory">
         {{ $t("Delete") }}
@@ -65,6 +65,9 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const router = useRouter();
+    const isRouteAddSubCategory = computed(
+      () => route.name === RouteNames.ADD_SUB_CATEGORY
+    );
     const currentRouteName = computed(() => route.name);
     const store = useStore();
     const currentCategoryValue: { value: Category | NewCategory } = ref({
@@ -121,12 +124,13 @@ export default defineComponent({
       addSubCategory,
       deleteCategory,
       submit,
+      isRouteAddSubCategory,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .edit-category {
   display: flex;
   width: 100%;

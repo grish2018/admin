@@ -24,32 +24,16 @@
             {{ $t("ExpandAll") }}
           </span>
         </div>
-        <ul>
-          <li
+        <loader-component v-if="loader" />
+        <div v-else-if="categories.length === 0">
+          <p>{{ $t("NoCategory") }}</p>
+        </div>
+        <ul v-else>
+          <subcategory
             v-for="category in categories"
             :key="category.id"
-            class="categories__list-item">
-            <router-link
-              :class="{
-                'categories__list--active': +route.params.id === category.id,
-              }"
-              active-class="categories__list--active"
-              class="categories__list-item-link"
-              :to="{
-                name: RouteNames.EDIT_CATEGORY,
-                params: { id: category.id },
-              }">
-              {{ category.title }}
-            </router-link>
-            <ul
-              v-if="showSubCategories"
-              class="categories__sub-list">
-              <subcategory
-                v-for="subcategory in category.childs"
-                :key="subcategory.id"
-                :category="subcategory" />
-            </ul>
-          </li>
+            :category="category"
+            :show-sub-categories="showSubCategories" />
         </ul>
       </div>
       <div class="categories__main">
@@ -61,8 +45,8 @@
 
 <script lang="ts">
 import Subcategory from "./components/Subcategory.vue";
+import LoaderComponent from "@/components/LoaderComponent.vue";
 import { useStore } from "@/store";
-import { useRoute } from "vue-router";
 import { RouteNames } from "@/router/RouteNames";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
@@ -70,26 +54,28 @@ export default defineComponent({
   name: "Categories",
   components: {
     Subcategory,
+    LoaderComponent,
   },
   setup() {
     const store = useStore();
-    const route = useRoute();
+    const loader = ref(true);
     const categories = computed(() => store.state.categories.categories);
     const showSubCategories = ref(true);
-    onBeforeMount(() => {
-      store.dispatch(ActionType.GET_CATEGORIES);
+    onBeforeMount(async () => {
+      await store.dispatch(ActionType.GET_CATEGORIES);
+      loader.value = false;
     });
     return {
       RouteNames,
       categories,
       showSubCategories,
-      route,
+      loader,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .categories {
   display: flex;
   flex-direction: column;
@@ -106,14 +92,6 @@ export default defineComponent({
     background: white;
     border-radius: 10px;
     position: relative;
-  }
-  &__list-item-link {
-    text-decoration: none;
-    color: black;
-    &:hover {
-      color: var(--select-navigation-color);
-      cursor: pointer;
-    }
   }
   &__list {
     width: 25%;
@@ -152,13 +130,6 @@ export default defineComponent({
         color: var(--select-navigation-color);
       }
     }
-  }
-  &__list-item {
-    margin-bottom: 15px;
-  }
-
-  &__sub-list {
-    padding: 0px 10px;
   }
   &__main {
     width: 75%;
