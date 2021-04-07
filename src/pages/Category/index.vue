@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <category-header :current-category="currentCategory" />
+    <category-header :title="currentCategory.title" />
     <router-view
       :current-category="currentCategory"
       @toggleShowModal="toggleShowModal" />
@@ -76,11 +76,13 @@ export default defineComponent({
     watch(
       () => route.params.id,
       (newVal) => {
-        currentCategory.value = {
-          ...findById(categories.value, +newVal),
-        };
-      }
+        currentCategory.value = findById(categories.value, +newVal);
+      },
+      { immediate: true }
     );
+    watch(categories, (newVal) => {
+      currentCategory.value = findById(newVal, +route.params.id);
+    });
     return { currentCategory, toggleShowModal, showModal, categories };
   },
 });

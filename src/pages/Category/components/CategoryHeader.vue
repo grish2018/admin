@@ -3,11 +3,13 @@
     <span class="category-header__title">
       {{
         currentRouteName === RouteNames.ADD_SUB_CATEGORY
-          ? `${$t("AddCategoryTo")} ${currentCategoryValue.title}`
-          : `${$t("Category")} ${currentCategoryValue.title}`
+          ? `${$t("AddCategoryTo")} ${title}`
+          : `${$t("Category")} ${title}`
       }}
     </span>
-    <div class="category-header__nav">
+    <div
+      v-if="currentRouteName !== RouteNames.ADD_SUB_CATEGORY"
+      class="category-header__nav">
       <router-link
         v-for="link in linksList"
         :key="link.routeName"
@@ -23,10 +25,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { useRoute } from "vue-router";
-import { Category, NewCategory } from "@/types/Category";
 
 const linksList = [
   {
@@ -42,29 +43,20 @@ const linksList = [
 export default defineComponent({
   name: "CategoryHeader",
   props: {
-    currentCategory: {
-      type: Object as () => Category,
-      default: () => ({}),
+    title: {
+      type: String,
+      default: "",
     },
   },
-  setup(props) {
+  setup() {
     const route = useRoute();
-    const currentCategoryValue: { value: Category | NewCategory } = ref({
-      ...props.currentCategory,
-    });
+
     const currentRouteName = computed(() => route.name);
-    watch(
-      () => props.currentCategory,
-      (newVal) => {
-        currentCategoryValue.value = { ...newVal };
-      }
-    );
     return {
       linksList,
       currentRouteName,
       RouteNames,
       route,
-      currentCategoryValue,
     };
   },
 });
