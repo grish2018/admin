@@ -4,6 +4,8 @@ export interface Order {
     fulfillmentStatus?: string;
     total?: number;
     customerEmail?: string;
+    created: number;
+    number: number;
     products: ProductData[];
 }
 
