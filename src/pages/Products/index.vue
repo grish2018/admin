@@ -17,7 +17,13 @@
         {{ $t("CreateProduct") }}
       </router-link>
     </div>
-    <ul class="products__list">
+    <loader-component v-if="loader" />
+    <div v-else-if="products.length === 0">
+      <p>{{ $t("NoProducts") }}</p>
+    </div>
+    <ul
+      v-else
+      class="products__list">
       <li
         v-for="item in products"
         :key="item.id"
@@ -33,16 +39,19 @@
 
 <script lang="ts">
 import ProductCard from "./Components/ProductCard.vue";
+import LoaderComponent from "@/components/LoaderComponent.vue";
 import { ActionType } from "@/store/modules/Products/ActionType";
 import { useStore } from "@/store";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import { Product } from "@/types/Product";
 import { RouteNames } from "@/router/RouteNames";
+
 export default defineComponent({
   name: "ProductsPage",
-  components: { ProductCard },
+  components: { ProductCard, LoaderComponent },
   setup() {
     const checkedProducts: { value: { id: number }[] } = ref([]);
+    const loader = ref(true);
     const store = useStore();
     const products = computed(() => store.state.products.products);
     const allSelected = computed(() => {
@@ -74,8 +83,9 @@ export default defineComponent({
         );
       }
     };
-    onBeforeMount(() => {
-      store.dispatch(ActionType.GET_PRODUCTS);
+    onBeforeMount(async () => {
+      await store.dispatch(ActionType.GET_PRODUCTS);
+      loader.value = false;
     });
     return {
       products,
@@ -85,6 +95,7 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
+      loader,
     };
   },
 });
@@ -93,6 +104,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .products {
   width: 100%;
+  position: relative;
   &__header {
     display: flex;
     padding: 10px;

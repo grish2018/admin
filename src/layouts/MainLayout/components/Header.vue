@@ -26,7 +26,7 @@
           v-click-away="onClickAway"
           class="header-main-layout__sub-list">
           <router-link
-            class="menu-main-layout__sub-link"
+            class="header-main-layout__link"
             :to="{ name: RouteNames.PROFILE }">
             {{ $t("Profile") }}
           </router-link>
@@ -144,8 +144,9 @@ export default defineComponent({
     left: -80px;
     top: 45px;
     background-color: #1f2328;
+    z-index: 5;
   }
-  &__button {
+  &__button, &__link {
     display: block;
     text-align: left;
     width: 100%;

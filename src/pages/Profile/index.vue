@@ -3,7 +3,9 @@
     <h1 class="profile-page__title">
       {{ $t("Profile") }}
     </h1>
+    <loader-component v-if="loader" />
     <form
+      v-else
       class="profile-page__form"
       @submit.prevent="onSubmit">
       <base-input
@@ -47,6 +49,7 @@
   </div>
 </template>
 <script lang="ts">
+import LoaderComponent from "@/components/LoaderComponent.vue";
 import { defineComponent, onBeforeMount, ref } from "vue";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { store } from "@/store";
@@ -57,6 +60,7 @@ export default defineComponent({
   name: "ProfilePage",
   components: {
     BaseInput,
+    LoaderComponent,
   },
   setup() {
     const user: { value: User } = ref({ account: {}, general: {} });
@@ -64,6 +68,7 @@ export default defineComponent({
     const domain: { value: string | undefined } = ref("");
     const email: { value: string | undefined } = ref("");
     const password = ref("");
+    const loader = ref(true);
 
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_PROFILE);
@@ -71,6 +76,7 @@ export default defineComponent({
       nickname.value = user.value.account.nickname;
       email.value = user.value.account.email;
       domain.value = user.value.general.domain;
+      loader.value = false;
     });
 
     const onSubmit = () => {
@@ -103,6 +109,7 @@ export default defineComponent({
       password,
       nickname,
       email,
+      loader,
     };
   },
 });
@@ -110,8 +117,9 @@ export default defineComponent({
 
 <style lang="scss">
 .profile-page {
-  padding: 50px;
+  margin: 50px 50px;
   width: 100%;
+  position: relative;
   &__title {
     text-align: center;
     margin-bottom: 30px;
