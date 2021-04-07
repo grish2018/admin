@@ -161,21 +161,6 @@ export default defineComponent({
       background: var(--select-navigation-color);
     }
   }
-  &__link {
-    display: block;
-    text-align: left;
-    width: 100%;
-    padding: 10px 30px;
-    color: var(--color-text);
-    text-decoration: none;
-    line-height: 120%;
-    font-size: var(--font-size-navigation-link);
-    background: transparent;
-    transition: 0.3s;
-    &:hover {
-      background: var(--select-navigation-color);
-    }
-  }
   &__select {
     margin-left: 10px;
     width: 50px;
