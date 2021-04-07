@@ -95,6 +95,7 @@ export default defineComponent({
       itemChecked,
       allSelected,
       RouteNames,
+      loader,
     };
   },
 });
