@@ -1,5 +1,7 @@
 <template>
-  <div class="categories">
+  <div
+    v-if="categories.length > 0"
+    class="categories">
     <span class="categories__header">
       {{ $t("Categories") }}
     </span>
@@ -30,6 +32,9 @@
             :key="category.id"
             class="categories__list-item">
             <router-link
+              :class="{
+                'categories__list--active': +route.params.id === category.id,
+              }"
               active-class="categories__list--active"
               class="categories__list-item-link"
               :to="{
@@ -59,16 +64,18 @@
 <script lang="ts">
 import Subcategory from "./components/Subcategory.vue";
 import { useStore } from "@/store";
+import { useRoute } from "vue-router";
 import { RouteNames } from "@/router/RouteNames";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
 export default defineComponent({
-  name: "CategoriesPage",
+  name: "Categories",
   components: {
     Subcategory,
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
     const categories = computed(() => store.state.categories.categories);
     const showSubCategories = ref(true);
     onBeforeMount(() => {
@@ -78,6 +85,7 @@ export default defineComponent({
       RouteNames,
       categories,
       showSubCategories,
+      route,
     };
   },
 });
@@ -132,6 +140,8 @@ export default defineComponent({
     outline: none;
     text-decoration: none;
     display: flex;
+    justify-content: center;
+    text-align: center;
   }
   &__toggle-show {
     display: flex;

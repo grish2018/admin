@@ -2,6 +2,9 @@
   <li class="subcategory">
     <router-link
       active-class="subcategory--active"
+      :class="{
+        'subcategory--active': +route.params.id === category.id,
+      }"
       class="subcategory__item"
       :to="{ name: RouteNames.EDIT_CATEGORY, params: { id: category.id } }">
       {{ category.title }}
@@ -19,6 +22,7 @@
 import { RouteNames } from "@/router/RouteNames";
 import { Category } from "@/types/Category";
 import { defineComponent } from "vue";
+import { useRoute } from "vue-router";
 export default defineComponent({
   name: "Subcategory",
   props: {
@@ -28,7 +32,8 @@ export default defineComponent({
     },
   },
   setup() {
-    return { RouteNames };
+    const route = useRoute();
+    return { RouteNames, route };
   },
 });
 </script>

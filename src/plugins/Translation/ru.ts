@@ -64,5 +64,6 @@ export enum ru {
   EnterYourEmail = "Введите вашу почту",
   EnterYourNickname = "Введите ваш псевдоним",
   YourDomen = "Ваш домен",
-  Filter = "Фильтр"
+  Filter = "Фильтр",
+  NoProductsInCategory = "Hет товаров в категории"
 }

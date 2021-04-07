@@ -56,16 +56,16 @@ export default defineComponent({
       categoties: Category[],
       id: number
     ): Category | undefined => {
-      return categoties.reduce((category: Category | undefined, el):
-        | Category
-        | undefined => {
+      return categoties.reduce((category: Category | undefined, el) => {
+        if (category !== undefined) {
+          return category;
+        }
         if (el.id === id) {
           return el;
         }
         if (el.childs && el.childs.length > 0) {
           return findById(el.childs, id);
         }
-        return category;
       }, undefined);
     };
     onBeforeMount(() => {
@@ -74,14 +74,14 @@ export default defineComponent({
       };
     });
     watch(
-      () => route.params.id,
-      (newId) => {
+      () => route.params,
+      (newVal) => {
         currentCategory.value = {
-          ...findById(categories.value, +newId),
+          ...findById(categories.value, +newVal.id),
         };
       }
     );
-    return { currentCategory, toggleShowModal, showModal };
+    return { currentCategory, toggleShowModal, showModal, categories };
   },
 });
 </script>
@@ -89,5 +89,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .category {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

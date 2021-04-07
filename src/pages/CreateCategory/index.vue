@@ -51,9 +51,8 @@ export default defineComponent({
         desc: newCategory.value?.desc,
       };
       const res = await store.dispatch(ActionType.CREATE_CATEGORY, category);
-
-      router.push({ name: RouteNames.EDIT_CATEGORY, params: { id: res.id } });
       await store.dispatch(ActionType.GET_CATEGORIES);
+      router.push({ name: RouteNames.CATEGORY, params: { id: res.id } });
     };
     return { newCategory, submit };
   },

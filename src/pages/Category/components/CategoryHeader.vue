@@ -3,8 +3,8 @@
     <span class="category-header__title">
       {{
         currentRouteName === RouteNames.ADD_SUB_CATEGORY
-          ? `${$t("AddCategoryTo")} ${currentCategory.title}`
-          : `${$t("Category")} ${currentCategory.title}`
+          ? `${$t("AddCategoryTo")} ${currentCategoryValue.title}`
+          : `${$t("Category")} ${currentCategoryValue.title}`
       }}
     </span>
     <div class="category-header__nav">
@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { RouteNames } from "@/router/RouteNames";
 import { useRoute } from "vue-router";
-import { Category } from "@/types/Category";
+import { Category, NewCategory } from "@/types/Category";
 
 const linksList = [
   {
@@ -47,10 +47,25 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  setup() {
+  setup(props) {
     const route = useRoute();
+    const currentCategoryValue: { value: Category | NewCategory } = ref({
+      ...props.currentCategory,
+    });
     const currentRouteName = computed(() => route.name);
-    return { linksList, currentRouteName, RouteNames, route };
+    watch(
+      () => props.currentCategory,
+      (newVal) => {
+        currentCategoryValue.value = { ...newVal };
+      }
+    );
+    return {
+      linksList,
+      currentRouteName,
+      RouteNames,
+      route,
+      currentCategoryValue,
+    };
   },
 });
 </script>

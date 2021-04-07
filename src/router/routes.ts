@@ -48,7 +48,7 @@ export default [
           {
             path: "/categories/:id",
             name: R.CATEGORY,
-            component: () => import(/* EditCategoryPage */ "@/pages/Category/index.vue"),
+            component: () => import(/* CategoryPage */ "@/pages/Category/index.vue"),
             redirect: { name: R.EDIT_CATEGORY },
             children: [
               {

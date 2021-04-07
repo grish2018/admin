@@ -13,7 +13,7 @@
       </button>
     </div>
 
-    <table>
+    <table v-if="categoryProducts.length !== 0">
       <tr class="category-products__table-header">
         <th>{{ $t("SKU") }}</th>
         <th>{{ $t("Title") }}</th>
@@ -38,6 +38,13 @@
         </td>
       </tr>
     </table>
+    <div
+      v-else
+      class="category-products__no-products">
+      <span>{{
+        `${$t("NoProductsInCategory")} "${currentCategory.title}"`
+      }}</span>
+    </div>
   </div>
 </template>
 
@@ -45,11 +52,17 @@
 import { useStore } from "@/store";
 import { useRoute } from "vue-router";
 import { ActionType } from "@/store/modules/Categories/ActionType";
-// import { Category } from "@/types/Category";
 import { computed, defineComponent, onBeforeMount, watch } from "vue";
+import { Category } from "@/types/Category";
 
 export default defineComponent({
   name: "CategoryProducts",
+  props: {
+    currentCategory: {
+      type: Object as () => Category,
+      default: () => ({}),
+    },
+  },
   setup() {
     const route = useRoute();
     const store = useStore();
@@ -94,6 +107,7 @@ export default defineComponent({
   width: 100%;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   &__buttons {
     display: flex;
     margin-top: 20px;
@@ -142,6 +156,16 @@ export default defineComponent({
       width: 24px;
       vertical-align: middle;
       height: 19px;
+    }
+  }
+  &__no-products {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    & span {
+      font-size: 20px;
+      font-weight: bold;
     }
   }
 }

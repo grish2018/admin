@@ -49,7 +49,7 @@
 <script lang="ts">
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { useRouter, useRoute } from "vue-router";
-import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { useStore } from "@/store";
 import { RouteNames } from "@/router/RouteNames";
 import { Category, NewCategory } from "@/types/Category";
@@ -70,20 +70,14 @@ export default defineComponent({
     const currentCategoryValue: { value: Category | NewCategory } = ref({
       ...props.currentCategory,
     });
-    onBeforeMount(() => {
-      // eslint-disable-next-line no-console
-      console.log(props.currentCategory);
-    });
     watch(
       () => props.currentCategory,
       (newVal) => {
-        // eslint-disable-next-line no-console
-        console.log(newVal);
-
         currentCategoryValue.value = { ...newVal };
       }
     );
     const addSubCategory = () => {
+      currentCategoryValue.value = {};
       router.push({
         name: RouteNames.ADD_SUB_CATEGORY,
         params: { id: route.params.id },
@@ -116,8 +110,8 @@ export default defineComponent({
         category.parent = +route.params.id;
         res = await store.dispatch(ActionType.CREATE_CATEGORY, category);
       }
-      router.push({ name: RouteNames.EDIT_CATEGORY, params: { id: res.id } });
       await store.dispatch(ActionType.GET_CATEGORIES);
+      router.push({ name: RouteNames.CATEGORY, params: { id: res.id } });
     };
     return {
       currentRouteName,
