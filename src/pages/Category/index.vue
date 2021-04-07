@@ -74,10 +74,10 @@ export default defineComponent({
       };
     });
     watch(
-      () => route.params,
+      () => route.params.id,
       (newVal) => {
         currentCategory.value = {
-          ...findById(categories.value, +newVal.id),
+          ...findById(categories.value, +newVal),
         };
       }
     );
