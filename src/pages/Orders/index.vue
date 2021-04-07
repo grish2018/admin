@@ -1,13 +1,13 @@
 <template>
   <div class="orders">
-    <loader-component v-if="loader" />
     <div class="orders__title">
       {{ $t("Orders") }}
     </div>
-    <div v-if="orders.length === 0 && !loader">
+    <loader-component v-if="loader" />
+    <div v-else-if="orders.length === 0">
       <p>{{ $t("NoOrders") }}</p>
     </div>
-    <ul v-if="!loader">
+    <ul v-else>
       <li
         v-for="item in orders"
         :key="item.id">

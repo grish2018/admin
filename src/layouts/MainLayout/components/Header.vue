@@ -146,22 +146,7 @@ export default defineComponent({
     background-color: #1f2328;
     z-index: 5;
   }
-  &__button {
-    display: block;
-    text-align: left;
-    width: 100%;
-    padding: 10px 30px;
-    color: var(--color-text);
-    text-decoration: none;
-    line-height: 120%;
-    font-size: var(--font-size-navigation-link);
-    background: transparent;
-    transition: 0.3s;
-    &:hover {
-      background: var(--select-navigation-color);
-    }
-  }
-  &__link {
+  &__button, &__link {
     display: block;
     text-align: left;
     width: 100%;

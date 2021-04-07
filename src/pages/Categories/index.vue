@@ -5,18 +5,18 @@
     </span>
 
     <div class="categories__content">
-      <loader-component v-if="loader" />
       <div class="categories__list">
         <button
           class="categories__create-category"
           @click="openEditForm('new', {})">
           {{ $t("AddRootCategory") }}
         </button>
-        <div v-if="categories.length === 0 && !loader">
+        <loader-component v-if="loader" />
+        <div v-else-if="categories.length === 0">
           <p>{{ $t("NoCategory") }}</p>
         </div>
         <div
-          v-if="categories.length"
+          v-else
           class="categories__toggle-show">
           <span
             :class="{ 'categories__list--active': !showSubCategories }"
@@ -30,7 +30,7 @@
             {{ $t("ExpandAll") }}
           </span>
         </div>
-        <ul v-if="!loader">
+        <ul>
           <li
             v-for="category in categories"
             :key="category.id"
