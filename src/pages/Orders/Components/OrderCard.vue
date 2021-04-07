@@ -9,7 +9,7 @@
         </p>
       </div>
       <p class="order-date__price">
-        ${{ totalAmount }}
+        ${{ order.total }}
       </p>
     </div>
     <div class="order-card__content">
@@ -41,9 +41,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { RouteNames } from "@/router/RouteNames";
-import { Order, ProductData } from "@/types/Order";
+import { Order } from "@/types/Order";
 import ProductOrderCard from "./ProductOrderCard.vue";
 import { dateTime } from "@/utils/dateTime";
 
@@ -70,14 +70,10 @@ export default defineComponent({
   },
   setup(props) {
     const isShowing = ref(false);
-    const totalAmount = computed(() => {
-      return props.order.products.reduce((sum: number, product: ProductData) => sum + product.price, 0);
-    });
     const dateData = dateTime(props.localeLanguage, props.order.created);
     return {
       RouteNames,
       isShowing,
-      totalAmount,
       dateData,
     };
   },
