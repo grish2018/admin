@@ -52,9 +52,7 @@
           </li>
         </ul>
       </div>
-      <div
-        v-if="categories.length > 0"
-        class="categories__main">
+      <div class="categories__main">
         <router-view />
       </div>
     </div>
