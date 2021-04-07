@@ -1,11 +1,11 @@
 <template>
   <div class="profile-page">
-    <loader-component v-if="loader" />
     <h1 class="profile-page__title">
       {{ $t("Profile") }}
     </h1>
+    <loader-component v-if="loader" />
     <form
-      v-if="!loader"
+      v-else
       class="profile-page__form"
       @submit.prevent="onSubmit">
       <base-input
@@ -76,11 +76,7 @@ export default defineComponent({
       nickname.value = user.value.account.nickname;
       email.value = user.value.account.email;
       domain.value = user.value.general.domain;
-      if (store.state.user.user) {
-        loader.value = false;
-      } else if (!store.state.user.user) {
-        console.error("Данные categories не загрузились");
-      }
+      loader.value = false;
     });
 
     const onSubmit = () => {

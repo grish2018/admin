@@ -1,7 +1,6 @@
 <template>
   <div
     class="products">
-    <loader-component v-if="loader" />
     <div class="products__header">
       <div class="products__checkbox">
         <input
@@ -19,10 +18,13 @@
         {{ $t("CreateProduct") }}
       </router-link>
     </div>
-    <div v-if="products.length === 0 && !loader">
+    <loader-component v-if="loader" />
+    <div v-else-if="products.length === 0">
       <p>{{ $t("NoProducts") }}</p>
     </div>
-    <ul class="products__list" v-if="!loader">
+    <ul
+      v-else
+      class="products__list">
       <li
         v-for="item in products"
         :key="item.id"

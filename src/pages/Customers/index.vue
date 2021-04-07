@@ -1,7 +1,10 @@
 <template>
   <div class="customers">
     <loader-component v-if="loader" />
-    <table v-if="!loader">
+    <div v-else-if="customers.length === 0">
+      <p>{{ $t("NoBuyers") }}</p>
+    </div>
+    <table v-else>
       <tr class="customers__table-header">
         <th />
         <th>{{ $t("Nickname") }}</th>
@@ -37,9 +40,6 @@
       @click="deleteCheckedCustomers">
       {{ $t("DeleteChecked") }}
     </button>
-    <div v-if="customers.length === 0 && !loader">
-      <p>{{ $t("NoBuyers") }}</p>
-    </div>
   </div>
 </template>
 
