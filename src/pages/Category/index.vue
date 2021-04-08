@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import CategoryHeader from "./components/CategoryHeader.vue";
-import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { Category, NewCategory } from "@/types/Category";
 import { useStore } from "@/store";
 import { useRoute } from "vue-router";
@@ -43,11 +43,6 @@ export default defineComponent({
         }
       }, undefined);
     };
-    onBeforeMount(() => {
-      currentCategory.value = {
-        ...findById(categories.value, +route.params.id),
-      };
-    });
     watch(
       () => route.params.id,
       (newVal) => {

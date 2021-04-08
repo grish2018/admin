@@ -67,7 +67,7 @@
 import { useStore } from "@/store";
 import { useRoute } from "vue-router";
 import { ActionType } from "@/store/modules/Categories/ActionType";
-import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import LoaderComponent from "@/components/LoaderComponent.vue";
 import { Category } from "@/types/Category";
 import Modal from "@/components/Modal.vue";
@@ -94,12 +94,6 @@ export default defineComponent({
     const toggleShowModal = (value: boolean) => {
       showModal.value = value;
     };
-    watch(
-      () => route.params.id,
-      async (count) => {
-        await store.dispatch(ActionType.GET_CATEGORY_PRODUCTS, +count);
-      }
-    );
     const categoryProducts = computed(
       () => store.state.categories.categoryProducts
     );
