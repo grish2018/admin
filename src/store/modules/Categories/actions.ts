@@ -29,7 +29,15 @@ export interface Actions {
     context: AugmentedActionContext,
     id: number
   ): Promise<void>;
+  [ActionType.GET_CATEGORY_PRODUCTS](context: AugmentedActionContext, categoryId: number): Promise<void>;
+  [ActionType.ADD_PRODUCTS_TO_CATEGORY](context: AugmentedActionContext, data: { products: number[]; categoryId: number }): Promise<void>;
+  [ActionType.DELETE_PRODUCT_FROM_CATEGORY](
+    context: AugmentedActionContext,
+    data: { categoryId: number; productId: number }
+  ): Promise<void>;
+  [ActionType.DELETE_ALL_PRODUCTS_FROM_CATEGORY](context: AugmentedActionContext, categoryId: number): Promise<void>;
 }
+
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_CATEGORIES]({ commit, rootState }) {
     const storeId = rootState.user.storeId;
@@ -51,5 +59,24 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.DELETE_CATEGORY]({ rootState }, id) {
     const storeId = rootState.user.storeId;
     await api.delete(`/${storeId}/categories/${id}`);
+  },
+  async [ActionType.GET_CATEGORY_PRODUCTS]({ commit, rootState }, categoryId) {
+    const storeId = rootState.user.storeId;
+    const res = await api.get(`/${storeId}/categories/${categoryId}/products`);
+    commit(MutationType.SET_CATEGORY_PRODUCTS, res.data);
+  },
+  async [ActionType.ADD_PRODUCTS_TO_CATEGORY]({ rootState }, data) {
+    const storeId = rootState.user.storeId;
+    const list = [...data.products];
+    const categoryId = data.categoryId;
+    await api.post(`/${storeId}/categories/${categoryId}/products`, { list });
+  },
+  async [ActionType.DELETE_PRODUCT_FROM_CATEGORY]({ rootState }, data) {
+    const storeId = rootState.user.storeId;
+    await api.delete(`/${storeId}/categories/${data.categoryId}/${data.productId}`);
+  },
+  async [ActionType.DELETE_ALL_PRODUCTS_FROM_CATEGORY]({ rootState }, categoryId) {
+    const storeId = rootState.user.storeId;
+    await api.delete(`/${storeId}/categories/${categoryId}/products`);
   },
 };

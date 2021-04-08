@@ -14,7 +14,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import ModalWindow from "./Components/Modal.vue";
+import ModalWindow from "../../components/Modal.vue";
 export default defineComponent({
   name: "MainPage",
   components: {
