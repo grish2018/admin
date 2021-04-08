@@ -23,7 +23,9 @@
                 class="menu-main-layout__sub-link"
                 active-class="menu-main-layout__sub-link--active"
                 :class="{
-                  'menu-main-layout__sub-link--active': isActive(subLink.children),
+                  'menu-main-layout__sub-link--active': isActive(
+                    subLink.children
+                  ),
                 }"
                 :to="{ name: subLink.routeName }">
                 {{ $t(subLink.name) }}
@@ -52,6 +54,7 @@ import { RouteNames } from "@/router/RouteNames";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
+import { resetState } from "@/utils/resetState";
 
 const menuLinks = [
   {
@@ -91,6 +94,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const logOut = () => {
+      resetState();
       store.dispatch(ActionType.SIGN_OUT);
       router.push({ name: RouteNames.SIGN_IN });
     };
@@ -99,7 +103,10 @@ export default defineComponent({
       return route.name;
     });
     const isActive = (links: SubLink[] = []): boolean => {
-      return links.some((link) => link.routeName === currentRoute.value || isActive(link.children));
+      return links.some(
+        (link) =>
+          link.routeName === currentRoute.value || isActive(link.children)
+      );
     };
     return { RouteNames, logOut, menuLinks, currentRoute, isActive };
   },
@@ -108,7 +115,6 @@ export default defineComponent({
 
 <style lang="scss">
 .menu-main-layout {
-
   background: #1f2328;
   width: 270px;
   &__header {
@@ -138,7 +144,9 @@ export default defineComponent({
       --sub-link-padding: 10px 30px 10px 40px;
     }
   }
-  &__link, &__sub-link, &__logout {
+  &__link,
+  &__sub-link,
+  &__logout {
     display: block;
     text-align: left;
     width: 100%;

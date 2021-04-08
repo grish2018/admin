@@ -59,6 +59,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { RouteNames } from "@/router/RouteNames";
 import { setStorage } from "@/utils/storage";
+import { resetState } from "@/utils/resetState";
 
 export default defineComponent({
   name: "HeaderMainLayout",
@@ -71,6 +72,7 @@ export default defineComponent({
       window.location.reload();
     };
     const logOut = () => {
+      resetState();
       store.dispatch(ActionType.SIGN_OUT);
       router.push({ name: RouteNames.SIGN_IN });
     };
@@ -146,7 +148,8 @@ export default defineComponent({
     background-color: #1f2328;
     z-index: 5;
   }
-  &__button, &__link {
+  &__button,
+  &__link {
     display: block;
     text-align: left;
     width: 100%;

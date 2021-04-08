@@ -26,3 +26,27 @@ export const store = createStore({
 export function useStore(): Store {
   return store as Store;
 }
+export function getDefaultState() {
+  return {
+    categories: {
+      categories: [],
+    },
+    customers: {
+      customers: [],
+    },
+    orders: {
+      orders: [],
+    },
+    products: {
+      products: [],
+      currentProduct: null,
+    },
+    user: {
+      user: { account: {}, general: {} },
+      general: {},
+      token: null,
+      storeId: null,
+      profile: null,
+    },
+  };
+}
