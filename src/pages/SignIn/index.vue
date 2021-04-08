@@ -65,10 +65,8 @@ export default defineComponent({
 
     const submit = async () => {
       await store.dispatch(ActionType.SIGN_IN, {
-        owner: {
-          email: email.value,
-          hash: hash(password.value),
-        },
+        email: email.value,
+        hash: hash(password.value),
       });
       router.push({ name: RouteNames.MAIN_PAGE });
     };
