@@ -104,12 +104,9 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const logOut = () => {
-      const test = resetState();
-      // eslint-disable-next-line no-console
-      console.log(test);
-
       store.dispatch(ActionType.SIGN_OUT);
       router.push({ name: RouteNames.SIGN_IN });
+      resetState();
     };
     const route = useRoute();
     const currentRoute = computed(() => {

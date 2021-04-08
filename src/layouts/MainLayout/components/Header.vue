@@ -72,9 +72,9 @@ export default defineComponent({
       window.location.reload();
     };
     const logOut = () => {
-      resetState();
       store.dispatch(ActionType.SIGN_OUT);
       router.push({ name: RouteNames.SIGN_IN });
+      resetState();
     };
     function showHeadPanel() {
       showModal.value = !showModal.value;
