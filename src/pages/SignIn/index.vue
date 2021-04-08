@@ -59,7 +59,6 @@ export default defineComponent({
     const password = ref("");
     const store = useStore();
     const router = useRouter();
-    const errorMessage = ref("");
     const cleanError = () => {
       store.commit(MutationType.SET_ERROR_MESSAGE, "");
     };
@@ -79,7 +78,6 @@ export default defineComponent({
       password,
       submit,
       RouteNames,
-      errorMessage,
       cleanError,
     };
   },

@@ -70,7 +70,6 @@ export default defineComponent({
     const email = ref("");
     const nickname = ref("");
     const password = ref("");
-    const errorMessage = ref("");
     const store = useStore();
     const cleanError = () => {
       store.commit(MutationType.SET_ERROR_MESSAGE, "");
@@ -91,7 +90,6 @@ export default defineComponent({
       email,
       submit,
       RouteNames,
-      errorMessage,
       cleanError,
     };
   },
