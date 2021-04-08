@@ -7,7 +7,7 @@
         <span class="sign-in__form-header">
           {{ $t("SignIn") }}
         </span>
-        <error-plate :error-message="errorMessage" />
+        <error-plate />
         <div class="sign-in__input-wrapper">
           <input
             id="email"
@@ -34,7 +34,8 @@
       </form>
       <router-link
         class="sign-in__form-link"
-        :to="{ name: RouteNames.SIGN_UP }">
+        :to="{ name: RouteNames.SIGN_UP }"
+        @click="cleanError">
         {{ $t("Registration") }}
       </router-link>
     </div>
@@ -49,6 +50,7 @@ import { useRouter } from "vue-router";
 import hash from "@/utils/hash";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
+import { MutationType } from "@/store/modules/User/MutationType";
 export default defineComponent({
   name: "SignIn",
   components: { ErrorPlate },
@@ -58,25 +60,18 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const errorMessage = ref("");
+    const cleanError = () => {
+      store.commit(MutationType.SET_ERROR_MESSAGE, "");
+    };
+
     const submit = async () => {
-      try {
-        await store.dispatch(ActionType.SIGN_IN, {
-          owner: {
-            email: email.value,
-            hash: hash(password.value),
-          },
-        });
-        router.push({ name: RouteNames.MAIN_PAGE });
-      } catch (err) {
-        if (!err.response) {
-          errorMessage.value = "Error: Network Error";
-        } else {
-          errorMessage.value = err.response.data
-            ? err.response.data
-            : "Network Error";
-          return false;
-        }
-      }
+      await store.dispatch(ActionType.SIGN_IN, {
+        owner: {
+          email: email.value,
+          hash: hash(password.value),
+        },
+      });
+      router.push({ name: RouteNames.MAIN_PAGE });
     };
 
     return {
@@ -85,6 +80,7 @@ export default defineComponent({
       submit,
       RouteNames,
       errorMessage,
+      cleanError,
     };
   },
 });

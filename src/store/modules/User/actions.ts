@@ -35,6 +35,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
     commit(MutationType.SET_TOKEN, res.data.owner.token);
     commit(MutationType.SET_USER, res.data);
+    commit(MutationType.SET_ERROR_MESSAGE, "");
   },
   async [ActionType.SIGN_UP]({ commit }, data) {
     const res = await api.post("/signup", data, { authorization: false });
@@ -43,6 +44,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_TOKEN, res.data.owner.token);
     commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
     commit(MutationType.SET_USER, res.data);
+    commit(MutationType.SET_ERROR_MESSAGE, "");
   },
   [ActionType.SIGN_OUT]({ commit }) {
     removeStorage("token");
