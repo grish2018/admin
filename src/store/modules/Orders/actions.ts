@@ -19,9 +19,7 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.GET_ORDERS]({ commit, rootState }): Promise<void> {
     const storeId = rootState.user.storeId;
-    const res = await axios.get(`/${storeId}/orders`, {
-      authorization: true,
-    });
+    const res = await axios.get(`/${storeId}/orders`);
     commit(MutationType.SET_ORDERS, res.data);
   },
 };

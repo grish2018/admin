@@ -32,7 +32,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const storeId = rootState.user.storeId;
 
     await api.delete(`/${storeId}/customers`, {
-      list: [...checkedCustomers],
+      list: checkedCustomers,
     });
   },
 };

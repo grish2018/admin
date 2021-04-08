@@ -76,11 +76,9 @@ export default defineComponent({
     };
     const submit = async () => {
       await store.dispatch(ActionType.SIGN_UP, {
-        owner: {
-          email: email.value,
-          nickname: nickname.value,
-          password: password.value,
-        },
+        email: email.value,
+        nickname: nickname.value,
+        password: password.value,
       });
       router.push({ name: RouteNames.MAIN_PAGE });
     };

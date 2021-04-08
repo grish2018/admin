@@ -46,15 +46,15 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionType.CREATE_CATEGORY]({ rootState }, category) {
     const storeId = rootState.user.storeId;
-    const res = await api.post(`/${storeId}/categories`, { category });
-    return res.data.category;
+    const res = await api.post(`/${storeId}/categories`, category);
+    return res.data;
   },
   async [ActionType.EDIT_CATEGORY]({ rootState }, editedCategory) {
     const storeId = rootState.user.storeId;
     const id = editedCategory.id;
     const category = { title: editedCategory.title, desc: editedCategory.desc };
-    const res = await api.put(`/${storeId}/categories/${id}`, { category });
-    return res.data.category;
+    const res = await api.put(`/${storeId}/categories/${id}`, category);
+    return res.data;
   },
   async [ActionType.DELETE_CATEGORY]({ rootState }, id) {
     const storeId = rootState.user.storeId;
