@@ -2,11 +2,8 @@
   <li class="subcategory">
     <router-link
       active-class="subcategory--active"
-      :class="{
-        'subcategory--active': +route.params.id === category.id,
-      }"
       class="subcategory__item"
-      :to="{ name: RouteNames.EDIT_CATEGORY, params: { id: category.id } }">
+      :to="{ name: RouteNames.CATEGORY, params: { id: category.id } }">
       {{ category.title }}
     </router-link>
     <ul v-if="showSubCategories">
