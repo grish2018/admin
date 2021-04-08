@@ -23,7 +23,6 @@ export interface Actions {
     context: AugmentedActionContext,
     data: { email: string; nickname: string; password: string }
   ): Promise<void>;
-  [ActionType.SIGN_OUT](context: AugmentedActionContext): void;
   [ActionType.GET_PROFILE](context: AugmentedActionContext): Promise<void>;
 }
 
@@ -45,9 +44,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_STOREID, String(res.data.storeId));
     commit(MutationType.SET_USER, res.data);
     commit(MutationType.SET_ERROR_MESSAGE, "");
-  },
-  [ActionType.SIGN_OUT]({ commit }) {
-    commit(MutationType.SET_USER, { account: {}, general: {} });
   },
   async [ActionType.GET_PROFILE]({ commit, state }) {
     const storeId = state.storeId;

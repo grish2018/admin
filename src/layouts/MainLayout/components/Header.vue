@@ -54,9 +54,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { ActionType } from "@/store/modules/User/ActionType";
 import { useRouter } from "vue-router";
-import { useStore } from "@/store";
 import { RouteNames } from "@/router/RouteNames";
 import { setStorage } from "@/utils/storage";
 import { resetState } from "@/utils/resetState";
@@ -66,15 +64,13 @@ export default defineComponent({
   setup() {
     const showModal = ref(false);
     const router = useRouter();
-    const store = useStore();
     const setLocale = ({ target }: { target: HTMLSelectElement }) => {
       setStorage("locale", target.value);
       window.location.reload();
     };
     const logOut = () => {
-      store.dispatch(ActionType.SIGN_OUT);
-      router.push({ name: RouteNames.SIGN_IN });
       resetState();
+      router.push({ name: RouteNames.SIGN_IN });
     };
     function showHeadPanel() {
       showModal.value = !showModal.value;
