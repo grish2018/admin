@@ -29,10 +29,10 @@ export const initInterceptors = ({ store, router }: { store: Store; router: Rout
         store.commit(MutationType.SET_ERROR_MESSAGE, "Error: Network Error");
       } else {
         store.commit(MutationType.SET_ERROR_MESSAGE, err.response.data);
-        store.dispatch(ActionType.SIGN_OUT);
-        if (router.currentRoute.value.name !== RouteNames.SIGN_UP) {
-          router.push({ name: RouteNames.SIGN_IN });
-        }
+      }
+      store.dispatch(ActionType.SIGN_OUT);
+      if (router.currentRoute.value.name !== RouteNames.SIGN_UP) {
+        router.push({ name: RouteNames.SIGN_IN });
       }
       throw err;
     }
