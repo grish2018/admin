@@ -119,7 +119,6 @@ export default defineComponent({
     return {
       currentRouteName,
       currentCategoryValue,
-      route,
       RouteNames,
       addSubCategory,
       deleteCategory,
