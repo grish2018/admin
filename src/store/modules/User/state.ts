@@ -12,6 +12,7 @@ interface User {
 
 export type State = {
   user: User;
+  errorMessage: string;
   general: object;
   token: string | null;
   storeId: string | null;
@@ -20,6 +21,7 @@ export type State = {
 
 export const state: State = {
   user: { account: {}, general: {} },
+  errorMessage: "",
   general: {},
   token: getToken(),
   storeId: getStoreId(),

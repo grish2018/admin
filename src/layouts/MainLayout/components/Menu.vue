@@ -70,7 +70,17 @@ const menuLinks = [
           { routeName: RouteNames.EDIT_PRODUCTS },
         ],
       },
-      { routeName: RouteNames.CATEGORIES, name: "Categories" },
+      {
+        routeName: RouteNames.CATEGORIES,
+        name: "Categories",
+        children: [
+          { routeName: RouteNames.CREATE_CATEGORY },
+          { routeName: RouteNames.CATEGORY },
+          { routeName: RouteNames.EDIT_CATEGORY },
+          { routeName: RouteNames.ADD_SUB_CATEGORY },
+          { routeName: RouteNames.CATEGORY_PRODUCTS },
+        ],
+      },
     ],
   },
   {

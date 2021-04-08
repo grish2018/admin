@@ -7,7 +7,7 @@
         <span class="sign-up__form-header">
           {{ $t("Registration") }}
         </span>
-        <error-plate :error-message="errorMessage" />
+        <error-plate />
         <div class="sign-up__input-wrapper">
           <input
             id="email"
@@ -46,7 +46,8 @@
       </form>
       <router-link
         class="sign-up__form-link"
-        :to="{ name: RouteNames.SIGN_IN }">
+        :to="{ name: RouteNames.SIGN_IN }"
+        @click="cleanError">
         {{ $t("AlreadyRegisteredUser") }}
       </router-link>
     </div>
@@ -60,6 +61,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "@/store";
 import { ActionType } from "@/store/modules/User/ActionType";
 import { RouteNames } from "@/router/RouteNames";
+import { MutationType } from "@/store/modules/User/MutationType";
 export default defineComponent({
   name: "SignUp",
   components: { ErrorPlate },
@@ -68,28 +70,17 @@ export default defineComponent({
     const email = ref("");
     const nickname = ref("");
     const password = ref("");
-    const errorMessage = ref("");
     const store = useStore();
+    const cleanError = () => {
+      store.commit(MutationType.SET_ERROR_MESSAGE, "");
+    };
     const submit = async () => {
-      try {
-        await store.dispatch(ActionType.SIGN_UP, {
-          owner: {
-            email: email.value,
-            nickname: nickname.value,
-            password: password.value,
-          },
-        });
-        router.push({ name: RouteNames.MAIN_PAGE });
-      } catch (err) {
-        if (!err.response) {
-          errorMessage.value = "Error: Network Error";
-        } else {
-          errorMessage.value = err.response.data
-            ? err.response.data
-            : "Network Error";
-          return false;
-        }
-      }
+      await store.dispatch(ActionType.SIGN_UP, {
+        email: email.value,
+        nickname: nickname.value,
+        password: password.value,
+      });
+      router.push({ name: RouteNames.MAIN_PAGE });
     };
     return {
       nickname,
@@ -97,7 +88,7 @@ export default defineComponent({
       email,
       submit,
       RouteNames,
-      errorMessage,
+      cleanError,
     };
   },
 });

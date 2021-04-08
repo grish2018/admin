@@ -6,18 +6,12 @@
 
     <div class="categories__content">
       <div class="categories__list">
-        <button
+        <router-link
           class="categories__create-category"
-          @click="openEditForm('new', {})">
+          :to="{ name: RouteNames.CREATE_CATEGORY }">
           {{ $t("AddRootCategory") }}
-        </button>
-        <loader-component v-if="loader" />
-        <div v-else-if="categories.length === 0">
-          <p>{{ $t("NoCategory") }}</p>
-        </div>
-        <div
-          v-else
-          class="categories__toggle-show">
+        </router-link>
+        <div class="categories__toggle-show">
           <span
             :class="{ 'categories__list--active': !showSubCategories }"
             @click="showSubCategories = false">
@@ -30,38 +24,20 @@
             {{ $t("ExpandAll") }}
           </span>
         </div>
-        <ul>
-          <li
+        <loader-component v-if="loader" />
+        <div v-else-if="categories.length === 0">
+          <p>{{ $t("NoCategory") }}</p>
+        </div>
+        <ul v-else>
+          <subcategory
             v-for="category in categories"
             :key="category.id"
-            class="categories__list-item">
-            <span
-              :class="{
-                'categories__list--active':
-                  currentCategory?.id === category.id,
-              }"
-              @click="openEditForm('edit', category)">
-              {{ category.title }}
-            </span>
-            <ul
-              v-if="showSubCategories"
-              class="categories__sub-list">
-              <subcategory
-                v-for="subcategory in category.childs"
-                :key="subcategory.id"
-                :category="subcategory"
-                :current-category="currentCategory"
-                @openEditForm="openEditForm('edit', $event)" />
-            </ul>
-          </li>
+            :category="category"
+            :show-sub-categories="showSubCategories" />
         </ul>
       </div>
       <div class="categories__main">
-        <create-category
-          v-if="currentCategory"
-          :current-category="currentCategory"
-          :current-mode="currentMode"
-          @openEditForm="openEditForm" />
+        <router-view />
       </div>
     </div>
   </div>
@@ -69,44 +45,37 @@
 
 <script lang="ts">
 import Subcategory from "./components/Subcategory.vue";
-import CreateCategory from "./components/CreateCategory.vue";
 import LoaderComponent from "@/components/LoaderComponent.vue";
 import { useStore } from "@/store";
+import { RouteNames } from "@/router/RouteNames";
 import { ActionType } from "@/store/modules/Categories/ActionType";
 import { computed, defineComponent, onBeforeMount, ref } from "vue";
-import { Category, NewCategory } from "@/types/Category";
 export default defineComponent({
-  name: "CategoriesPage",
-  components: { CreateCategory, Subcategory, LoaderComponent },
+  name: "Categories",
+  components: {
+    Subcategory,
+    LoaderComponent,
+  },
   setup() {
     const store = useStore();
+    const loader = ref(true);
     const categories = computed(() => store.state.categories.categories);
     const showSubCategories = ref(true);
-    const loader = ref(true);
-    const currentMode = ref("new");
-    const currentCategory: { value: Category | NewCategory | null } = ref(null);
-    const openEditForm = (mode: string, category: Category | NewCategory) => {
-      currentMode.value = mode;
-      currentCategory.value = { ...category };
-    };
     onBeforeMount(async () => {
       await store.dispatch(ActionType.GET_CATEGORIES);
       loader.value = false;
     });
     return {
-      store,
+      RouteNames,
       categories,
       showSubCategories,
-      currentCategory,
-      openEditForm,
-      currentMode,
       loader,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .categories {
   display: flex;
   flex-direction: column;
@@ -146,6 +115,10 @@ export default defineComponent({
     color: white;
     margin-bottom: 15px;
     outline: none;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    text-align: center;
   }
   &__toggle-show {
     display: flex;
@@ -158,21 +131,10 @@ export default defineComponent({
       }
     }
   }
-  &__list-item {
-    margin-bottom: 15px;
-    & span {
-      &:hover {
-        color: var(--select-navigation-color);
-        cursor: pointer;
-      }
-    }
-  }
-  &__sub-list {
-    padding: 0px 10px;
-  }
   &__main {
     width: 75%;
-    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

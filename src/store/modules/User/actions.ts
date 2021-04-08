@@ -17,11 +17,11 @@ type AugmentedActionContext = {
 export interface Actions {
   [ActionType.SIGN_IN](
     context: AugmentedActionContext,
-    data: { owner: { email: string; hash: string } }
+    data: { email: string; hash: string }
   ): Promise<void>;
   [ActionType.SIGN_UP](
     context: AugmentedActionContext,
-    data: { owner: { email: string; nickname: string; password: string } }
+    data: { email: string; nickname: string; password: string }
   ): Promise<void>;
   [ActionType.SIGN_OUT](context: AugmentedActionContext): void;
   [ActionType.GET_PROFILE](context: AugmentedActionContext): Promise<void>;
@@ -30,19 +30,21 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionType.SIGN_IN]({ commit }, data) {
     const res = await api.post("/login", data, { authorization: false });
-    setStorage("token", res.data.owner.token);
-    setStorage("storeId", String(res.data.owner.storeId));
-    commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
-    commit(MutationType.SET_TOKEN, res.data.owner.token);
+    setStorage("token", res.data.token);
+    setStorage("storeId", String(res.data.storeId));
+    commit(MutationType.SET_STOREID, String(res.data.storeId));
+    commit(MutationType.SET_TOKEN, res.data.token);
     commit(MutationType.SET_USER, res.data);
+    commit(MutationType.SET_ERROR_MESSAGE, "");
   },
   async [ActionType.SIGN_UP]({ commit }, data) {
     const res = await api.post("/signup", data, { authorization: false });
-    setStorage("token", res.data.owner.token);
-    setStorage("storeId", String(res.data.owner.storeId));
-    commit(MutationType.SET_TOKEN, res.data.owner.token);
-    commit(MutationType.SET_STOREID, String(res.data.owner.storeId));
+    setStorage("token", res.data.token);
+    setStorage("storeId", String(res.data.storeId));
+    commit(MutationType.SET_TOKEN, res.data.token);
+    commit(MutationType.SET_STOREID, String(res.data.storeId));
     commit(MutationType.SET_USER, res.data);
+    commit(MutationType.SET_ERROR_MESSAGE, "");
   },
   [ActionType.SIGN_OUT]({ commit }) {
     commit(MutationType.SET_USER, { account: {}, general: {} });
@@ -52,8 +54,8 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const res = await api.get(`/${storeId}/profile`);
     commit(MutationType.SET_USER, res.data);
   },
-  async [ActionType.SET_PROFILE]({ state }, data) {
+  async [ActionType.SET_PROFILE]({ state }, profile) {
     const storeId = state.storeId;
-    api.put(`/${storeId}/profile`, data);
+    await api.put(`/${storeId}/profile`, profile);
   },
 };

@@ -1,25 +1,23 @@
 <template>
   <li class="subcategory">
-    <span
-      :class="{
-        'subcategory--active': currentCategory?.id === category?.id,
-      }"
-      @click="openEditForm(category)">
+    <router-link
+      active-class="subcategory--active"
+      class="subcategory__item"
+      :to="{ name: RouteNames.CATEGORY, params: { id: category.id } }">
       {{ category.title }}
-    </span>
-    <ul>
+    </router-link>
+    <ul v-if="showSubCategories">
       <subcategory
         v-for="subcategory in category.childs"
         :key="subcategory.id"
-        :category="subcategory"
-        :current-category="currentCategory"
-        @openEditForm="openEditForm" />
+        :category="subcategory" />
     </ul>
   </li>
 </template>
 
 <script lang="ts">
-import { Category, NewCategory } from "@/types/Category";
+import { RouteNames } from "@/router/RouteNames";
+import { Category } from "@/types/Category";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Subcategory",
@@ -28,31 +26,29 @@ export default defineComponent({
       type: Object as () => Category,
       default: null,
     },
-    currentCategory: {
-      type: Object as () => Category,
-      default: () => ({}),
+    showSubCategories: {
+      type: Boolean,
+      default: true,
     },
   },
-  emits: ["openEditForm"],
-  setup(_, { emit }) {
-    function openEditForm(category: Category | NewCategory) {
-      emit("openEditForm", category);
-    }
-    return { openEditForm };
+  setup() {
+    return { RouteNames };
   },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .subcategory {
-  margin-bottom: 10px;
-  & span {
+  &__item {
     margin-bottom: 5px;
+    text-decoration: none;
+    color: black;
     &:hover {
       color: var(--select-navigation-color);
       cursor: pointer;
     }
   }
+
   & ul {
     padding: 0px 15px;
     list-style: none;

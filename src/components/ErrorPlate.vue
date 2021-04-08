@@ -1,22 +1,23 @@
 <template>
   <transition name="fade">
     <div
-      v-if="errorMessage"
+      v-if="storeErrorMessage"
       class="error-plate">
-      <span>{{ errorMessage }}</span>
+      <span>{{ storeErrorMessage }}</span>
     </div>
   </transition>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { useStore } from "@/store";
+import { computed, defineComponent } from "vue";
 export default defineComponent({
   name: "ErrorPlate",
-  props: {
-    errorMessage: {
-      type: String,
-      default: "",
-    },
+  setup() {
+    const store = useStore();
+    const storeErrorMessage = computed(() => store.state.user.errorMessage);
+
+    return { storeErrorMessage };
   },
 });
 </script>
