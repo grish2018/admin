@@ -4,7 +4,7 @@
       <div class="order-card__checkbox">
         <input type="checkbox">
         <p class="order-date__text">
-          {{ order.number }},
+          #{{ order.number }},
           {{ dateData }}
         </p>
       </div>
