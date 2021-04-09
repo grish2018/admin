@@ -19,11 +19,15 @@ export type State = {
   profile: {} | null;
 };
 
-export const state: State = {
-  user: { account: {}, general: {} },
-  errorMessage: "",
-  general: {},
-  token: getToken(),
-  storeId: getStoreId(),
-  profile: null,
+export const getDefaultState = (): State => {
+  return {
+    user: { account: {}, general: {} },
+    errorMessage: "",
+    general: {},
+    token: getToken(),
+    storeId: getStoreId(),
+    profile: null,
+  };
 };
+
+export const state: State = getDefaultState();

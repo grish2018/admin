@@ -54,25 +54,20 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { ActionType } from "@/store/modules/User/ActionType";
-import { useRouter } from "vue-router";
-import { useStore } from "@/store";
 import { RouteNames } from "@/router/RouteNames";
 import { setStorage } from "@/utils/storage";
+import { resetState } from "@/utils/resetState";
 
 export default defineComponent({
   name: "HeaderMainLayout",
   setup() {
     const showModal = ref(false);
-    const router = useRouter();
-    const store = useStore();
     const setLocale = ({ target }: { target: HTMLSelectElement }) => {
       setStorage("locale", target.value);
       window.location.reload();
     };
     const logOut = () => {
-      store.dispatch(ActionType.SIGN_OUT);
-      router.push({ name: RouteNames.SIGN_IN });
+      resetState();
     };
     function showHeadPanel() {
       showModal.value = !showModal.value;
@@ -146,7 +141,8 @@ export default defineComponent({
     background-color: #1f2328;
     z-index: 5;
   }
-  &__button, &__link {
+  &__button,
+  &__link {
     display: block;
     text-align: left;
     width: 100%;

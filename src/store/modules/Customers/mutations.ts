@@ -10,5 +10,4 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationType.SET_CUSTOMERS](state: State, customers: []): void {
     state.customers = customers;
   },
-
 };

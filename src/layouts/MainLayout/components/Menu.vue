@@ -51,9 +51,8 @@
  */
 import { defineComponent, computed } from "vue";
 import { RouteNames } from "@/router/RouteNames";
-import { useRouter, useRoute } from "vue-router";
-import { useStore } from "@/store";
-import { ActionType } from "@/store/modules/User/ActionType";
+import { useRoute } from "vue-router";
+import { resetState } from "@/utils/resetState";
 
 const menuLinks = [
   {
@@ -100,11 +99,8 @@ export default defineComponent({
   name: "MenuMainLayout",
 
   setup() {
-    const router = useRouter();
-    const store = useStore();
     const logOut = () => {
-      store.dispatch(ActionType.SIGN_OUT);
-      router.push({ name: RouteNames.SIGN_IN });
+      resetState();
     };
     const route = useRoute();
     const currentRoute = computed(() => {

@@ -5,7 +5,7 @@ import { RootState } from "@/store/rootState";
 import { State } from "./state";
 import { Mutations } from "./mutations";
 import api from "@/plugins/Axios/api";
-import { setStorage, removeStorage } from "@/utils/storage";
+import { setStorage } from "@/utils/storage";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -23,7 +23,6 @@ export interface Actions {
     context: AugmentedActionContext,
     data: { email: string; nickname: string; password: string }
   ): Promise<void>;
-  [ActionType.SIGN_OUT](context: AugmentedActionContext): void;
   [ActionType.GET_PROFILE](context: AugmentedActionContext): Promise<void>;
 }
 
@@ -45,13 +44,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationType.SET_STOREID, String(res.data.storeId));
     commit(MutationType.SET_USER, res.data);
     commit(MutationType.SET_ERROR_MESSAGE, "");
-  },
-  [ActionType.SIGN_OUT]({ commit }) {
-    removeStorage("token");
-    removeStorage("storeId");
-    commit(MutationType.SET_USER, { account: {}, general: {} });
-    commit(MutationType.SET_STOREID, "");
-    commit(MutationType.SET_TOKEN, null);
   },
   async [ActionType.GET_PROFILE]({ commit, state }) {
     const storeId = state.storeId;

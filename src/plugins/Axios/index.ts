@@ -3,8 +3,8 @@ import { Axios, Config } from "./types";
 import { Store } from "@/store";
 import { Router } from "vue-router";
 import { RouteNames } from "@/router/RouteNames";
-import { ActionType } from "@/store/modules/User/ActionType";
 import { MutationType } from "@/store/modules/User/MutationType";
+import { resetState } from "@/utils/resetState";
 
 const config: Config = {
   baseURL: process.env.VUE_APP_BASE_URL || "",
@@ -25,7 +25,7 @@ export const initInterceptors = ({ store, router }: { store: Store; router: Rout
   client.interceptors.response.use(
     res => res,
     err => {
-      store.dispatch(ActionType.SIGN_OUT);
+      resetState();
       if (!err.response) {
         store.commit(MutationType.SET_ERROR_MESSAGE, "Error: Network Error");
       } else {
