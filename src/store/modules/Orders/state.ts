@@ -4,6 +4,10 @@ export type State = {
   orders: Order[];
 };
 
-export const state: State = {
-  orders: [],
+export const getDefaultState = () => {
+  return {
+    orders: [],
+  };
 };
+
+export const state: State = { ...getDefaultState() };

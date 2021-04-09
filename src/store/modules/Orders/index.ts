@@ -6,7 +6,6 @@ import {
 } from "vuex";
 
 import { RootState } from "@/store/rootState";
-
 import { state, State } from "./state";
 import { actions, Actions } from "./actions";
 import { mutations, Mutations } from "./mutations";
@@ -14,9 +13,9 @@ import { mutations, Mutations } from "./mutations";
 export type OrdersStore<S = State> = Omit<
   VuexStore<S>,
   "getters" | "commit" | "dispatch"
-  > & {
+> & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
-    key: K,
+    key: K | string,
     payload?: P,
     options?: CommitOptions
   ): ReturnType<Mutations[K]>;

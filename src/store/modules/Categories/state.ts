@@ -6,7 +6,10 @@ export type State = {
   categoryProducts: Product[];
 };
 
-export const state: State = {
-  categories: [],
-  categoryProducts: [],
+export const getDefaultState = () => {
+  return {
+    categories: [],
+    categoryProducts: [],
+  };
 };
+export const state: State = { ...getDefaultState() };
