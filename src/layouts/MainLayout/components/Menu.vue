@@ -51,9 +51,8 @@
  */
 import { defineComponent, computed } from "vue";
 import { RouteNames } from "@/router/RouteNames";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { resetState } from "@/utils/resetState";
-import { useStore } from "@/store";
 
 const menuLinks = [
   {
@@ -100,10 +99,8 @@ export default defineComponent({
   name: "MenuMainLayout",
 
   setup() {
-    const router = useRouter();
-    const store = useStore();
     const logOut = () => {
-      resetState({ router, store });
+      resetState();
     };
     const route = useRoute();
     const currentRoute = computed(() => {

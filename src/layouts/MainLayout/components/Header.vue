@@ -54,24 +54,20 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
 import { RouteNames } from "@/router/RouteNames";
 import { setStorage } from "@/utils/storage";
 import { resetState } from "@/utils/resetState";
-import { useStore } from "@/store";
 
 export default defineComponent({
   name: "HeaderMainLayout",
   setup() {
     const showModal = ref(false);
-    const router = useRouter();
-    const store = useStore();
     const setLocale = ({ target }: { target: HTMLSelectElement }) => {
       setStorage("locale", target.value);
       window.location.reload();
     };
     const logOut = () => {
-      resetState({ router, store });
+      resetState();
     };
     function showHeadPanel() {
       showModal.value = !showModal.value;

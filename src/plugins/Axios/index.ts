@@ -25,7 +25,7 @@ export const initInterceptors = ({ store, router }: { store: Store; router: Rout
   client.interceptors.response.use(
     res => res,
     err => {
-      resetState({ router, store });
+      resetState();
       if (!err.response) {
         store.commit(MutationType.SET_ERROR_MESSAGE, "Error: Network Error");
       } else {

@@ -1,4 +1,3 @@
 export enum MutationType {
   SET_CUSTOMERS = "SET_CUSTOMERS",
-  RESET_STATE = "RESET_STATE_CUSTOMERS"
 }

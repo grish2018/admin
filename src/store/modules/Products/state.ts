@@ -5,10 +5,10 @@ export type State = {
   currentProduct: Product | null;
 };
 
-export const getDefaultState = () => {
+export const getDefaultState = (): State => {
   return {
     products: [],
     currentProduct: null,
   };
 };
-export const state: State = { ...getDefaultState() };
+export const state: State = getDefaultState();

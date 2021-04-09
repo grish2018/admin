@@ -19,7 +19,7 @@ export type State = {
   profile: {} | null;
 };
 
-export const getDefaultState = () => {
+export const getDefaultState = (): State => {
   return {
     user: { account: {}, general: {} },
     errorMessage: "",
@@ -29,4 +29,5 @@ export const getDefaultState = () => {
     profile: null,
   };
 };
-export const state: State = { ...getDefaultState() };
+
+export const state: State = getDefaultState();

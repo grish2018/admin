@@ -15,7 +15,7 @@ export type OrdersStore<S = State> = Omit<
   "getters" | "commit" | "dispatch"
 > & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
-    key: K | string,
+    key: K,
     payload?: P,
     options?: CommitOptions
   ): ReturnType<Mutations[K]>;

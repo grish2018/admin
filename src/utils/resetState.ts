@@ -1,24 +1,18 @@
 import { RouteNames } from "@/router/RouteNames";
 import { removeStorage } from "@/utils/storage";
-import { MutationType as categoriesMutation } from "@/store/modules/Categories/MutationType";
-import { MutationType as customersMutation } from "@/store/modules/Customers/MutationType";
-import { MutationType as ordersMutation } from "@/store/modules/Orders/MutationType";
-import { MutationType as productsMutation } from "@/store/modules/Products/MutationType";
-import { MutationType as userMutation } from "@/store/modules/User/MutationType";
-import { Store } from "@/store";
-import { Router } from "vue-router";
+import { useStore } from "@/store";
+import { useRouter } from "@/router";
+import { MutationType } from "@/store/MutationType";
 
-const mutations = [categoriesMutation, customersMutation, ordersMutation, productsMutation, userMutation];
-
-function commitResetMutations(store: Store) {
-  for (const mutation of mutations) {
-    store.commit(mutation.RESET_STATE);
-  }
+function commitResetMutations() {
+  const store = useStore();
+  store.commit(MutationType.RESET_STATE);
 }
 
-export function resetState({ store, router }: { store: Store; router: Router }) {
+export function resetState() {
+  const router = useRouter();
   removeStorage("token");
   removeStorage("storeId");
-  commitResetMutations(store);
+  commitResetMutations();
   router.push({ name: RouteNames.SIGN_IN });
 }
